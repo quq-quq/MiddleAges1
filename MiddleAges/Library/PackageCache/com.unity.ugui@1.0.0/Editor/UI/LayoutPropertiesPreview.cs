@@ -22,11 +22,8 @@ namespace UnityEditor.Events
 
             public Styles()
             {
-                Color fontColor = new Color(0.7f, 0.7f, 0.7f);
                 labelStyle.padding.right += 4;
-                labelStyle.normal.textColor = fontColor;
                 headerStyle.padding.right += 4;
-                headerStyle.normal.textColor = fontColor;
             }
         }
 
@@ -52,7 +49,10 @@ namespace UnityEditor.Events
             GameObject go = target as GameObject;
             if (!go)
                 return false;
-            return go.GetComponent(typeof(ILayoutElement)) != null;
+
+            // Prevent allocations in the editor by using TryGetComponent
+            ILayoutElement layoutElement;
+            return go.TryGetComponent(out layoutElement);
         }
 
         public override void OnPreviewGUI(Rect r, GUIStyle background)
