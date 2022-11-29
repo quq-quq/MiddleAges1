@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-public class CameraMoving : MonoBehaviour 
-{
+public class CameraMoving : MonoBehaviour {
 
 	[SerializeField] private Transform target;
 	[SerializeField] private Vector3 offset;

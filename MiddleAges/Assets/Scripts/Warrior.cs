@@ -6,10 +6,6 @@ public class Warrior : EntityBehaniour
 {
     [SerializeField] private static float distGoToPlayer = 5;//дистанция от игрока на которой воин остановится и перестанет бежать к игроку
     [SerializeField] private static float distRunOutFromPlayer = 2;//дистанция от игрока на которой воин убегает от игрока
-    public int index;
-    public Vector3 warriorPos;
-
-
 
     protected override void Start()
     {
