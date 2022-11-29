@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntityBehaniour : MonoBehaviour
+public class EntityBehaviour : MonoBehaviour
 {
-
     protected CharacterController controller;
 
     [SerializeField] protected float speed;

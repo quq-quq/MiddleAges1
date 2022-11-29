@@ -4,62 +4,40 @@ using UnityEngine;
 
 public class WarriorsMovingVar2 : MonoBehaviour
 {
-    public int len;
-
+    public int lenStep;
 
     void Start()
     {
         Vector3 warPos;
-        int stepx = -len, stepz = -len, lim = 0, lim1 = transform.childCount, n = 0;
-        while (lim1 > 0)
-        {
-            lim1 -= 8 * (n + 1);
-            n += 1;
-            lim += 1;
-        }
+        int stepx = 0, stepz = 0, lim = 0;//lim is (max length of warriors's line)/2
+        if (transform.childCount > 24)
+            lim = 4;//max is 48 warriors
+        else if (transform.childCount > 8)
+            lim = 2;
+        else
+            lim = 1;
+        stepx = -lim * lenStep;
+        stepz = -lim * lenStep;
 
-
-
-        Debug.Log(lim);
-
-        for(int i = 0; i < transform.childCount; i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
             warPos = new Vector3(stepx, 0, stepz);
 
-            if(warPos != new Vector3 (0, 0, 0)) 
+            if (warPos != new Vector3(0, 0, 0))
                 transform.GetChild(i).gameObject.transform.localPosition = warPos;
 
-
-            if (stepx < len && stepz < len)
-                stepx += len;
-            else if (stepx == len && stepz < len)
+            //calculating positions
+            if (stepx < lim * lenStep && stepz < lim * lenStep)
+                stepx += lenStep;
+            else if (stepx == lim * lenStep && stepz < lim * lenStep)
             {
-                stepz += len;
-                stepx = -len;
+                stepz += lenStep;
+                stepx = -lim * lenStep;
             }
 
-
-            //подсчет позиций:
-            //if (stepx < len)
-            //    stepx += len;
-            //else if (stepx == len && stepz < len)
-            //{
-            //    stepz += len;
-            //    stepx = -len;
-            //}
-
-            //if(stepx == 0 && stepz == 0)
-            //    stepx += len;
-
-            //if( i % 8 == 0)
-            //    len = 
+            if (stepx == 0 && stepz == 0)
+                stepx += lenStep;
 
         }
-        }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
