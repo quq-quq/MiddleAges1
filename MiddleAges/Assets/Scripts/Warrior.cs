@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Warrior : EntityBehaniour
+public class Warrior : EntityBehaviour
 {
-    [SerializeField] private static float distGoToPlayer = 5;//дистанция от игрока на которой воин остановится и перестанет бежать к игроку
-    [SerializeField] private static float distRunOutFromPlayer = 2;//дистанция от игрока на которой воин убегает от игрока
+    [SerializeField] private static float distGoToPos = 5;//дистанция от игрока на которой воин остановится и перестанет бежать к игроку
+    [SerializeField] private static float distRunOutFromPos = 2;//дистанция от игрока на которой воин убегает от игрока
+    private Vector3 warriorPos;
+
     public int index;
-    public Vector3 warriorPos;
 
 
 
@@ -25,15 +26,16 @@ public class Warrior : EntityBehaniour
     private float distToPlayer;
     void FixedUpdate()
     {
-        distToPlayer = Vector3.Distance(transform.position, Player.playerTransform.position);
-        movementVector = (Player.playerTransform.position - transform.position).normalized;
+        warriorPos = GameObject.Find("Player").transform.GetChild(index + 1).position;
+        distToPlayer = Vector3.Distance(transform.position, warriorPos);
+        movementVector = (warriorPos - transform.position).normalized;
 
-        if (distToPlayer <= distRunOutFromPlayer)
+        if (distToPlayer <= distRunOutFromPos)
         {
             movementVector = new Vector3(-movementVector.x, -2f, -movementVector.z);
             controller.Move(movementVector * speed * Time.deltaTime);
         }
-        else if (distToPlayer >= distGoToPlayer)
+        else if (distToPlayer >= distGoToPos)
         {
             movementVector = new Vector3(movementVector.x, -2f, movementVector.z);
             controller.Move(movementVector * speed * Time.deltaTime);

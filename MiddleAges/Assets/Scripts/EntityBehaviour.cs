@@ -19,6 +19,7 @@ public class EntityBehaviour : MonoBehaviour
         x = CameraMoving.CamTransform.position.x - transform.position.x;
         z = CameraMoving.CamTransform.position.z - transform.position.z;
         angleToLookAtCamera = (Mathf.Rad2Deg * Mathf.Atan2(x, z) + 360) % 360;
-        transform.eulerAngles = new Vector3(0, angleToLookAtCamera + 180, 0); //смотрим спиной на камеру
+        transform.GetChild(0).eulerAngles = new Vector3(0, angleToLookAtCamera + 180, 0); //смотрим спиной на камеру
     }
 }
+//нулевой чайлд у всех это отдельный спрайт, дабы сама армия не крутилась за камерой, а только их спрайты
