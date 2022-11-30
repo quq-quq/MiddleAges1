@@ -24,7 +24,7 @@ public class WarriorsMovingVar2 : MonoBehaviour
             warPos = new Vector3(stepx, 0, stepz);
 
             if (warPos != new Vector3(0, 0, 0))
-                transform.GetChild(i).gameObject.transform.localPosition = warPos;
+                transform.GetChild(i).transform.localPosition = warPos;
 
             //calculating positions
             if (stepx < lim * lenStep && stepz < lim * lenStep)

@@ -338,11 +338,13 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.VSCode.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
+"Assets/EntityBehaviour.cs"
+"Assets/Scripts/AutomaticGrassPlacing.cs"
 "Assets/Scripts/CameraMoving.cs"
 "Assets/Scripts/EntityBehaviour.cs"
 "Assets/Scripts/Player.cs"
 "Assets/Scripts/Warrior.cs"
-"Assets/Terrain Components/Object2Terrain.cs"
+"Assets/Scripts/WarriorsMovingVar2.cs"
 -langversion:9.0
 
 /deterministic
