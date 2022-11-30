@@ -128,7 +128,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8269456464607238783}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffbf0df0b2b258c41aa1cc95e92b70e2, type: 3}
+  m_Script: {fileID: 11500000, guid: 7058c2d593452504d8522f13efda9e30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  speed: 5
+  index: 0
+  warriorPos: {x: 0, y: 0, z: 0}
