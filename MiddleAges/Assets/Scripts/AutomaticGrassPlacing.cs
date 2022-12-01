@@ -25,7 +25,7 @@ public class AutomaticGrassPlacing : MonoBehaviour
     private void CreateGrass()
     {
         Vector3 pos = Vector3.zero;
-        //Vector3 scale = new Vector3(1.4f, 1.4f, 1.4f);
+        Vector3 scale = Vector3.one;
         Quaternion rot = new Quaternion(0, 0, 0, 180);
 
         GameObject [] grassObj, treeObj;
@@ -43,18 +43,19 @@ public class AutomaticGrassPlacing : MonoBehaviour
                 pos.z = rad * Mathf.Sin(i) + Random.Range(-grassSpacing, grassSpacing);
 
                 rot.y = Random.Range(-360, 360);
-                //scale.y = 1.4f + Random.Range(-0.25f, 0.25f);
+                scale.y = Random.Range(0.75f, 1.25f);
 
                 if (Random.value > treeInGrassShance)
-                    Instantiate( grassObj [Random.Range(0, grassObj.Length)], pos, rot);
+                    Instantiate( grassObj [Random.Range(0, grassObj.Length)], pos, rot).transform.localScale = scale;
                 else
-                    Instantiate( treeObj[Random.Range(0, treeObj.Length)], new Vector3(pos.x, 0, pos.z), rot);
+                    Instantiate( treeObj[Random.Range(0, treeObj.Length)], new Vector3(pos.x, 0, pos.z), rot).transform.localScale = scale;
             }
         }
     }
     private void CreateTrees()
     {
         Vector3 pos = Vector3.zero;
+        Vector3 scale = Vector3.one;
         Quaternion rot = new Quaternion(0, 0, 0, 180);
 
         GameObject[] obj;
@@ -72,11 +73,11 @@ public class AutomaticGrassPlacing : MonoBehaviour
                 pos.z = rad * Mathf.Sin(i) + Random.Range(-treeSpacing / 2, treeSpacing / 2);
 
                 rot.y = Random.Range(-360, 360);
+                scale.y = Random.Range(0.75f, 1.25f);
 
-                Instantiate(obj[Random.Range(0, obj.Length)], pos, rot);
+                Instantiate(obj[Random.Range(0, obj.Length)], pos, rot).transform.localScale = scale;
             }
         }
-        Debug.Log("Created " + (int)(iter + treeCircleWide / treeSpacing) + " trees");
     }
 
 }

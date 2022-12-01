@@ -20,7 +20,7 @@ public class CameraMoving : MonoBehaviour
 		limit = Mathf.Abs(limit);
 		if(limit > 90) limit = 90;
 
-		offset = new Vector3(offset.x, offset.y, -Mathf.Abs(zoomMax)/2);
+		offset.z = -Mathf.Abs(zoomMax)/2f;
 		CamTransform.position = target.position + offset;
 	}
 
