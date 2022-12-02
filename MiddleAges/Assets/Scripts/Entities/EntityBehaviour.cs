@@ -24,6 +24,9 @@ public class EntityBehaviour : MonoBehaviour
         transform.eulerAngles = new Vector3(0, angleToLookAtCamera + 180, 0); //смотрим спиной на камеру
 
         speed = Mathf.Lerp(speed, targetSpeed, Time.deltaTime);//плавно меняем скорость
+
+
+        controller.Move(Vector3.down*2 * speed * Time.deltaTime);//гравитация
     }
 
     public void SetCurse()

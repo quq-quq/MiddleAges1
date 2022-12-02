@@ -21,7 +21,7 @@ public class Player : EntityBehaviour
 
     private void FixedUpdate()
     {
-        movementVector = playerTransform.TransformDirection(new Vector3(Input.GetAxis("Horizontal"), -2, Input.GetAxis("Vertical")));
+        movementVector = playerTransform.TransformDirection(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
         controller.Move(movementVector * speed * Time.deltaTime);
     }
 }

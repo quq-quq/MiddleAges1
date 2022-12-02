@@ -34,7 +34,7 @@ public class Warrior : EntityBehaviour
         if (disToMyPlace >= distStopGoinrToPlace)//бежим к своему месту если мы слишком далеко от него
         {
             movementVector = (warriorPos - transform.position).normalized;
-            movementVector = new Vector3(movementVector.x, -2f, movementVector.z);
+            movementVector.y = 0;
             controller.Move(movementVector * speed * Time.deltaTime);
         }
     }

@@ -9,16 +9,24 @@ public class Shaman : EntityBehaviour
     [SerializeField] private LayerMask playerLayer;
     protected override void Start()
     {
-        base.Update();
+        base.Start();
+        StartCoroutine(SettingCurse());
+        StartCoroutine(Teleporting());
     }
 
     protected override void Update()
     {
         base.Update();
-        
-
     }
 
+    Vector3 movementVector = new Vector3(1, -2, 1);
+    void FixedUpdate()
+    {
+        //movementVector.x = 5 * Mathf.Sin(Time.deltaTime*1000000);//ходьба просто так
+        //movementVector.z = 5 * Mathf.Cos(Time.deltaTime*1000000);//можно спокойно убрать, если делать новый алгоритм ходьбы
+        
+        //controller.Move(movementVector * speed * Time.deltaTime);
+    }
 
     private IEnumerator SettingCurse()
     {
@@ -33,9 +41,12 @@ public class Shaman : EntityBehaviour
     }
     private IEnumerator Teleporting()
     {
-        yield return new WaitUntil(() => Vector3.Distance(Player.playerTransform.position, transform.position) <= teleportRadius);
-        Teleport();
-        yield return new WaitForSeconds(teleportReloadTime);
+        while (true)
+        {
+            yield return new WaitUntil(() => Vector3.Distance(Player.playerTransform.position, transform.position) <= teleportRadius);
+            Teleport();
+            yield return new WaitForSeconds(teleportReloadTime);
+        }
     }
 
     private void Teleport()
