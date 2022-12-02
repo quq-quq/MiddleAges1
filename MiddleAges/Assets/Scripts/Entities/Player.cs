@@ -44,7 +44,7 @@ public class Player : EntityBehaviour
     private void StartDash()
     {
         disToMyPlace = Vector3.Distance(transform.position, dashPos.GetChild(0).position);
-        while (disToMyPlace >= 1f)
+        if (disToMyPlace >= 1f)
         {
             movementVector = (dashPos.GetChild(0).position - transform.position).normalized;
             movementVector = new Vector3(movementVector.x, -2f, movementVector.z);
