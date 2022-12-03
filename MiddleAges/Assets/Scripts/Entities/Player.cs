@@ -12,14 +12,20 @@ public class Player : EntityBehaviour
 
     private bool isDash;
     private float disToMyPlace;
+    [SerializeField]private Vector3 toDashPos;
+
+    private delegate void Moving();
+    private Moving WhatMove;
 
     private void Awake()
     {
         playerTransform = transform;
     }
+
     protected override void Start()
     {
         base.Start();
+        WhatMove = Wasd;
     }
 
     protected override void Update()
@@ -29,35 +35,42 @@ public class Player : EntityBehaviour
 
     private void FixedUpdate()
     {
-        if ((Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.E)) && !isDash)
+        dashPos.localEulerAngles = new Vector3(0, Mathf.Atan2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * Mathf.Rad2Deg, 0);
+        WhatMove();
+
+        if (Input.GetKeyDown(KeyCode.E) && !isDash)
         {
-            StartDash();
+            toDashPos = new Vector3(dashPos.GetChild(0).transform.position.x, -2f, dashPos.GetChild(0).transform.position.z);
+            WhatMove =  StartDash;
         }
-        else if (!isDash)
-        {
-            movementVector = playerTransform.TransformDirection(new Vector3(Input.GetAxis("Horizontal"), -2, Input.GetAxis("Vertical")));
-            controller.Move(movementVector * speed * Time.deltaTime);
-            dashPos.localEulerAngles = new Vector3(0, Mathf.Atan2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * Mathf.Rad2Deg, 0);
-        }
+    }
+
+    private void Wasd()
+    {
+        movementVector = playerTransform.TransformDirection(new Vector3(Input.GetAxis("Horizontal"), -2, Input.GetAxis("Vertical")));
+        controller.Move(movementVector * speed * Time.deltaTime);
     }
 
     private void StartDash()
     {
-        disToMyPlace = Vector3.Distance(transform.position, dashPos.GetChild(0).position);
+        disToMyPlace = Vector3.Distance(new Vector3(transform.position.x, -2f, transform.position.z), toDashPos);
         if (disToMyPlace >= 1f)
         {
-            movementVector = (dashPos.GetChild(0).position - transform.position).normalized;
+            movementVector = (toDashPos - transform.position).normalized;
             movementVector = new Vector3(movementVector.x, -2f, movementVector.z);
             controller.Move(movementVector * speedOfDash * Time.deltaTime);
-
+            isDash = true;
         }
-        StartCoroutine("ToDash");
+        else
+        {
+            StartCoroutine("ToDash");
+        }
     }
 
     IEnumerator ToDash()
     {
-        isDash = true;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         isDash = false;
+        WhatMove = Wasd;
     }
 }
