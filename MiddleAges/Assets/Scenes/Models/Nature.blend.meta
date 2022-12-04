@@ -28,12 +28,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: DarkGreen
-    second: {fileID: 2100000, guid: 4696e7e489ea14748b44eb81a306e93d, type: 2}
+    second: {fileID: 2100000, guid: 6b13509ce1c7aea44ae8e6a33bd38b8a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Green
-    second: {fileID: 2100000, guid: 551be6fe31a0a5849bff25eb38d6c989, type: 2}
+    second: {fileID: 2100000, guid: 3d1b37f326750ea458e33523c1ed528a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

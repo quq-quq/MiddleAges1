@@ -100,8 +100,16 @@ public class Shaman : EntityBehaviour
         float rx = Random.value > 0.5f ? Random.Range(teleportRadius * 2, curseRadius) : Random.Range(-curseRadius, -teleportRadius*2);
         float ry = Random.value > 0.5f ? Random.Range(teleportRadius * 2, curseRadius) : Random.Range(-curseRadius, -teleportRadius * 2);
         Vector3 teleportPos = new Vector3(rx + myTransform.position.x, 30, ry + myTransform.position.z);
-        Physics.Raycast(teleportPos, Vector3.down, out hit);//чтобы не затпшиться внутрь горы
-        teleportPos.y = hit.point.y + controller.height/2f;
-        controller.Move(myTransform.position - teleportPos);
+        Physics.Raycast(teleportPos, Vector3.down, out hit);
+
+        if (Mathf.Abs(hit.point.y - myTransform.position.y) < 6f)
+        {
+            teleportPos.y = hit.point.y + controller.height / 2f;
+            controller.Move(myTransform.position - teleportPos);
+        }
+        else//если он собрался тпшиться на крышу дома или еще куда не надо
+        {
+            Teleport();
+        }
     }
 }

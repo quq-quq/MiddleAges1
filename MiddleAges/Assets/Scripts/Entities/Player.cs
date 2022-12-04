@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using System.Collections;
 
 public class Player : EntityBehaviour
-{ 
-    public static Transform plTransform;
+{
+    [NonReorderable] public static Transform plTransform;
     public static Vector3 MovementVector = Vector3.zero;
     public static Quaternion MovingAngle = Quaternion.identity;//поможет вычислить место война, учитывая поворот игрока
 
-    public Transform dashPos;
-    public int speedOfDash;
+    public float DashSpeed;
+    public float DashDistance;
+    public float DashReloadTime;
 
     private bool isDash;
-    private float disToMyPlace;
-    [SerializeField]private Vector3 toDashPos;
 
     private delegate void Moving();
-    private Moving WhatMove;
+    private Moving MoveType;
 
     private void Awake()
     {
@@ -26,7 +25,7 @@ public class Player : EntityBehaviour
     protected override void Start()
     {
         base.Start();
-        WhatMove = Wasd;
+        MoveType = Wasd;
     }
 
     protected override void Update()
@@ -36,18 +35,16 @@ public class Player : EntityBehaviour
 
     private void FixedUpdate()
     {
-        dashPos.localEulerAngles = new Vector3(0, Mathf.Atan2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * Mathf.Rad2Deg, 0);
-        WhatMove();
+        MoveType();
 
         if (Input.GetKeyDown(KeyCode.E) && !isDash)
         {
-            toDashPos = new Vector3(dashPos.GetChild(0).transform.position.x, -2f, dashPos.GetChild(0).transform.position.z);
-            WhatMove = StartDash;
+            MoveType = StartDash;
+            StartCoroutine(ToDash());
+            isDash = true;
         }
     }
 
-
-    
 
     private void Wasd()
     {
@@ -57,29 +54,20 @@ public class Player : EntityBehaviour
             MovingAngle = Quaternion.Euler(0, Mathf.Atan2(MovementVector.x, MovementVector.z) * Mathf.Rad2Deg, 0);
             controller.Move(MovementVector * speed * Time.deltaTime);
         }
-
     }
 
     private void StartDash()
     {
-        disToMyPlace = Vector3.Distance(new Vector3(transform.position.x, -2f, transform.position.z), toDashPos);
-        if (disToMyPlace >= 1f)
-        {
-            MovementVector = (toDashPos - transform.position).normalized;
-            MovementVector = new Vector3(MovementVector.x, -2f, MovementVector.z);
-            controller.Move(MovementVector * speedOfDash * Time.deltaTime);
-            isDash = true;
-        }
-        else
-        {
-            StartCoroutine("ToDash");
-        }
+        MovementVector = MovingAngle * Vector3.forward;
+        controller.Move(MovementVector * DashSpeed * Time.deltaTime);
     }
 
     IEnumerator ToDash()
     {
-        yield return new WaitForSeconds(1f);
+        //начали dash
+        yield return new WaitForSeconds(DashDistance / DashSpeed);//
+        MoveType = Wasd;
+        yield return new WaitForSeconds(DashReloadTime);
         isDash = false;
-        WhatMove = Wasd;
     }
 }
