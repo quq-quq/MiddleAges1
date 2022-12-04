@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 
 public class Player : EntityBehaviour
-{
+{ 
     public static Transform plTransform;
     public static Vector3 MovementVector = Vector3.zero;
     public static Quaternion MovingAngle = Quaternion.identity;//поможет вычислить место война, учитывая поворот игрока
@@ -13,7 +13,7 @@ public class Player : EntityBehaviour
 
     private bool isDash;
     private float disToMyPlace;
-    [SerializeField] private Vector3 toDashPos;
+    [SerializeField]private Vector3 toDashPos;
 
     private delegate void Moving();
     private Moving WhatMove;
@@ -47,7 +47,7 @@ public class Player : EntityBehaviour
     }
 
 
-
+    
 
     private void Wasd()
     {
