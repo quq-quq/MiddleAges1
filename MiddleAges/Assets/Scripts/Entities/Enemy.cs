@@ -69,17 +69,4 @@ public class Enemy : EntityBehaviour
     }
     private void GoToHome() => movementVector = (nearestHouseTransform.position - myTransform.position).normalized;
 
-    public void OnGUI()//debug окно в игре
-    {
-        GUI.Label(
-           new Rect(
-               2,                   // x, left offset
-               40,                  // y, bottom offset
-               100f,                // width
-               30f                 // height
-           ),
-           nearestWarriorTransform.gameObject.name + "\n",             // the display text
-           GUI.skin.textArea        // use a multi-line text area
-        );
-    }
 }
