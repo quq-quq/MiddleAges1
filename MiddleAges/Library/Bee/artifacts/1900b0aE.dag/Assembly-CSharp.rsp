@@ -340,11 +340,13 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Scripts/AutomaticGrassPlacing.cs"
 "Assets/Scripts/CameraMoving.cs"
+"Assets/Scripts/Entities/Enemy.cs"
 "Assets/Scripts/Entities/EntityBehaviour.cs"
 "Assets/Scripts/Entities/Player.cs"
 "Assets/Scripts/Entities/Shaman.cs"
 "Assets/Scripts/Entities/Warrior.cs"
-"Assets/Scripts/WarriorsMoving.cs"
+"Assets/Scripts/GameController.cs"
+"Assets/Scripts/House.cs"
 -langversion:9.0
 
 /deterministic

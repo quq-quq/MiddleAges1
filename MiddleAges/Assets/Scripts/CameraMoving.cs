@@ -24,7 +24,6 @@ public class CameraMoving : MonoBehaviour
 		CamTransform.position = target.position + offset;
 	}
 
-	private float X;
 	void Update ()
 	{
 		if(Input.GetAxis("Mouse ScrollWheel") > 0) offset.z += zoomSensivity;
@@ -38,8 +37,7 @@ public class CameraMoving : MonoBehaviour
 		}
         else
         {
-			X = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * RotateSensitivity;
-			CamTransform.localEulerAngles = new Vector3(zAngleToLookAtPlayer, X, 0);
+			CamTransform.localEulerAngles = new Vector3(zAngleToLookAtPlayer, transform.localEulerAngles.y + Input.GetAxis("Mouse X") * RotateSensitivity, 0);
 		}
 		CamTransform.position = transform.localRotation * offset + target.position;
 	}
