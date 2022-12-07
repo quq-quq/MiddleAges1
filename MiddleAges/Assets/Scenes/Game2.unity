@@ -337,6 +337,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5924744663576502275, guid: 7d7532e0a33ff0848a073943d443f062,
         type: 3}
+      propertyPath: MagSprite
+      value: 
+      objectReference: {fileID: 412473726}
+    - target: {fileID: 5924744663576502275, guid: 7d7532e0a33ff0848a073943d443f062,
+        type: 3}
       propertyPath: allWarriorsParent
       value: 
       objectReference: {fileID: 454547759}
@@ -345,17 +350,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Controller
       objectReference: {fileID: 0}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
+    - target: {fileID: 5924744663576502284, guid: 7d7532e0a33ff0848a073943d443f062,
         type: 3}
-      propertyPath: treeSpacing
-      value: 7
+      propertyPath: m_Layer
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: grassSpawnRadius
-      value: 130
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1300088673, guid: 7d7532e0a33ff0848a073943d443f062, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7d7532e0a33ff0848a073943d443f062, type: 3}
 --- !u!1001 &109498193
 PrefabInstance:
@@ -506,6 +507,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8269456464607238778, guid: e8bc4bd58149a6a4192c74fa5b9553be,
     type: 3}
   m_PrefabInstance: {fileID: 409488678}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &412473726 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5811407754608432886, guid: c0fae654d8d92b24dbf08dda5b9c8169,
+    type: 3}
+  m_PrefabInstance: {fileID: 682945897}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &454547758
 GameObject:
@@ -1047,7 +1054,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 7810519819916821697, guid: 3dda17603e037344689f0dcae78a1288,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8674457365054166324, guid: 3dda17603e037344689f0dcae78a1288,
+        type: 3}
+      propertyPath: m_ShowToolkit
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8674457365054166324, guid: 3dda17603e037344689f0dcae78a1288,
+        type: 3}
+      propertyPath: antialiasingMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8674457365054166324, guid: 3dda17603e037344689f0dcae78a1288,
+        type: 3}
+      propertyPath: m_ShowCustomSorter
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8674457365054166324, guid: 3dda17603e037344689f0dcae78a1288,
+        type: 3}
+      propertyPath: volumeLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 8674457365054166324, guid: 3dda17603e037344689f0dcae78a1288,
+        type: 3}
+      propertyPath: fastApproximateAntialiasing.fastMode
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 3dda17603e037344689f0dcae78a1288, type: 3}
 --- !u!1 &1214490969 stripped
 GameObject:
@@ -1318,6 +1356,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232199232815539036, guid: 21ef52fb3f0a24542938b4e342a42ef3,
+        type: 3}
+      propertyPath: SStacks
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21ef52fb3f0a24542938b4e342a42ef3, type: 3}

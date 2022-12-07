@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class House : MonoBehaviour
 {
-    void Awake()
+    void Start()
     {
-        GameController.HousesScripts.Add(this);
+        GameController.instance.HousesScripts.Add(this);
     }
 
 }

@@ -14,7 +14,7 @@ public class Shaman : EntityBehaviour
     private delegate void FixedUpdateMethods();
     private FixedUpdateMethods fixedUpdate;
 
-    public Vector3 movementVector = Vector3.zero;
+    [System.NonSerialized] public Vector3 movementVector = Vector3.zero;
     private Vector3 randomMovementVector = Vector3.zero;
 
     private bool isPlayerInCureZone = false;
@@ -39,13 +39,13 @@ public class Shaman : EntityBehaviour
 
     private void PlayerInCurseZone()
     {
-        if (Vector3.Distance(Player.plTransform.position, myTransform.position) >= curseRadius - 2)
-            movementVector = (Player.plTransform.position - myTransform.position).normalized;
+        if (Vector3.Distance(Player.instance.plTransform.position, myTransform.position) >= curseRadius - 2)
+            movementVector = (Player.instance.plTransform.position - myTransform.position).normalized;
         else
             movementVector = Vector3.Lerp(movementVector, randomMovementVector, Time.fixedDeltaTime);
 
         movementVector.y = 0;
-        controller.Move(movementVector * speed * Time.deltaTime);
+        controller.Move(movementVector * currentSpeed * Time.deltaTime);
     }
     private IEnumerator RandomMoving()
     {
@@ -61,12 +61,12 @@ public class Shaman : EntityBehaviour
     private IEnumerator FindNearestEnemy()
     {
         float dist, minDist = float.MaxValue;
-        NearestEnemyTransform = Player.plTransform;//чтобы было за кем бежать первое время, иначе ошибка вылазит
+        NearestEnemyTransform = Player.instance.plTransform;//чтобы было за кем бежать первое время, иначе ошибка вылазит
         while (!isPlayerInCureZone)
         {
             yield return new WaitForSeconds(1);
 
-            foreach(var enemy in GameController.EnemiesScript)
+            foreach(var enemy in GameController.instance.EnemiesScript)
             {
                 dist = Vector3.Distance(myTransform.position, enemy.myTransform.position);
                 if (dist < minDist)
@@ -83,7 +83,7 @@ public class Shaman : EntityBehaviour
         {
             movementVector = (NearestEnemyTransform.position - myTransform.position).normalized;
             movementVector.y = 0;
-            controller.Move(movementVector * speed * Time.deltaTime);
+            controller.Move(movementVector * currentSpeed * Time.deltaTime);
         }
     }
 
@@ -102,9 +102,9 @@ public class Shaman : EntityBehaviour
                         fixedUpdate = PlayerInCurseZone;
                         cone.SetActive(true);
                     }
-                    warriorsInZone[i].GetComponent<EntityBehaviour>().SetSlowlingCurse(Slowling / 10f);
+                    Player.instance.SetCurse();
                 } else
-                    warriorsInZone[i].GetComponent<EntityBehaviour>().SetSlowlingCurse(Slowling);
+                    warriorsInZone[i].GetComponent<Warrior>().SetSlowlingCurse(Slowling);
             }
             
             yield return new WaitForSeconds(0.5f);
@@ -115,7 +115,7 @@ public class Shaman : EntityBehaviour
     {
         while (true)
         {
-            yield return new WaitUntil(() => Vector3.Distance(Player.plTransform.position, myTransform.position) <= teleportRadius);
+            yield return new WaitUntil(() => Vector3.Distance(Player.instance.plTransform.position, myTransform.position) <= teleportRadius);
             Teleport();
             yield return new WaitForSeconds(teleportReloadTime);
         }

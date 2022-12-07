@@ -8,11 +8,13 @@ public class EntityBehaviour : MonoBehaviour
     public Transform myTransform;
 
     // если надо плавно мен€ть скорость то мен€ть надо значение targetSpeed
-    protected float speed;
-    [SerializeField] private float targetSpeed;
+    public float defaultSpeed = 12f;
+    protected float currentSpeed;
+    protected float targetSpeed;
 
     protected virtual void Start()
     {
+        currentSpeed = targetSpeed = defaultSpeed;
         myTransform = transform;//при вызове transform unity будет искать прикрепленный к Gќ обьект что займет больше времени чем доступ по ссылке
         controller = myTransform.GetComponent<CharacterController>();
     }
@@ -25,18 +27,10 @@ public class EntityBehaviour : MonoBehaviour
         angleToLookAtCamera = (Mathf.Rad2Deg * Mathf.Atan2(x, z) + 360) % 360;
         myTransform.eulerAngles = new Vector3(0, angleToLookAtCamera + 180, 0); //смотрим спиной на камеру
 
-        speed = Mathf.Lerp(speed, targetSpeed, Time.deltaTime);//плавно мен€ем скорость
+        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime);//плавно мен€ем скорость
 
         controller.Move(Vector3.down * 20 * Time.deltaTime);//гравитаци€
     }
 
-    public void SetSlowlingCurse(float Slowling)
-    {
-        if (targetSpeed - Slowling > 0) targetSpeed -= Slowling;
-        else targetSpeed = 0;
-    }
-    public void SetSpeed(float speed)
-    {
-        targetSpeed = speed;
-    }
+    public void SetDefaultSpeed() => targetSpeed = currentSpeed;
 }
