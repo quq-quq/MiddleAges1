@@ -1,23 +1,32 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class GameController : MonoBehaviour
 {
     public static GameController instance;
-    public static Vector3[] WarriorPositions;
+
+    [SerializeField] private SpriteRenderer MagSprite;
     [SerializeField] private Transform allWarriorsParent;
     [SerializeField] private int lenStep;
 
-    public static List<EntityBehaviour> WarriorsScript = new List<EntityBehaviour>();
-    public static List<EntityBehaviour> EnemiesScript = new List<EntityBehaviour>();
-    public static List<House> HousesScripts = new List<House>();
+    [NonSerialized] public Vector3[] WarriorPositions;
+    [NonSerialized] public List<EntityBehaviour> WarriorsScript = new List<EntityBehaviour>();
+    [NonSerialized] public List<EntityBehaviour> EnemiesScript = new List<EntityBehaviour>();
+    [NonSerialized] public List<House> HousesScripts = new List<House>();
 
-    private void Start()
+    [NonSerialized] public Vignette vignette;
+
+    private void Awake()
     {
         instance = this;
-        CalculateWarriorsPos();
     }
-
+    private void Start()
+    {
+        CalculateWarriorsPos();
+        vignette = transform.GetComponentInChildren<PostProcessVolume>().profile.GetSetting<Vignette>();
+    }
     private void CalculateWarriorsPos()
     {
         WarriorPositions = new Vector3[allWarriorsParent.childCount];
@@ -67,13 +76,15 @@ public class GameController : MonoBehaviour
         CalculateWarriorsPos();
     }
 
+    public void DisableMag() => MagSprite.sprite = null;
+
+
     public void RemoveCurse()
     {
+        Player.instance.SetDefaultSpeed();
         for (int i = 0; i < WarriorsScript.Count; i++)
-        {
-            WarriorsScript[i].SetSpeed(15f);
-            Player.plTransform.GetComponent<Player>().SetSpeed(15f);
-        }
+            WarriorsScript[i].SetDefaultSpeed();
+        vignette.intensity.Override(0);
     }
 
 }
