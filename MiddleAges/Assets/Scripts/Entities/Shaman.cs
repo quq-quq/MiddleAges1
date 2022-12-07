@@ -123,7 +123,7 @@ public class Shaman : EntityBehaviour
     private void Teleport()
     {
         RaycastHit hit;
-        Vector2 pos = Random.insideUnitCircle*curseRadius;
+        Vector2 pos = Random.insideUnitCircle.normalized*curseRadius;
         Vector3 teleportPos = new Vector3(pos.x + myTransform.position.x, 30, pos.y + myTransform.position.z);
         Physics.Raycast(teleportPos, Vector3.down, out hit);
 
