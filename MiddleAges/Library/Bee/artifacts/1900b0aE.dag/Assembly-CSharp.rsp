@@ -340,6 +340,7 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Scripts/AutomaticGrassPlacing.cs"
 "Assets/Scripts/CameraMoving.cs"
+"Assets/Scripts/Cone.cs"
 "Assets/Scripts/Entities/Enemy.cs"
 "Assets/Scripts/Entities/EntityBehaviour.cs"
 "Assets/Scripts/Entities/Player.cs"

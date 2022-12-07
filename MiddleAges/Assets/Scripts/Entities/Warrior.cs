@@ -29,7 +29,7 @@ public class Warrior : EntityBehaviour
 
         if (rotationVector.z >= angleToGoOutFromPlayer && distToPlayer < distToRunOutofPlaer)
         {
-            movementVector = Vector3.Lerp(movementVector, myTransform.rotation * Vector3.right + Player.MovementVector, Time.fixedDeltaTime);
+            movementVector = Vector3.Lerp(movementVector, myTransform.rotation * Vector3.right + Player.movementVector, Time.fixedDeltaTime);
 
             if (rotationVector.x >= 0) movementVector.x *= -1;
 

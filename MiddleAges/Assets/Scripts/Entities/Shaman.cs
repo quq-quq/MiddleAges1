@@ -5,7 +5,7 @@ public class Shaman : EntityBehaviour
 {
     [SerializeField] private float distStopGoingToPlace = 10;//как близко подбегать к enemy за которым мы следуем
 
-    [SerializeField] private float curseRadius; //радиус проклятья
+    public float curseRadius; //радиус проклятья
     [SerializeField] private float teleportRadius; //радиус на котором мы тпшимся от игрока
     [SerializeField] private float teleportReloadTime; //"перезарядка" телепорта
     [SerializeField] private float Slowling; //на сколько будем уменьшать скорость всех в радиусе проклятья каждые 0,5 сек
@@ -14,8 +14,11 @@ public class Shaman : EntityBehaviour
     private delegate void FixedUpdateMethods();
     private FixedUpdateMethods fixedUpdate;
 
-    Vector3 movementVector = Vector3.zero;
+    public Vector3 movementVector = Vector3.zero;
+    private Vector3 randomMovementVector = Vector3.zero;
+
     private bool isPlayerInCureZone = false;
+    [SerializeField] private GameObject cone;
 
     protected override void Start()
     {
@@ -24,6 +27,7 @@ public class Shaman : EntityBehaviour
         StartCoroutine(SettingCurse());
         StartCoroutine(Teleporting());
         StartCoroutine(FindNearestEnemy());
+        StartCoroutine(RandomMoving());
     }
 
     protected override void Update() { base.Update(); }
@@ -32,10 +36,27 @@ public class Shaman : EntityBehaviour
     {
         fixedUpdate();
     }
+
     private void PlayerInCurseZone()
     {
+        if (Vector3.Distance(Player.plTransform.position, myTransform.position) >= curseRadius - 2)
+            movementVector = (Player.plTransform.position - myTransform.position).normalized;
+        else
+            movementVector = Vector3.Lerp(movementVector, randomMovementVector, Time.fixedDeltaTime);
 
+        movementVector.y = 0;
+        controller.Move(movementVector * speed * Time.deltaTime);
     }
+    private IEnumerator RandomMoving()
+    {
+        yield return new WaitUntil(() => isPlayerInCureZone);
+        while (true)
+        {
+            randomMovementVector = Random.insideUnitSphere.normalized;
+            yield return new WaitForSeconds(Random.Range(1f, 5f));
+        }
+    }
+
     private Transform NearestEnemyTransform;
     private IEnumerator FindNearestEnemy()
     {
@@ -73,10 +94,15 @@ public class Shaman : EntityBehaviour
             Collider[] warriorsInZone = Physics.OverlapSphere(myTransform.position, curseRadius, 8); //все кто попал в окружность на слое войнов
             for (int i = 0; i < warriorsInZone.Length; ++i)
             {
-                if (warriorsInZone[i].CompareTag("Player")) {
-                    isPlayerInCureZone = true;
-                    fixedUpdate = PlayerInCurseZone;
-                    warriorsInZone[i].GetComponent<EntityBehaviour>().SetSlowlingCurse(Slowling/2f);
+                if (warriorsInZone[i].CompareTag("Player"))
+                {
+                    if (!isPlayerInCureZone)
+                    {
+                        isPlayerInCureZone = true;
+                        fixedUpdate = PlayerInCurseZone;
+                        cone.SetActive(true);
+                    }
+                    warriorsInZone[i].GetComponent<EntityBehaviour>().SetSlowlingCurse(Slowling / 10f);
                 } else
                     warriorsInZone[i].GetComponent<EntityBehaviour>().SetSlowlingCurse(Slowling);
             }
@@ -97,19 +123,31 @@ public class Shaman : EntityBehaviour
     private void Teleport()
     {
         RaycastHit hit;
-        float rx = Random.value > 0.5f ? Random.Range(teleportRadius * 2, curseRadius) : Random.Range(-curseRadius, -teleportRadius*2);
-        float ry = Random.value > 0.5f ? Random.Range(teleportRadius * 2, curseRadius) : Random.Range(-curseRadius, -teleportRadius * 2);
-        Vector3 teleportPos = new Vector3(rx + myTransform.position.x, 30, ry + myTransform.position.z);
+        Vector2 pos = Random.insideUnitCircle*curseRadius;
+        Vector3 teleportPos = new Vector3(pos.x + myTransform.position.x, 30, pos.y + myTransform.position.z);
         Physics.Raycast(teleportPos, Vector3.down, out hit);
 
         if (Mathf.Abs(hit.point.y - myTransform.position.y) < 6f)
         {
             teleportPos.y = hit.point.y + controller.height / 2f;
             controller.Move(myTransform.position - teleportPos);
+            cone.GetComponent<Cone>().Teleport(pos);
         }
         else//если он собрался тпшиться на крышу дома или еще куда не надо
         {
             Teleport();
         }
+    }
+    private void DieFixedUpdate()
+    {
+        myTransform.GetChild(0).transform.position += Vector3.down*Time.fixedDeltaTime*5;
+    }
+    public void Die()
+    {
+        StopAllCoroutines();
+        fixedUpdate = DieFixedUpdate;
+        myTransform.GetComponent<SpriteRenderer>().sprite = null;
+        Destroy(cone);
+        Destroy(myTransform.parent.gameObject, 5f);
     }
 }
