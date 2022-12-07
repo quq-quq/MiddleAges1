@@ -27,7 +27,6 @@ public class EntityBehaviour : MonoBehaviour
 
         speed = Mathf.Lerp(speed, targetSpeed, Time.deltaTime);//плавно меняем скорость
 
-
         controller.Move(Vector3.down * 20 * Time.deltaTime);//гравитация
     }
 
@@ -35,5 +34,9 @@ public class EntityBehaviour : MonoBehaviour
     {
         if (targetSpeed - Slowling > 0) targetSpeed -= Slowling;
         else targetSpeed = 0;
+    }
+    public void SetSpeed(float speed)
+    {
+        targetSpeed = speed;
     }
 }

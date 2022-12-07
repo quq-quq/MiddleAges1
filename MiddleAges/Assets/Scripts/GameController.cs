@@ -3,9 +3,10 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    public static GameController instance;
     public static Vector3[] WarriorPositions;
     [SerializeField] private Transform allWarriorsParent;
-    public int lenStep;
+    [SerializeField] private int lenStep;
 
     public static List<EntityBehaviour> WarriorsScript = new List<EntityBehaviour>();
     public static List<EntityBehaviour> EnemiesScript = new List<EntityBehaviour>();
@@ -13,6 +14,7 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        instance = this;
         CalculateWarriorsPos();
     }
 
@@ -55,6 +57,22 @@ public class GameController : MonoBehaviour
             if (stepx == 0 && stepz == 0)
                 stepx += lenStep;
             //this is alright
+        }
+    }
+
+    public void OneEntityDie(EntityBehaviour entity)
+    {
+        WarriorsScript.Remove(entity);
+        entity.gameObject.SetActive(false);
+        CalculateWarriorsPos();
+    }
+
+    public void RemoveCurse()
+    {
+        for (int i = 0; i < WarriorsScript.Count; i++)
+        {
+            WarriorsScript[i].SetSpeed(15f);
+            Player.plTransform.GetComponent<Player>().SetSpeed(15f);
         }
     }
 

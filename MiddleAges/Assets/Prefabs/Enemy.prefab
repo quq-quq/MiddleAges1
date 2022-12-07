@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myTransform: {fileID: 0}
-  targetSpeed: 10
+  targetSpeed: 12
 --- !u!212 &4877684396890236369
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -8,7 +8,6 @@ public class Enemy : EntityBehaviour
 
     private Vector3 movementVector;
 
-
     private void Awake() => GameController.EnemiesScript.Add(this);
     protected override void Start()
     {
