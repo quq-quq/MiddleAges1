@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638060300359363793
-    m_Hash: 1276412077
+      ticks: 638060960279944950
+    m_Hash: 1790115610
   m_LockFileStatus:
     m_FilePath: C:/Users/Egor/Documents/GitHub/MiddleAges1/MiddleAges/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638060300362629601
-    m_Hash: 4261501676
+      ticks: 638060960279954978
+    m_Hash: 1406122324
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
