@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6398557927281958996}
   - component: {fileID: 2929695247287869314}
   - component: {fileID: 1963319998797867536}
-  - component: {fileID: -5539516468634854380}
+  - component: {fileID: -681372440359894843}
   m_Layer: 0
   m_Name: WoodLog_Moss
   m_TagString: Untagged
@@ -88,7 +88,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &-5539516468634854380
+--- !u!64 &-681372440359894843
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,4 +101,4 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -1181483703695258223, guid: 1d9b287af4652a94a8680862b87bab77, type: 3}
+  m_Mesh: {fileID: -1181483703695258223, guid: 8e075f98ede0f11469cd776f9ed800d7, type: 3}

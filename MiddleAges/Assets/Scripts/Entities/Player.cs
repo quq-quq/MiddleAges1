@@ -15,8 +15,6 @@ public class Player : EntityBehaviour
     public float DashReloadTime;
     private bool isDash;
 
-    private int stacs = 0;
-    public int SStacks = 10;
 
     private delegate void Moving();
     private Moving MoveType;
@@ -72,16 +70,9 @@ public class Player : EntityBehaviour
         yield return new WaitForSeconds(DashReloadTime);
         isDash = false;
     }
-    public void SetCurse()
+    public void SetCurse(int stacs)
     {
-        stacs += 1;
-        targetSpeed = (1 - stacs / (SStacks * 2)) * defaultSpeed;
-
-        if (stacs < 2 * SStacks)
-            GameController.instance.vignette.intensity.Override(stacs / (SStacks*2f));
-        else if (stacs == 2 * SStacks)
-            GameController.instance.vignette.intensity.Override(0f);
-        if (stacs == SStacks / 2) GameController.instance.DisableMag();
+        targetSpeed = (1 - stacs / 120f) * defaultSpeed;
     }
 
 }

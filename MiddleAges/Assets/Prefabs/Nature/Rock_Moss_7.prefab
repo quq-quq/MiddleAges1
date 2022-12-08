@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8945486300487640577}
   - component: {fileID: 2087477738466153333}
   - component: {fileID: 3436899907172219352}
-  - component: {fileID: -6961339712040120369}
+  - component: {fileID: -5592383119510069359}
   m_Layer: 0
   m_Name: Rock_Moss_7
   m_TagString: Untagged
@@ -85,7 +85,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &-6961339712040120369
+--- !u!64 &-5592383119510069359
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -98,4 +98,4 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -6272750699973966026, guid: 1d9b287af4652a94a8680862b87bab77, type: 3}
+  m_Mesh: {fileID: -6272750699973966026, guid: 8e075f98ede0f11469cd776f9ed800d7, type: 3}

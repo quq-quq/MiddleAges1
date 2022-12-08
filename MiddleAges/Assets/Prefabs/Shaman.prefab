@@ -52,7 +52,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8552221400295607954
 Transform:
   m_ObjectHideFlags: 0
@@ -62,7 +62,7 @@ Transform:
   m_GameObject: {fileID: 4996630603187997119}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.78, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 2, z: 5}
+  m_LocalScale: {x: 3, y: 2, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5555143713299910702}
@@ -81,7 +81,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myTransform: {fileID: 0}
-  targetSpeed: 8
+  defaultSpeed: 12
   shaman: {fileID: 3466059361609302989}
 --- !u!33 &8296455139210035780
 MeshFilter:
@@ -144,8 +144,8 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2.185
-  m_Radius: 0.6
+  m_Height: 2.81
+  m_Radius: 0.51
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -199,14 +199,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myTransform: {fileID: 0}
-  targetSpeed: 12
+  defaultSpeed: 12
   distStopGoingToPlace: 10
   curseRadius: 25
   teleportRadius: 5
   teleportReloadTime: 3
-  Slowling: 0.5
-  movementVector: {x: 0, y: 0, z: 0}
   cone: {fileID: 4996630603187997119}
+  SStacs: 30
 --- !u!143 &6745744535215060185
 CharacterController:
   m_ObjectHideFlags: 0
@@ -324,7 +323,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 0.113484085, b: 0, a: 1}
   m_Intensity: 300
-  m_Range: 25
+  m_Range: 31.4
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10

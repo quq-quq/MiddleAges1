@@ -7,7 +7,6 @@ public class GameController : MonoBehaviour
 {
     public static GameController instance;
 
-    [SerializeField] private SpriteRenderer MagSprite;
     [SerializeField] private Transform allWarriorsParent;
     [SerializeField] private int lenStep;
 
@@ -16,7 +15,8 @@ public class GameController : MonoBehaviour
     [NonSerialized] public List<EntityBehaviour> EnemiesScript = new List<EntityBehaviour>();
     [NonSerialized] public List<House> HousesScripts = new List<House>();
 
-    [NonSerialized] public Vignette vignette;
+    [NonSerialized] public Vignette Vignette;
+    [NonSerialized] public float VignetteIntensity;
 
     private void Awake()
     {
@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         CalculateWarriorsPos();
-        vignette = transform.GetComponentInChildren<PostProcessVolume>().profile.GetSetting<Vignette>();
+        Vignette = transform.GetComponentInChildren<PostProcessVolume>().profile.GetSetting<Vignette>();
     }
     private void CalculateWarriorsPos()
     {
@@ -75,16 +75,16 @@ public class GameController : MonoBehaviour
         entity.gameObject.SetActive(false);
         CalculateWarriorsPos();
     }
-
-    public void DisableMag() => MagSprite.sprite = null;
-
-
+    private void FixedUpdate()
+    {
+        Vignette.intensity.Override(Mathf.Lerp(Vignette.intensity, VignetteIntensity, Time.fixedDeltaTime*2));
+    }
     public void RemoveCurse()
     {
         Player.instance.SetDefaultSpeed();
         for (int i = 0; i < WarriorsScript.Count; i++)
             WarriorsScript[i].SetDefaultSpeed();
-        vignette.intensity.Override(0);
+        VignetteIntensity = 0;
     }
 
 }

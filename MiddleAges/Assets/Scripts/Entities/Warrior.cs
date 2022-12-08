@@ -47,10 +47,9 @@ public class Warrior : EntityBehaviour
         }
     }
 
-    public void SetSlowlingCurse(float Slowling)
+    public void SetSlowlingCurse()
     {
-        if (targetSpeed - Slowling > 0) targetSpeed -= Slowling;
-        else targetSpeed = 0;
+        targetSpeed = 0;
     }
 
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6779204107002065342}
   - component: {fileID: 7165369879497144313}
   - component: {fileID: 8451665584912703940}
-  - component: {fileID: -8803475785621158793}
+  - component: {fileID: -8494638164905028486}
   m_Layer: 0
   m_Name: BirchTree_Autumn_1
   m_TagString: Untagged
@@ -87,7 +87,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &-8803475785621158793
+--- !u!64 &-8494638164905028486
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,4 +100,4 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: -6552324969496378710, guid: 1d9b287af4652a94a8680862b87bab77, type: 3}
+  m_Mesh: {fileID: -6552324969496378710, guid: 8e075f98ede0f11469cd776f9ed800d7, type: 3}

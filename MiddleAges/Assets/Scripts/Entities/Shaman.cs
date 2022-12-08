@@ -8,7 +8,6 @@ public class Shaman : EntityBehaviour
     public float curseRadius; //радиус проклятья
     [SerializeField] private float teleportRadius; //радиус на котором мы тпшимся от игрока
     [SerializeField] private float teleportReloadTime; //"перезарядка" телепорта
-    [SerializeField] private float Slowling; //на сколько будем уменьшать скорость всех в радиусе проклятья каждые 0,5 сек
 
 
     private delegate void FixedUpdateMethods();
@@ -19,6 +18,9 @@ public class Shaman : EntityBehaviour
 
     private bool isPlayerInCureZone = false;
     [SerializeField] private GameObject cone;
+
+    private int stacs;
+    public int SStacs;
 
     protected override void Start()
     {
@@ -91,6 +93,8 @@ public class Shaman : EntityBehaviour
     {
         while (true)
         {
+            yield return new WaitForSeconds(0.5f);
+
             Collider[] warriorsInZone = Physics.OverlapSphere(myTransform.position, curseRadius, 8); //все кто попал в окружность на слое войнов
             for (int i = 0; i < warriorsInZone.Length; ++i)
             {
@@ -102,12 +106,24 @@ public class Shaman : EntityBehaviour
                         fixedUpdate = PlayerInCurseZone;
                         cone.SetActive(true);
                     }
-                    Player.instance.SetCurse();
+                    Player.instance.SetCurse(++stacs);
                 } else
-                    warriorsInZone[i].GetComponent<Warrior>().SetSlowlingCurse(Slowling);
+                    warriorsInZone[i].GetComponent<Warrior>().SetSlowlingCurse();
             }
-            
-            yield return new WaitForSeconds(0.5f);
+
+            if (stacs == SStacs)
+            {
+                transform.GetComponent<SpriteRenderer>().enabled = false;
+                cone.GetComponent<MeshRenderer>().enabled = false;
+            }
+
+            if (stacs < 2 * SStacs)
+                GameController.instance.VignetteIntensity = stacs / (SStacs * 2f);
+            else if (stacs == 2 * SStacs)
+            {
+                GameController.instance.VignetteIntensity = 0f;
+            }
+
         }
     }
 

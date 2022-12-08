@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8157503393314675920}
   - component: {fileID: 465136057747429109}
   - component: {fileID: 7862277310421015777}
-  - component: {fileID: -2112440259003092204}
+  - component: {fileID: 1336833028655491590}
   m_Layer: 0
   m_Name: Rock_5
   m_TagString: Untagged
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &-2112440259003092204
+--- !u!64 &1336833028655491590
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,4 +97,4 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -7962992883245384749, guid: 1d9b287af4652a94a8680862b87bab77, type: 3}
+  m_Mesh: {fileID: -7962992883245384749, guid: 8e075f98ede0f11469cd776f9ed800d7, type: 3}

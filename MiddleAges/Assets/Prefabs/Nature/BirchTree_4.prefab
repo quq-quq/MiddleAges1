@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 445585386169573711}
   - component: {fileID: 7517901474240638895}
   - component: {fileID: 5936484030561404831}
-  - component: {fileID: 2167627054502593393}
+  - component: {fileID: -1564727990734337292}
   m_Layer: 0
   m_Name: BirchTree_4
   m_TagString: Untagged
@@ -87,7 +87,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2167627054502593393
+--- !u!64 &-1564727990734337292
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,4 +100,4 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 179077233522188162, guid: 1d9b287af4652a94a8680862b87bab77, type: 3}
+  m_Mesh: {fileID: 179077233522188162, guid: 8e075f98ede0f11469cd776f9ed800d7, type: 3}
