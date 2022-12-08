@@ -8,8 +8,9 @@ public class Shaman : EntityBehaviour
     public float curseRadius; //радиус проклятья
     [SerializeField] private float teleportRadius; //радиус на котором мы тпшимся от игрока
     [SerializeField] private float teleportReloadTime; //"перезарядка" телепорта
-    [SerializeField] private float Slowling; //на сколько будем уменьшать скорость всех в радиусе проклятья каждые 0,5 сек
 
+    private int stacs;
+    [SerializeField] private int SStacs = 30;
 
     private delegate void FixedUpdateMethods();
     private FixedUpdateMethods fixedUpdate;
@@ -17,11 +18,13 @@ public class Shaman : EntityBehaviour
     [System.NonSerialized] public Vector3 movementVector = Vector3.zero;
     private Vector3 randomMovementVector = Vector3.zero;
 
+    private Transform playerTransform;
     private bool isPlayerInCureZone = false;
     [SerializeField] private GameObject cone;
 
     protected override void Start()
     {
+        playerTransform = GameController.CapitansScripts[0].transform;
         base.Start();
         fixedUpdate = GoToEnemy;
         StartCoroutine(SettingCurse());
@@ -39,8 +42,9 @@ public class Shaman : EntityBehaviour
 
     private void PlayerInCurseZone()
     {
-        if (Vector3.Distance(Player.instance.plTransform.position, myTransform.position) >= curseRadius - 2)
-            movementVector = (Player.instance.plTransform.position - myTransform.position).normalized;
+
+        if (Vector3.Distance(playerTransform.position, myTransform.position) >= curseRadius - 2)
+            movementVector = (playerTransform.position - myTransform.position).normalized;
         else
             movementVector = Vector3.Lerp(movementVector, randomMovementVector, Time.fixedDeltaTime);
 
@@ -61,12 +65,12 @@ public class Shaman : EntityBehaviour
     private IEnumerator FindNearestEnemy()
     {
         float dist, minDist = float.MaxValue;
-        NearestEnemyTransform = Player.instance.plTransform;//чтобы было за кем бежать первое время, иначе ошибка вылазит
+        NearestEnemyTransform = Player.instance.myTransform;//чтобы было за кем бежать первое время, иначе ошибка вылазит
         while (!isPlayerInCureZone)
         {
             yield return new WaitForSeconds(1);
 
-            foreach(var enemy in GameController.instance.EnemiesScript)
+            foreach(var enemy in GameController.EnemiesScript)
             {
                 dist = Vector3.Distance(myTransform.position, enemy.myTransform.position);
                 if (dist < minDist)
@@ -98,13 +102,26 @@ public class Shaman : EntityBehaviour
                 {
                     if (!isPlayerInCureZone)
                     {
+                        playerTransform = warriorsInZone[i].transform;
                         isPlayerInCureZone = true;
                         fixedUpdate = PlayerInCurseZone;
                         cone.SetActive(true);
                     }
-                    Player.instance.SetCurse();
-                } else
-                    warriorsInZone[i].GetComponent<Warrior>().SetSlowlingCurse(Slowling);
+                    warriorsInZone[i].GetComponent<Player>().SetCurse(++stacs);
+
+                    if(stacs == SStacs)
+                    {
+                        myTransform.GetComponent<SpriteRenderer>().sprite = null;
+                        cone.GetComponent<MeshRenderer>().enabled = false;
+                    }
+                    if(stacs < SStacs * 2)
+                        GameController.instance.VignetteIntensity = stacs / (SStacs*2f);
+                    else if(stacs == SStacs*2)
+                        GameController.instance.VignetteIntensity = 0;
+
+                }
+                else
+                    warriorsInZone[i].GetComponent<Warrior>().isNotPetrified = false;
             }
             
             yield return new WaitForSeconds(0.5f);
@@ -115,7 +132,7 @@ public class Shaman : EntityBehaviour
     {
         while (true)
         {
-            yield return new WaitUntil(() => Vector3.Distance(Player.instance.plTransform.position, myTransform.position) <= teleportRadius);
+            yield return new WaitUntil(() => Vector3.Distance(playerTransform.position, myTransform.position) <= teleportRadius);
             Teleport();
             yield return new WaitForSeconds(teleportReloadTime);
         }

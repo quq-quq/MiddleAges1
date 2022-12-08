@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7062576176088783384}
   - component: {fileID: 7211610691454922475}
   - component: {fileID: 7643660294551618442}
-  - component: {fileID: 6968337235677019769}
+  - component: {fileID: -8243181531936883689}
   m_Layer: 0
   m_Name: BushBerries_1
   m_TagString: Untagged
@@ -41,7 +41,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 986544272756856083}
-  m_Mesh: {fileID: -8934504247765399035, guid: 1d9b287af4652a94a8680862b87bab77, type: 3}
+  m_Mesh: {fileID: -8934504247765399035, guid: 8e075f98ede0f11469cd776f9ed800d7, type: 3}
 --- !u!23 &7643660294551618442
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -85,7 +85,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6968337235677019769
+--- !u!64 &-8243181531936883689
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,6 +96,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -8934504247765399035, guid: 1d9b287af4652a94a8680862b87bab77, type: 3}
+  m_Mesh: {fileID: -8934504247765399035, guid: 8e075f98ede0f11469cd776f9ed800d7, type: 3}

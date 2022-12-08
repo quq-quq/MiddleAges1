@@ -32,5 +32,4 @@ public class EntityBehaviour : MonoBehaviour
         controller.Move(Vector3.down * 20 * Time.deltaTime);//гравитация
     }
 
-    public void SetDefaultSpeed() => targetSpeed = currentSpeed;
 }

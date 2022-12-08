@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4879778357532682305}
   - component: {fileID: 7466414392323082041}
   - component: {fileID: 4635347181709683224}
-  - component: {fileID: 3828665264505981742}
+  - component: {fileID: -2185248599326424481}
   m_Layer: 0
   m_Name: Rock_7
   m_TagString: Untagged
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7740107196853523180}
-  m_LocalRotation: {x: 0.00000008146034, y: 0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -75.52151, y: 0.0000076293945, z: -113.42195}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -41,7 +41,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7740107196853523180}
-  m_Mesh: {fileID: -1655681617800098922, guid: 1d9b287af4652a94a8680862b87bab77, type: 3}
+  m_Mesh: {fileID: -1655681617800098922, guid: 8e075f98ede0f11469cd776f9ed800d7, type: 3}
 --- !u!23 &4635347181709683224
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3828665264505981742
+--- !u!64 &-2185248599326424481
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,4 +97,4 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -1655681617800098922, guid: 1d9b287af4652a94a8680862b87bab77, type: 3}
+  m_Mesh: {fileID: -1655681617800098922, guid: 8e075f98ede0f11469cd776f9ed800d7, type: 3}

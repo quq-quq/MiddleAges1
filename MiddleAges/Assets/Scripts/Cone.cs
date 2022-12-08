@@ -11,7 +11,7 @@ public class Cone : EntityBehaviour
     {
         base.Start();
         controller.enabled = false;
-        targetPos = (shaman.transform.position - Player.instance.plTransform.position).normalized * shaman.curseRadius;
+        targetPos = (shaman.transform.position - Player.instance.myTransform.position).normalized * shaman.curseRadius;
         targetPos.y = 30f;
         myTransform.position = shaman.transform.position + targetPos;
     }

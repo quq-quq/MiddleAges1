@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6085025599836147653}
   - component: {fileID: 7693521732277030134}
   - component: {fileID: 2521581469466959105}
-  - component: {fileID: -152369974043806884}
+  - component: {fileID: 1761598385049772691}
   m_Layer: 0
   m_Name: TreeStump
   m_TagString: Untagged
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7697199885484078090}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.00000008146034, y: 0, z: -0, w: 1}
   m_LocalPosition: {x: -81.394875, y: 0.0000076293945, z: -114.18396}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -41,7 +41,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7697199885484078090}
-  m_Mesh: {fileID: 3309800245106304638, guid: 1d9b287af4652a94a8680862b87bab77, type: 3}
+  m_Mesh: {fileID: 3309800245106304638, guid: 8e075f98ede0f11469cd776f9ed800d7, type: 3}
 --- !u!23 &2521581469466959105
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64,7 +64,7 @@ MeshRenderer:
   m_Materials:
   - {fileID: 2100000, guid: 6748b8b39ef67d34ba6714a139335152, type: 2}
   - {fileID: 2100000, guid: 4a7cae7ced48c9f4a98f6fb026ac8b56, type: 2}
-  - {fileID: 2100000, guid: 551be6fe31a0a5849bff25eb38d6c989, type: 2}
+  - {fileID: 2100000, guid: 3d1b37f326750ea458e33523c1ed528a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86,7 +86,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &-152369974043806884
+--- !u!64 &1761598385049772691
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,4 +99,4 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 3309800245106304638, guid: 1d9b287af4652a94a8680862b87bab77, type: 3}
+  m_Mesh: {fileID: 3309800245106304638, guid: 8e075f98ede0f11469cd776f9ed800d7, type: 3}

@@ -3,7 +3,7 @@
 public class CameraMoving : MonoBehaviour 
 {
 
-	[SerializeField] private Transform target;
+	public static Transform target;
 	[SerializeField] private Vector3 offset;
 	[SerializeField] private float zAngleToLookAtPlayer = 30;//угол под которым камера смотрит на игрока по оси x
 	[SerializeField] private float RotateSensitivity = 3;   // чувствительность поворота камеры
@@ -16,6 +16,7 @@ public class CameraMoving : MonoBehaviour
 
 	void Start () 
 	{
+		target = GameController.CapitansScripts[0].transform;
 		CamTransform = transform;
 		limit = Mathf.Abs(limit);
 		if(limit > 90) limit = 90;

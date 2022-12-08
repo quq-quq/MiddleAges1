@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6262639102080748922}
-  m_LocalRotation: {x: 0.23841093, y: -0, z: -0, w: 0.9711644}
+  m_LocalRotation: {x: 0.23841487, y: 0, z: 0, w: 0.97116345}
   m_LocalPosition: {x: 0, y: 4.94, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -98,7 +98,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22d94104d36489741acf3bf62fdc60df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
   zAngleToLookAtPlayer: 30
   RotateSensitivity: 3
@@ -121,7 +120,7 @@ MonoBehaviour:
   volumeTrigger: {fileID: 6262639102080748927}
   volumeLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
   antialiasingMode: 0

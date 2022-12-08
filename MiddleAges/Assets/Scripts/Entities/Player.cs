@@ -1,12 +1,10 @@
 using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
 
 public class Player : EntityBehaviour
 {
     public static Player instance;
 
-    [System.NonSerialized] public Transform plTransform;
     [System.NonSerialized] public Vector3 movementVector = Vector3.zero;
     [System.NonSerialized] public Quaternion MovingAngle = Quaternion.identity;//поможет вычислить место война, учитывая поворот игрока
 
@@ -15,73 +13,112 @@ public class Player : EntityBehaviour
     public float DashReloadTime;
     private bool isDash;
 
-    private int stacs = 0;
-    public int SStacks = 10;
+    private delegate void FixedUpdateMethods();
+    private FixedUpdateMethods State;
 
-    private delegate void Moving();
-    private Moving MoveType;
+    private Transform nearestEnemyTransform;
+    private bool isAttack = false;
 
     private void Awake()
     {
+        GameController.CapitansScripts.Add(this);
         instance = this;
-        plTransform = transform;
     }
 
     protected override void Start()
     {
         base.Start();
-        MoveType = Wasd;
+        State = IdleState;
     }
 
     protected override void Update()
     {
         base.Update();
-    }
 
-    private void FixedUpdate()
-    {
-        MoveType();
-
-        if (Input.GetKeyDown(KeyCode.E) && !isDash)
+        if (Input.GetKeyDown(KeyCode.E) && !isDash && State != IdleState)
         {
-            MoveType = StartDash;
+            State = DashState;
             StartCoroutine(ToDash());
             isDash = true;
         }
     }
 
-    private void Wasd()
+    private void FixedUpdate()
+    {
+        State();
+    }
+
+    private void WasdState()
     {
         if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
-            movementVector = plTransform.TransformDirection(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
+            movementVector = myTransform.TransformDirection(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
             MovingAngle = Quaternion.Euler(0, Mathf.Atan2(movementVector.x, movementVector.z) * Mathf.Rad2Deg, 0);
             controller.Move(movementVector * currentSpeed * Time.deltaTime);
         }
     }
-    private void StartDash()
+    private void DashState()
     {
         movementVector = MovingAngle * Vector3.forward;
         controller.Move(movementVector * DashSpeed * Time.deltaTime);
+    }
+    private void IdleState()
+    {
+        if (isAttack)
+        {
+            movementVector = (nearestEnemyTransform.position - myTransform.position).normalized;
+            movementVector.y = 0;
+            controller.Move(movementVector * currentSpeed * Time.fixedDeltaTime);
+        }
     }
     IEnumerator ToDash()
     {
         //начали dash
         yield return new WaitForSeconds(DashDistance / DashSpeed);//
-        MoveType = Wasd;
+        State = WasdState;
         yield return new WaitForSeconds(DashReloadTime);
         isDash = false;
     }
-    public void SetCurse()
+    public void SetCurse(int stacs)
     {
-        stacs += 1;
-        targetSpeed = (1 - stacs / (SStacks * 2)) * defaultSpeed;
-
-        if (stacs < 2 * SStacks)
-            GameController.instance.vignette.intensity.Override(stacs / (SStacks*2f));
-        else if (stacs == 2 * SStacks)
-            GameController.instance.vignette.intensity.Override(0f);
-        if (stacs == SStacks / 2) GameController.instance.DisableMag();
+        targetSpeed = (1 - stacs / 120f) * defaultSpeed;
     }
 
+    public void ActivatePlayer()
+    {
+        State = WasdState;
+        CameraMoving.target = myTransform;
+        StopCoroutine(FindGoal());
+    }
+    public void DeactivatePlayer()
+    {
+        State = IdleState;
+        StartCoroutine(FindGoal());
+    }
+
+    private IEnumerator FindGoal()
+    {
+        float dist, minDistToEnemy;
+        while (true)
+        {
+            minDistToEnemy = float.MaxValue;
+            yield return new WaitForSeconds(0.5f);
+
+            foreach (var enemy in GameController.EnemiesScript)//ищем ближайший дом
+            {
+                dist = Vector3.Distance(myTransform.position, enemy.transform.position);
+                if (dist < minDistToEnemy)
+                {
+                    minDistToEnemy = dist;
+                    nearestEnemyTransform = enemy.transform;
+                    isAttack = Vector3.Distance(nearestEnemyTransform.position, myTransform.position) < 5f;
+                }
+            }
+        }
+    }
+
+    public void ChangeSpeed()
+    {
+        targetSpeed = defaultSpeed;
+    }
 }

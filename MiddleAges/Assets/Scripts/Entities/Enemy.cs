@@ -8,12 +8,12 @@ public class Enemy : EntityBehaviour
 
     private Vector3 movementVector;
 
+    private void Awake() => GameController.EnemiesScript.Add(this);
     protected override void Start()
     {
         base.Start();
         fixedUpdate = GoToPlayerTeam;
         StartCoroutine(FindGoal());
-        GameController.instance.EnemiesScript.Add(this);
     }
 
 
@@ -29,12 +29,16 @@ public class Enemy : EntityBehaviour
     private Transform nearestWarriorTransform;
     private IEnumerator FindGoal()
     {
-        float dist, minDistToHouse = float.MaxValue;
+        float dist, minDistToHouse;
+        float nearestPlayer;
         while (true)
         {
-            yield return new WaitForSeconds(0.4f);
+            minDistToHouse = float.MaxValue;
+            nearestPlayer = float.MaxValue;
 
-            foreach (var house in GameController.instance.HousesScripts)//ищем ближайший дом
+            yield return new WaitForSeconds(0.5f);
+
+            foreach (var house in GameController.HousesScripts)//ищем ближайший дом
             {
                 dist = Vector3.Distance(myTransform.position, house.transform.position);
                 if (dist < minDistToHouse)
@@ -43,8 +47,10 @@ public class Enemy : EntityBehaviour
                     nearestHouseTransform = house.transform;
                 }
             }
-
-            if (Vector3.Distance(Player.instance.plTransform.position, myTransform.position) < minDistToHouse)//если игрок ближе чем ближайший дом то идем к ближайшему войну
+            foreach (var player in GameController.CapitansScripts)
+                nearestPlayer = Mathf.Min(nearestPlayer, Vector3.Distance(myTransform.position, player.myTransform.position));
+            
+            if (nearestPlayer < minDistToHouse)//если игрок ближе чем ближайший дом то идем к ближайшему войну
                 fixedUpdate = GoToPlayerTeam;
             else
                 fixedUpdate = GoToHome;
@@ -53,9 +59,18 @@ public class Enemy : EntityBehaviour
     private float minDistToWarrior, dist;
     private void GoToPlayerTeam()
     {
-        minDistToWarrior = Vector3.Distance(myTransform.position, Player.instance.plTransform.position);
-        nearestWarriorTransform = Player.instance.plTransform;
-        foreach (var warrior in GameController.instance.WarriorsScript)
+        minDistToWarrior = float.MaxValue;
+        nearestWarriorTransform = Player.instance.myTransform;
+        foreach (var Player in GameController.CapitansScripts)
+        {
+            dist = Vector3.Distance(myTransform.position, Player.myTransform.position);
+            if (dist < minDistToWarrior)
+            {
+                minDistToWarrior = dist;
+                nearestWarriorTransform = Player.myTransform;
+            }
+        }
+        foreach (var warrior in GameController.WarriorsScript)
         {
             dist = Vector3.Distance(myTransform.position, warrior.myTransform.position);
             if (dist < minDistToWarrior)
@@ -64,6 +79,7 @@ public class Enemy : EntityBehaviour
                 nearestWarriorTransform = warrior.myTransform;
             }
         }
+        
         movementVector = (nearestWarriorTransform.position - myTransform.position).normalized;
     }
     private void GoToHome() => movementVector = (nearestHouseTransform.position - myTransform.position).normalized;
