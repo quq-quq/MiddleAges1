@@ -34,6 +34,7 @@ public class GameController : MonoBehaviour
         Player.instance.DeactivatePlayer();
         Player.instance = CapitansScripts[0];
         Player.instance.ActivatePlayer();
+        CameraMoving.target = CapitansScripts[0].transform;
     }
     private void CalculateWarriorsPos(int capitanIdx)
     {

@@ -35,8 +35,9 @@ public class Shaman : EntityBehaviour
 
     protected override void Update() { base.Update(); }
 
-    void FixedUpdate()
+    protected override void FixedUpdate()
     {
+        base.FixedUpdate();
         fixedUpdate();
     }
 
@@ -65,7 +66,7 @@ public class Shaman : EntityBehaviour
     private IEnumerator FindNearestEnemy()
     {
         float dist, minDist = float.MaxValue;
-        NearestEnemyTransform = Player.instance.myTransform;//чтобы было за кем бежать первое время, иначе ошибка вылазит
+        NearestEnemyTransform = Player.instance.transform;//чтобы было за кем бежать первое время, иначе ошибка вылазит
         while (!isPlayerInCureZone)
         {
             yield return new WaitForSeconds(1);

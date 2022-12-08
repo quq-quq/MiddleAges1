@@ -29,7 +29,9 @@ public class EntityBehaviour : MonoBehaviour
 
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime);//плавно меняем скорость
 
-        controller.Move(Vector3.down * 20 * Time.deltaTime);//гравитация
     }
-
+    protected virtual void FixedUpdate()
+    {
+        controller.Move(Vector3.down * 10f * Time.deltaTime);//гравитация
+    }
 }

@@ -18,8 +18,9 @@ public class Enemy : EntityBehaviour
 
 
     protected override void Update() { base.Update(); }
-    void FixedUpdate()
+    protected override void FixedUpdate()
     {
+        base.FixedUpdate();
         fixedUpdate();
         controller.Move(movementVector * currentSpeed * Time.deltaTime);
     }

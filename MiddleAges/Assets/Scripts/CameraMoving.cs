@@ -16,7 +16,7 @@ public class CameraMoving : MonoBehaviour
 
 	void Start () 
 	{
-		target = GameController.CapitansScripts[0].transform;
+		target = Player.instance.transform;
 		CamTransform = transform;
 		limit = Mathf.Abs(limit);
 		if(limit > 90) limit = 90;

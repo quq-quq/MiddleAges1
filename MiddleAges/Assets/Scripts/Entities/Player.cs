@@ -22,13 +22,13 @@ public class Player : EntityBehaviour
     private void Awake()
     {
         GameController.CapitansScripts.Add(this);
+        State = IdleState;
         instance = this;
     }
 
     protected override void Start()
     {
         base.Start();
-        State = IdleState;
     }
 
     protected override void Update()
@@ -43,8 +43,9 @@ public class Player : EntityBehaviour
         }
     }
 
-    private void FixedUpdate()
+    protected override void FixedUpdate()
     {
+        base.FixedUpdate();
         State();
     }
 

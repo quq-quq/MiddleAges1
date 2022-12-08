@@ -32,8 +32,9 @@ public class Warrior : EntityBehaviour
     private Vector3 movementVector, warriorPos;
     private Vector3 rotationVector;
     private float distToPlayer;
-    void FixedUpdate()
+    protected override void FixedUpdate()
     {
+        base.FixedUpdate();
         if (isNotPetrified)
         {
             if (isAttack)
