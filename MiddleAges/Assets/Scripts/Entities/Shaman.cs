@@ -3,19 +3,24 @@ using UnityEngine;
 
 public class Shaman : EntityBehaviour
 {
-    [SerializeField] private float distStopGoingToPlace = 10;//как близко подбегать к enemy за которым мы следуем
+    [SerializeField] private float distStopGoingToPlace = 10;//пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ enemy пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-    [SerializeField] private float curseRadius; //радиус проклятья
-    [SerializeField] private float teleportRadius; //радиус на котором мы тпшимся от игрока
-    [SerializeField] private float teleportReloadTime; //"перезарядка" телепорта
-    [SerializeField] private float Slowling; //на сколько будем уменьшать скорость всех в радиусе проклятья каждые 0,5 сек
+    public float curseRadius; //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    [SerializeField] private float teleportRadius; //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    [SerializeField] private float teleportReloadTime; //"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ" пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
 
     private delegate void FixedUpdateMethods();
     private FixedUpdateMethods fixedUpdate;
 
-    Vector3 movementVector = Vector3.zero;
+    [System.NonSerialized] public Vector3 movementVector = Vector3.zero;
+    private Vector3 randomMovementVector = Vector3.zero;
+
     private bool isPlayerInCureZone = false;
+    [SerializeField] private GameObject cone;
+
+    private int stacs;
+    public int SStacs;
 
     protected override void Start()
     {
@@ -24,6 +29,7 @@ public class Shaman : EntityBehaviour
         StartCoroutine(SettingCurse());
         StartCoroutine(Teleporting());
         StartCoroutine(FindNearestEnemy());
+        StartCoroutine(RandomMoving());
     }
 
     protected override void Update() { base.Update(); }
@@ -32,20 +38,37 @@ public class Shaman : EntityBehaviour
     {
         fixedUpdate();
     }
+
     private void PlayerInCurseZone()
     {
+        if (Vector3.Distance(Player.instance.plTransform.position, myTransform.position) >= curseRadius - 2)
+            movementVector = (Player.instance.plTransform.position - myTransform.position).normalized;
+        else
+            movementVector = Vector3.Lerp(movementVector, randomMovementVector, Time.fixedDeltaTime);
 
+        movementVector.y = 0;
+        controller.Move(movementVector * currentSpeed * Time.deltaTime);
     }
+    private IEnumerator RandomMoving()
+    {
+        yield return new WaitUntil(() => isPlayerInCureZone);
+        while (true)
+        {
+            randomMovementVector = Random.insideUnitSphere.normalized;
+            yield return new WaitForSeconds(Random.Range(1f, 5f));
+        }
+    }
+
     private Transform NearestEnemyTransform;
     private IEnumerator FindNearestEnemy()
     {
         float dist, minDist = float.MaxValue;
-        NearestEnemyTransform = Player.plTransform;//чтобы было за кем бежать первое время, иначе ошибка вылазит
+        NearestEnemyTransform = Player.instance.plTransform;//пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         while (!isPlayerInCureZone)
         {
             yield return new WaitForSeconds(1);
 
-            foreach(var enemy in GameController.EnemiesScript)
+            foreach(var enemy in GameController.instance.EnemiesScript)
             {
                 dist = Vector3.Distance(myTransform.position, enemy.myTransform.position);
                 if (dist < minDist)
@@ -62,7 +85,7 @@ public class Shaman : EntityBehaviour
         {
             movementVector = (NearestEnemyTransform.position - myTransform.position).normalized;
             movementVector.y = 0;
-            controller.Move(movementVector * speed * Time.deltaTime);
+            controller.Move(movementVector * currentSpeed * Time.deltaTime);
         }
     }
 
@@ -70,18 +93,37 @@ public class Shaman : EntityBehaviour
     {
         while (true)
         {
-            Collider[] warriorsInZone = Physics.OverlapSphere(myTransform.position, curseRadius, 8); //все кто попал в окружность на слое войнов
+            yield return new WaitForSeconds(0.5f);
+
+            Collider[] warriorsInZone = Physics.OverlapSphere(myTransform.position, curseRadius, 8); //пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             for (int i = 0; i < warriorsInZone.Length; ++i)
             {
-                if (warriorsInZone[i].CompareTag("Player")) {
-                    isPlayerInCureZone = true;
-                    fixedUpdate = PlayerInCurseZone;
-                    warriorsInZone[i].GetComponent<EntityBehaviour>().SetSlowlingCurse(Slowling/2f);
+                if (warriorsInZone[i].CompareTag("Player"))
+                {
+                    if (!isPlayerInCureZone)
+                    {
+                        isPlayerInCureZone = true;
+                        fixedUpdate = PlayerInCurseZone;
+                        cone.SetActive(true);
+                    }
+                    Player.instance.SetCurse(++stacs);
                 } else
-                    warriorsInZone[i].GetComponent<EntityBehaviour>().SetSlowlingCurse(Slowling);
+                    warriorsInZone[i].GetComponent<Warrior>().SetSlowlingCurse();
             }
-            
-            yield return new WaitForSeconds(0.5f);
+
+            if (stacs == SStacs)
+            {
+                transform.GetComponent<SpriteRenderer>().enabled = false;
+                cone.GetComponent<MeshRenderer>().enabled = false;
+            }
+
+            // if (stacs < 2 * SStacs)
+            //     GameController.instance.Vignette.Intensity = stacs / (SStacs * 2f);
+            // else if (stacs == 2 * SStacs)
+            // {
+            //     GameController.instance.Vignette.Intensity = 0f;
+            // }
+
         }
     }
 
@@ -89,7 +131,7 @@ public class Shaman : EntityBehaviour
     {
         while (true)
         {
-            yield return new WaitUntil(() => Vector3.Distance(Player.plTransform.position, myTransform.position) <= teleportRadius);
+            yield return new WaitUntil(() => Vector3.Distance(Player.instance.plTransform.position, myTransform.position) <= teleportRadius);
             Teleport();
             yield return new WaitForSeconds(teleportReloadTime);
         }
@@ -97,19 +139,31 @@ public class Shaman : EntityBehaviour
     private void Teleport()
     {
         RaycastHit hit;
-        float rx = Random.value > 0.5f ? Random.Range(teleportRadius * 2, curseRadius) : Random.Range(-curseRadius, -teleportRadius*2);
-        float ry = Random.value > 0.5f ? Random.Range(teleportRadius * 2, curseRadius) : Random.Range(-curseRadius, -teleportRadius * 2);
-        Vector3 teleportPos = new Vector3(rx + myTransform.position.x, 30, ry + myTransform.position.z);
+        Vector2 pos = Random.insideUnitCircle.normalized*curseRadius;
+        Vector3 teleportPos = new Vector3(pos.x + myTransform.position.x, 30, pos.y + myTransform.position.z);
         Physics.Raycast(teleportPos, Vector3.down, out hit);
 
         if (Mathf.Abs(hit.point.y - myTransform.position.y) < 6f)
         {
             teleportPos.y = hit.point.y + controller.height / 2f;
             controller.Move(myTransform.position - teleportPos);
+            cone.GetComponent<Cone>().Teleport(pos);
         }
-        else//если он собрался тпшиться на крышу дома или еще куда не надо
+        else//пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ
         {
             Teleport();
         }
+    }
+    private void DieFixedUpdate()
+    {
+        myTransform.GetChild(0).transform.position += Vector3.down*Time.fixedDeltaTime*5;
+    }
+    public void Die()
+    {
+        StopAllCoroutines();
+        fixedUpdate = DieFixedUpdate;
+        myTransform.GetComponent<SpriteRenderer>().sprite = null;
+        Destroy(cone);
+        Destroy(myTransform.parent.gameObject, 5f);
     }
 }

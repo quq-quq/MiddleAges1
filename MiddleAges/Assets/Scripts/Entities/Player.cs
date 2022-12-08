@@ -4,21 +4,24 @@ using System.Collections;
 
 public class Player : EntityBehaviour
 {
-    [NonReorderable] public static Transform plTransform;
-    public static Vector3 MovementVector = Vector3.zero;
-    public static Quaternion MovingAngle = Quaternion.identity;//поможет вычислить место война, учитывая поворот игрока
+    public static Player instance;
+
+    [System.NonSerialized] public Transform plTransform;
+    [System.NonSerialized] public Vector3 movementVector = Vector3.zero;
+    [System.NonSerialized] public Quaternion MovingAngle = Quaternion.identity;//поможет вычислить место война, учитывая поворот игрока
 
     public float DashSpeed;
     public float DashDistance;
     public float DashReloadTime;
-
     private bool isDash;
+
 
     private delegate void Moving();
     private Moving MoveType;
 
     private void Awake()
     {
+        instance = this;
         plTransform = transform;
     }
 
@@ -45,23 +48,20 @@ public class Player : EntityBehaviour
         }
     }
 
-
     private void Wasd()
     {
         if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
-            MovementVector = plTransform.TransformDirection(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
-            MovingAngle = Quaternion.Euler(0, Mathf.Atan2(MovementVector.x, MovementVector.z) * Mathf.Rad2Deg, 0);
-            controller.Move(MovementVector * speed * Time.deltaTime);
+            movementVector = plTransform.TransformDirection(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
+            MovingAngle = Quaternion.Euler(0, Mathf.Atan2(movementVector.x, movementVector.z) * Mathf.Rad2Deg, 0);
+            controller.Move(movementVector * currentSpeed * Time.deltaTime);
         }
     }
-
     private void StartDash()
     {
-        MovementVector = MovingAngle * Vector3.forward;
-        controller.Move(MovementVector * DashSpeed * Time.deltaTime);
+        movementVector = MovingAngle * Vector3.forward;
+        controller.Move(movementVector * DashSpeed * Time.deltaTime);
     }
-
     IEnumerator ToDash()
     {
         //начали dash
@@ -70,4 +70,9 @@ public class Player : EntityBehaviour
         yield return new WaitForSeconds(DashReloadTime);
         isDash = false;
     }
+    public void SetCurse(int stacs)
+    {
+        targetSpeed = (1 - stacs / 120f) * defaultSpeed;
+    }
+
 }

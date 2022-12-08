@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 595072719269859260}
   - component: {fileID: 1287829275509304224}
   - component: {fileID: 4230544031525168996}
-  - component: {fileID: -5164399464743518004}
+  - component: {fileID: 4643452314677157037}
   m_Layer: 0
   m_Name: Rock_Moss_2
   m_TagString: Untagged
@@ -41,7 +41,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2303084901110069348}
-  m_Mesh: {fileID: -8011089615705113328, guid: 1d9b287af4652a94a8680862b87bab77, type: 3}
+  m_Mesh: {fileID: -8011089615705113328, guid: 8e075f98ede0f11469cd776f9ed800d7, type: 3}
 --- !u!23 &4230544031525168996
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 860693e536266c64e88bff6ccb0e5420, type: 2}
-  - {fileID: 2100000, guid: 3d1b37f326750ea458e33523c1ed528a, type: 2}
+  - {fileID: 2100000, guid: 551be6fe31a0a5849bff25eb38d6c989, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,7 +85,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &-5164399464743518004
+--- !u!64 &4643452314677157037
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -98,4 +98,4 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -8011089615705113328, guid: 1d9b287af4652a94a8680862b87bab77, type: 3}
+  m_Mesh: {fileID: -8011089615705113328, guid: 8e075f98ede0f11469cd776f9ed800d7, type: 3}

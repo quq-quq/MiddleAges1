@@ -1,21 +1,31 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+// using UnityEngine.Rendering.PostProcessing;
 
 public class GameController : MonoBehaviour
 {
-    public static Vector3[] WarriorPositions;
+    public static GameController instance;
+
     [SerializeField] private Transform allWarriorsParent;
-    public int lenStep;
+    [SerializeField] private int lenStep;
 
-    public static List<EntityBehaviour> WarriorsScript = new List<EntityBehaviour>();
-    public static List<EntityBehaviour> EnemiesScript = new List<EntityBehaviour>();
-    public static List<House> HousesScripts = new List<House>();
+    [NonSerialized] public Vector3[] WarriorPositions;
+    [NonSerialized] public List<EntityBehaviour> WarriorsScript = new List<EntityBehaviour>();
+    [NonSerialized] public List<EntityBehaviour> EnemiesScript = new List<EntityBehaviour>();
+    [NonSerialized] public List<House> HousesScripts = new List<House>();
 
+    // [NonSerialized] public Vignette Vignette;
+
+    private void Awake()
+    {
+        instance = this;
+    }
     private void Start()
     {
         CalculateWarriorsPos();
+        // Vignette = transform.GetComponentInChildren<PostProcessVolume>().profile.GetSetting<Vignette>();
     }
-
     private void CalculateWarriorsPos()
     {
         WarriorPositions = new Vector3[allWarriorsParent.childCount];
@@ -56,6 +66,24 @@ public class GameController : MonoBehaviour
                 stepx += lenStep;
             //this is alright
         }
+    }
+
+    public void OneEntityDie(EntityBehaviour entity)
+    {
+        WarriorsScript.Remove(entity);
+        entity.gameObject.SetActive(false);
+        CalculateWarriorsPos();
+    }
+    private void FixedUpdate()
+    {
+        // Vignette.intensity.Override(Mathf.Lerp(Vignette.intensity, VignetteIntensity, Time.fixedDeltaTime*2));
+    }
+    public void RemoveCurse()
+    {
+        Player.instance.SetDefaultSpeed();
+        for (int i = 0; i < WarriorsScript.Count; i++)
+            WarriorsScript[i].SetDefaultSpeed();
+        // Vignette.Intensity = 0;
     }
 
 }

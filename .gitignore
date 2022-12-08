@@ -2,8 +2,10 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
-[Ll]ibrary/
-[Tt]emp/
+
+MiddleAges/[Ll]ibrary/
+
+MiddleAges/[Tt]emp/
 [Oo]bj/
 [Bb]uild/
 [Bb]uilds/
