@@ -22,6 +22,21 @@ public class Enemy : EntityBehaviour
     {
         fixedUpdate();
         controller.Move(movementVector * currentSpeed * Time.deltaTime);
+
+        if (CameraMoving.CamTransform.rotation.y > -90 && CameraMoving.CamTransform.rotation.y < 90)
+        {
+            if ((movementVector.z > 0 && movementVector.x > 0) || (movementVector.z > 0 && movementVector.x < 0))
+                transform.localScale = new Vector3(-startScale, transform.localScale.y, transform.localScale.z);
+            else
+                transform.localScale = new Vector3(startScale, transform.localScale.y, transform.localScale.z);
+        }
+        else
+        {
+            if ((movementVector.z > 0 && movementVector.x > 0) || (movementVector.z > 0 && movementVector.x < 0))
+                transform.localScale = new Vector3(startScale, transform.localScale.y, transform.localScale.z);
+            else
+                transform.localScale = new Vector3(-startScale, transform.localScale.y, transform.localScale.z);
+        }
     }
 
 

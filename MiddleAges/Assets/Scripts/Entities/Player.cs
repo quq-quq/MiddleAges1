@@ -52,13 +52,23 @@ public class Player : EntityBehaviour
     {
         if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
+            anim.SetBool("IsRunning", true);
             movementVector = plTransform.TransformDirection(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
             MovingAngle = Quaternion.Euler(0, Mathf.Atan2(movementVector.x, movementVector.z) * Mathf.Rad2Deg, 0);
             controller.Move(movementVector * currentSpeed * Time.deltaTime);
+            if (Input.GetAxis("Horizontal") < 0)
+                transform.localScale = new Vector3(-startScale, transform.localScale.y, transform.localScale.z);
+            else
+                transform.localScale = new Vector3(startScale, transform.localScale.y, transform.localScale.z);
         }
+        else
+            anim.SetBool("IsRunning", false);
+
     }
+
     private void StartDash()
     {
+        anim.SetTrigger("IsDash");
         movementVector = MovingAngle * Vector3.forward;
         controller.Move(movementVector * DashSpeed * Time.deltaTime);
     }

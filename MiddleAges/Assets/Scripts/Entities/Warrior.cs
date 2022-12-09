@@ -37,19 +37,33 @@ public class Warrior : EntityBehaviour
 
             movementVector.y = 0;
             controller.Move(movementVector * currentSpeed * Time.deltaTime);
+            if(currentSpeed>0)
+                anim.SetBool("IsRunning", true);
 
         }
         else if (distToPlayer >= distStopGoingToPlace)//бежим к своему месту если мы слишком далеко от него
         {
+            if (currentSpeed > 0)
+                anim.SetBool("IsRunning", true);
             movementVector = (warriorPos - myTransform.position).normalized;
             movementVector.y = 0;
             controller.Move(movementVector * currentSpeed * Time.deltaTime);
         }
+        else
+            anim.SetBool("IsRunning", false);
+
+        if ((movementVector.z > 0 && movementVector.x > 0) || (movementVector.z > 0 && movementVector.x < 0))
+            transform.localScale = new Vector3(-startScale, transform.localScale.y, transform.localScale.z);
+        else
+            transform.localScale = new Vector3(startScale, transform.localScale.y, transform.localScale.z);
     }
 
     public void SetSlowlingCurse()
     {
         targetSpeed = 0;
+        anim.speed = 0f;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
+        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
     }
 
 }

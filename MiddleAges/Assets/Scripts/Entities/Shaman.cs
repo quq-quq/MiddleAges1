@@ -37,6 +37,10 @@ public class Shaman : EntityBehaviour
     void FixedUpdate()
     {
         fixedUpdate();
+        if ((movementVector.z > 0 && movementVector.x > 0) || (movementVector.z > 0 && movementVector.x < 0))
+            transform.localScale = new Vector3(-startScale, transform.localScale.y, transform.localScale.z);
+        else
+            transform.localScale = new Vector3(startScale, transform.localScale.y, transform.localScale.z);
     }
 
     private void PlayerInCurseZone()
@@ -114,6 +118,7 @@ public class Shaman : EntityBehaviour
             if (stacs == SStacs)
             {
                 transform.GetComponent<SpriteRenderer>().enabled = false;
+                transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
                 cone.GetComponent<MeshRenderer>().enabled = false;
             }
 

@@ -30,7 +30,7 @@ public class CameraMoving : MonoBehaviour
 		else if(Input.GetAxis("Mouse ScrollWheel") < 0) offset.z -= zoomSensivity;
 		offset.z = Mathf.Clamp(offset.z, -Mathf.Abs(zoomMax), -Mathf.Abs(zoomMin));
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(1))
         {
 			if(Input.GetAxis("Mouse Y")!=0 ) offset.y += Input.GetAxis("Mouse Y");
 			offset.y = Mathf.Clamp(offset.y, -limit, limit);

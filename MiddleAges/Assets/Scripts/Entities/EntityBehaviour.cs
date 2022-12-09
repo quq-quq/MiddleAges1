@@ -4,17 +4,21 @@ public class EntityBehaviour : MonoBehaviour
 {
     protected CharacterController controller;
     public Transform myTransform;
+    protected Animator anim;
 
     // если надо плавно менять скорость то менять надо значение targetSpeed
     public float defaultSpeed = 12f;
     protected float currentSpeed;
     protected float targetSpeed;
+    protected float startScale;
 
     protected virtual void Start()
     {
         currentSpeed = targetSpeed = defaultSpeed;
         myTransform = transform;//при вызове transform unity будет искать прикрепленный к GО обьект что займет больше времени чем доступ по ссылке
         controller = myTransform.GetComponent<CharacterController>();
+        anim = myTransform.GetComponent<Animator>();
+        startScale = myTransform.localScale.x;
     }
 
     private float x, z, angleToLookAtCamera;

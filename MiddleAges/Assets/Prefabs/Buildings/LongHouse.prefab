@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 3411552539357979925}
   - component: {fileID: -8507459201096793908}
   - component: {fileID: -6709919071434843032}
-  m_Layer: 0
+  - component: {fileID: 271190114732291710}
+  m_Layer: 7
   m_Name: LongHouse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,6 +116,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0aaf68a016fafb4897b62cdc7622a40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &271190114732291710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2851681612859152541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ba4e876a22b1047864c0665f4b0051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strartTimeBtwAttack: 0
+  attackPos: {fileID: 2929073731619850642}
+  radiusAttack: 0
+  damage: 0
+  health: 8
+  layerOfObj:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &9151500502201491523
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,7 +147,7 @@ GameObject:
   - component: {fileID: 1761948054487778259}
   - component: {fileID: 1788345006563491364}
   - component: {fileID: 4349590543232237370}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Steam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
