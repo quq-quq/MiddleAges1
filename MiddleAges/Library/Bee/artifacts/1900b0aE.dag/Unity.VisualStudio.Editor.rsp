@@ -115,6 +115,7 @@
 -define:ENABLE_TILEMAP
 -define:ENABLE_TIMELINE
 -define:ENABLE_LEGACY_INPUT_MANAGER
+-define:UNITY_POST_PROCESSING_STACK_V2
 -define:CSHARP_7_OR_LATER
 -define:CSHARP_7_3_OR_NEWER
 -r:"/media/aleksey/HDD/UnityHub/2021.3.14f1/Editor/Data/Managed/UnityEditor.Graphs.dll"
@@ -332,8 +333,8 @@
 -r:"/media/aleksey/HDD/UnityHub/2021.3.14f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Xml.dll"
 -r:"/media/aleksey/HDD/UnityHub/2021.3.14f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.dll"
 -r:"/media/aleksey/HDD/UnityHub/2021.3.14f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/mscorlib.dll"
--r:"/media/aleksey/HDD/UnityProjects/NTO/MiddleAges1/MiddleAges/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll"
--r:"/media/aleksey/HDD/UnityProjects/NTO/MiddleAges1/MiddleAges/Library/PackageCache/com.unity.nuget.newtonsoft-json@3.0.2/Runtime/Newtonsoft.Json.dll"
+-r:"/media/aleksey/HDD/UnityProjects/Aleksey/MiddleAges1/MiddleAges/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll"
+-r:"/media/aleksey/HDD/UnityProjects/Aleksey/MiddleAges1/MiddleAges/Library/PackageCache/com.unity.nuget.newtonsoft-json@3.0.2/Runtime/Newtonsoft.Json.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.TestRunner.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.TestRunner.ref.dll"

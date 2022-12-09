@@ -98,7 +98,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22d94104d36489741acf3bf62fdc60df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
   zAngleToLookAtPlayer: 30
   RotateSensitivity: 3

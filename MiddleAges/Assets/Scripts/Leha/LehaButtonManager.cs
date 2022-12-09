@@ -37,7 +37,8 @@ public class LehaButtonManager : MonoBehaviour
     {
         foreach (var btn in buttons)
         {
-            Debug.Log(btn.gameObject.GetComponent<LehaLevels>().CheckFloor() + btn.name);
+            btn.gameObject.GetComponent<LehaLevels>().CheckFloor();
+            //Debug.Log( + btn.name);
             //Debug.Log("HMM");
         }
     }
