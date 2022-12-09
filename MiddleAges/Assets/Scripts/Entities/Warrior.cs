@@ -18,7 +18,7 @@ public class Warrior : EntityBehaviour
     private Transform nearestEnemyTransform;
     private bool isAttack = false;
 
-    [System.NonSerialized] public bool isNotPetrified = true;
+    [System.NonSerialized] public bool SlowlingCurse = true;
 
     private void Awake() => GameController.WarriorsScript.Add(this);
     protected override void Start()
@@ -35,13 +35,13 @@ public class Warrior : EntityBehaviour
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-        if (isNotPetrified)
+        if (!SlowlingCurse)
         {
             if (isAttack)
             {
                 movementVector = (nearestEnemyTransform.position - myTransform.position).normalized;
                 movementVector.y = 0;
-                controller.Move(movementVector * currentSpeed * Time.fixedDeltaTime);
+                controller.Move(movementVector * speedCurrent * Time.fixedDeltaTime);
             }
             else
             {
@@ -57,14 +57,14 @@ public class Warrior : EntityBehaviour
                     if (rotationVector.x >= 0) movementVector.x *= -1;
 
                     movementVector.y = 0;
-                    controller.Move(movementVector * currentSpeed * Time.deltaTime);
+                    controller.Move(movementVector * speedCurrent * Time.deltaTime);
 
                 }
                 else if (distToPlayer >= distStopGoingToPlace)//бежим к своему месту если мы слишком далеко от него
                 {
                     movementVector = (warriorPos - myTransform.position).normalized;
                     movementVector.y = 0;
-                    controller.Move(movementVector * currentSpeed * Time.deltaTime);
+                    controller.Move(movementVector * speedCurrent * Time.deltaTime);
                 }
             }
         }
@@ -89,5 +89,10 @@ public class Warrior : EntityBehaviour
                 }
             }
         }
+    }
+
+    private void SetClumsinessCurse()
+    {
+        damageCurrent = (1f - ++stacsClumsiness / (Shaman.S_stacs[(int)curseType] * 3f)) * speedDefault;
     }
 }

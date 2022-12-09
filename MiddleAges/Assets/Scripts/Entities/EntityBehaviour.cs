@@ -7,14 +7,18 @@ public class EntityBehaviour : MonoBehaviour
     protected CharacterController controller;
     public Transform myTransform;
 
+    protected float damageDefault = 12f;
+    protected float damageCurrent;
+    public int hp;
+
     // если надо плавно мен€ть скорость то мен€ть надо значение targetSpeed
-    public float defaultSpeed = 12f;
-    protected float currentSpeed;
-    protected float targetSpeed;
+    public float speedDefault = 12f;
+    protected float speedCurrent;
+    protected float speedTarget;
 
     protected virtual void Start()
     {
-        currentSpeed = targetSpeed = defaultSpeed;
+        speedCurrent = speedTarget = speedDefault;
         myTransform = transform;//при вызове transform unity будет искать прикрепленный к Gќ обьект что займет больше времени чем доступ по ссылке
         controller = myTransform.GetComponent<CharacterController>();
     }
@@ -27,11 +31,16 @@ public class EntityBehaviour : MonoBehaviour
         angleToLookAtCamera = (Mathf.Rad2Deg * Mathf.Atan2(x, z) + 360) % 360;
         myTransform.eulerAngles = new Vector3(0, angleToLookAtCamera + 180, 0); //смотрим спиной на камеру
 
-        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime);//плавно мен€ем скорость
+        speedCurrent = Mathf.Lerp(speedCurrent, speedTarget, Time.deltaTime);//плавно мен€ем скорость
 
     }
     protected virtual void FixedUpdate()
     {
-        controller.Move(Vector3.down * 10f * Time.deltaTime);//гравитаци€
+        controller.Move(Vector3.down * 10f * Time.fixedDeltaTime);//гравитаци€
+    }
+
+    public void TakeDamage(int damage)
+    {
+
     }
 }

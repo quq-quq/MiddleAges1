@@ -3,25 +3,28 @@ using UnityEngine;
 
 public class Shaman : EntityBehaviour
 {
-    [SerializeField] private float distStopGoingToPlace = 10;//как близко подбегать к enemy за которым мы следуем
+    private readonly static float distStopGoingToPlace = 10;//как близко подбегать к enemy за которым мы следуем
 
-    public float curseRadius; //радиус прокл€ть€
-    [SerializeField] private float teleportRadius; //радиус на котором мы тпшимс€ от игрока
-    [SerializeField] private float teleportReloadTime; //"перезар€дка" телепорта
+    //0 элемент Ч количество S стаков дл€ прокл€ть€ окаменени€
+    //1 элемент Ч количество S стаков дл€ прокл€ть€ неуклюжести(снижение урона) 
+    public readonly static int[] S_stacs = { 10, 10 };
 
-    private int stacs;
-    [SerializeField] private int SStacs = 30;
+    public const float curseRadius = 15f;                             //радиус прокл€ть€
+    [SerializeField] private const CurseType curseType = CurseType.Petrification;//тип прокл€ть€
+    [SerializeField] private const float teleportRadius = 5f;         //радиус на котором мы тпшимс€ от игрока
+    [SerializeField] private const float teleportReloadTime = 3f;     //"перезар€дка" телепорта
 
-    private delegate void FixedUpdateMethods();
-    private FixedUpdateMethods fixedUpdate;
-
-    [System.NonSerialized] public Vector3 movementVector = Vector3.zero;
-    private Vector3 randomMovementVector = Vector3.zero;
 
     private Transform playerTransform;
     private bool isPlayerInCureZone = false;
     [SerializeField] private GameObject cone;
 
+
+    [System.NonSerialized] public Vector3 movementVector = Vector3.zero;
+    private Vector3 randomMovementVector = Vector3.zero;
+
+    private delegate void FixedUpdateMethods();
+    private FixedUpdateMethods fixedUpdate;
     protected override void Start()
     {
         playerTransform = GameController.CapitansScripts[0].transform;
@@ -43,14 +46,13 @@ public class Shaman : EntityBehaviour
 
     private void PlayerInCurseZone()
     {
-
         if (Vector3.Distance(playerTransform.position, myTransform.position) >= curseRadius - 2)
             movementVector = (playerTransform.position - myTransform.position).normalized;
         else
             movementVector = Vector3.Lerp(movementVector, randomMovementVector, Time.fixedDeltaTime);
 
         movementVector.y = 0;
-        controller.Move(movementVector * currentSpeed * Time.deltaTime);
+        controller.Move(movementVector * speedCurrent * Time.deltaTime);
     }
     private IEnumerator RandomMoving()
     {
@@ -88,12 +90,13 @@ public class Shaman : EntityBehaviour
         {
             movementVector = (NearestEnemyTransform.position - myTransform.position).normalized;
             movementVector.y = 0;
-            controller.Move(movementVector * currentSpeed * Time.deltaTime);
+            controller.Move(movementVector * speedCurrent * Time.deltaTime);
         }
     }
 
     private IEnumerator SettingCurse()
     {
+        int stacs;
         while (true)
         {
             Collider[] warriorsInZone = Physics.OverlapSphere(myTransform.position, curseRadius, 8); //все кто попал в окружность на слое войнов
@@ -108,21 +111,26 @@ public class Shaman : EntityBehaviour
                         fixedUpdate = PlayerInCurseZone;
                         cone.SetActive(true);
                     }
-                    warriorsInZone[i].GetComponent<Player>().SetCurse(++stacs);
+                    stacs = warriorsInZone[i].GetComponent<Player>().SetCurse(curseType);
 
-                    if(stacs == SStacs)
+                    if (stacs == S_stacs[(int)curseType])//при достижении S стаков
                     {
                         myTransform.GetComponent<SpriteRenderer>().sprite = null;
                         cone.GetComponent<MeshRenderer>().enabled = false;
                     }
-                    if(stacs < SStacs * 2)
-                        GameController.instance.VignetteIntensity = stacs / (SStacs*2f);
-                    else if(stacs == SStacs*2)
-                        GameController.instance.VignetteIntensity = 0;
+                    else if (stacs == S_stacs[(int)curseType] * 2) //при достижении 2 S стаков
+                    {
+
+                    }
 
                 }
                 else
-                    warriorsInZone[i].GetComponent<Warrior>().isNotPetrified = false;
+                {
+                    if(curseType == CurseType.Petrification)
+                        warriorsInZone[i].GetComponent<Warrior>().SlowlingCurse = true;
+                    else
+                        warriorsInZone[i].GetComponent<Warrior>().SlowlingCurse = true;
+                }
             }
             
             yield return new WaitForSeconds(0.5f);
@@ -168,4 +176,10 @@ public class Shaman : EntityBehaviour
         Destroy(cone);
         Destroy(myTransform.parent.gameObject, 5f);
     }
+}
+
+public enum CurseType
+{
+    Petrification = 0,//idx in S_Pstacs
+    Clumsiness = 1
 }

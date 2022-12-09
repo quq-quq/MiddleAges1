@@ -5,20 +5,26 @@ public class Player : EntityBehaviour
 {
     public static Player instance;
 
+
     [System.NonSerialized] public Vector3 movementVector = Vector3.zero;
     [System.NonSerialized] public Quaternion MovingAngle = Quaternion.identity;//поможет вычислить место война, учитывая поворот игрока
+
 
     public float DashSpeed;
     public float DashDistance;
     public float DashReloadTime;
     private bool isDash;
 
-    private delegate void FixedUpdateMethods();
-    private FixedUpdateMethods State;
+
+    private int stacsPetrification;
+    private int stacsClumsiness;
+
 
     private Transform nearestEnemyTransform;
     private bool isAttack = false;
 
+    private delegate void FixedUpdateMethods();
+    private FixedUpdateMethods State;
     private void Awake()
     {
         GameController.CapitansScripts.Add(this);
@@ -55,7 +61,7 @@ public class Player : EntityBehaviour
         {
             movementVector = myTransform.TransformDirection(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
             MovingAngle = Quaternion.Euler(0, Mathf.Atan2(movementVector.x, movementVector.z) * Mathf.Rad2Deg, 0);
-            controller.Move(movementVector * currentSpeed * Time.deltaTime);
+            controller.Move(movementVector * speedCurrent * Time.deltaTime);
         }
     }
     private void DashState()
@@ -69,7 +75,7 @@ public class Player : EntityBehaviour
         {
             movementVector = (nearestEnemyTransform.position - myTransform.position).normalized;
             movementVector.y = 0;
-            controller.Move(movementVector * currentSpeed * Time.fixedDeltaTime);
+            controller.Move(movementVector * speedCurrent * Time.fixedDeltaTime);
         }
     }
     IEnumerator ToDash()
@@ -82,7 +88,7 @@ public class Player : EntityBehaviour
     }
     public void SetCurse(int stacs)
     {
-        targetSpeed = (1 - stacs / 120f) * defaultSpeed;
+        speedTarget = (1 - stacs / 120f) * speedDefault;
     }
 
     public void ActivatePlayer()
@@ -118,8 +124,22 @@ public class Player : EntityBehaviour
         }
     }
 
+    public int SetCurse(CurseType curseType)
+    {
+        if (curseType == CurseType.Petrification){
+            speedTarget = (1f - ++stacsPetrification / (Shaman.S_stacs[(int)curseType] * 3f))*speedDefault;
+            return stacsPetrification;
+        }
+        if (curseType == CurseType.Clumsiness)
+        {
+            damageCurrent = (1f - ++stacsClumsiness / (Shaman.S_stacs[(int)curseType] * 3f)) * speedDefault;
+            return stacsClumsiness;
+        }
+        return 0;
+    }
+
     public void ChangeSpeed()
     {
-        targetSpeed = defaultSpeed;
+        speedTarget = speedDefault;
     }
 }

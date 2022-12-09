@@ -96,7 +96,7 @@ public class GameController : MonoBehaviour
     public void RemoveCurse()
     {
         for (int i = 0; i < WarriorsScript.Count; i++)
-            WarriorsScript[i].isNotPetrified = true;
+            WarriorsScript[i].SlowlingCurse = true;
         for (int i = 0; i < CapitansScripts.Count; i++)
             CapitansScripts[i].ChangeSpeed();
         VignetteIntensity = 0;

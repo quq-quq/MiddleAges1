@@ -22,7 +22,7 @@ public class Enemy : EntityBehaviour
     {
         base.FixedUpdate();
         fixedUpdate();
-        controller.Move(movementVector * currentSpeed * Time.deltaTime);
+        controller.Move(movementVector * speedCurrent * Time.deltaTime);
     }
 
 
