@@ -351,6 +351,10 @@
 "Assets/Scripts/Entities/Warrior.cs"
 "Assets/Scripts/GameController.cs"
 "Assets/Scripts/House.cs"
+"Assets/Scripts/Leha/LehaButtonManager.cs"
+"Assets/Scripts/Leha/LehaLevels.cs"
+"Assets/Scripts/Leha/LehaSaveManager.cs"
+"Assets/Scripts/Leha/LehaSpawn.cs"
 -langversion:9.0
 
 /deterministic
