@@ -431,3 +431,9 @@ AssetImportParameters requested are different than current active one (requested
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 1416,012341 seconds.
+  path: Assets/Scenes/Menu.unity
+  artifactKey: Guid(bf39ec7d63ea302b48e9375422bbc24d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/Menu.unity using Guid(bf39ec7d63ea302b48e9375422bbc24d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '21b6e79515bf0b373f814627e98d2da5') in 0,014206 seconds 
