@@ -4,7 +4,7 @@ public class House : MonoBehaviour
 {
     void Start()
     {
-        GameController.HousesScripts.Add(this);
+        GameController.HousesScript.Add(this);
     }
 
 }

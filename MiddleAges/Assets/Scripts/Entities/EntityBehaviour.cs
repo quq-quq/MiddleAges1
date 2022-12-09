@@ -5,7 +5,7 @@ using UnityEngine;
 public class EntityBehaviour : MonoBehaviour
 {
     protected CharacterController controller;
-    public Transform myTransform;
+    [System.NonSerialized] public Transform myTransform;
 
     protected float damageDefault = 12f;
     protected float damageCurrent;

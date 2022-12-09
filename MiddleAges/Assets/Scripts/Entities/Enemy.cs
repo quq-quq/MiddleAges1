@@ -39,7 +39,7 @@ public class Enemy : EntityBehaviour
 
             yield return new WaitForSeconds(0.5f);
 
-            foreach (var house in GameController.HousesScripts)//ищем ближайший дом
+            foreach (var house in GameController.HousesScript)//ищем ближайший дом
             {
                 dist = Vector3.Distance(myTransform.position, house.transform.position);
                 if (dist < minDistToHouse)
@@ -48,7 +48,7 @@ public class Enemy : EntityBehaviour
                     nearestHouseTransform = house.transform;
                 }
             }
-            foreach (var player in GameController.CapitansScripts)
+            foreach (var player in GameController.CapitansScript)
                 nearestPlayer = Mathf.Min(nearestPlayer, Vector3.Distance(myTransform.position, player.myTransform.position));
             
             if (nearestPlayer < minDistToHouse)//если игрок ближе чем ближайший дом то идем к ближайшему войну
@@ -62,7 +62,7 @@ public class Enemy : EntityBehaviour
     {
         minDistToWarrior = float.MaxValue;
         nearestWarriorTransform = Player.instance.myTransform;
-        foreach (var Player in GameController.CapitansScripts)
+        foreach (var Player in GameController.CapitansScript)
         {
             dist = Vector3.Distance(myTransform.position, Player.myTransform.position);
             if (dist < minDistToWarrior)

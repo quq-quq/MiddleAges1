@@ -7,10 +7,11 @@ public class Shaman : EntityBehaviour
 
     //0 элемент Ч количество S стаков дл€ прокл€ть€ окаменени€
     //1 элемент Ч количество S стаков дл€ прокл€ть€ неуклюжести(снижение урона) 
-    public readonly static int[] S_stacs = { 10, 10 };
+    public static int[] S_stacs = { 10, 10 };
+    [System.NonSerialized] public int index = 0;
 
-    public const float curseRadius = 15f;                             //радиус прокл€ть€
-    [SerializeField] private const CurseType curseType = CurseType.Petrification;//тип прокл€ть€
+    public readonly float curseRadius = 15f;                             //радиус прокл€ть€
+    public CurseType curseType = CurseType.Petrification;       //тип прокл€ть€
     [SerializeField] private const float teleportRadius = 5f;         //радиус на котором мы тпшимс€ от игрока
     [SerializeField] private const float teleportReloadTime = 3f;     //"перезар€дка" телепорта
 
@@ -25,9 +26,11 @@ public class Shaman : EntityBehaviour
 
     private delegate void FixedUpdateMethods();
     private FixedUpdateMethods fixedUpdate;
+
+    private void Awake() => GameController.ShamansScript.Add(this);
     protected override void Start()
     {
-        playerTransform = GameController.CapitansScripts[0].transform;
+        playerTransform = GameController.CapitansScript[0].transform;
         base.Start();
         fixedUpdate = GoToEnemy;
         StartCoroutine(SettingCurse());
@@ -111,7 +114,7 @@ public class Shaman : EntityBehaviour
                         fixedUpdate = PlayerInCurseZone;
                         cone.SetActive(true);
                     }
-                    stacs = warriorsInZone[i].GetComponent<Player>().SetCurse(curseType);
+                    stacs = warriorsInZone[i].GetComponent<Player>().SetCurse(index);
 
                     if (stacs == S_stacs[(int)curseType])//при достижении S стаков
                     {
@@ -120,17 +123,12 @@ public class Shaman : EntityBehaviour
                     }
                     else if (stacs == S_stacs[(int)curseType] * 2) //при достижении 2 S стаков
                     {
-
                     }
 
                 }
                 else
-                {
-                    if(curseType == CurseType.Petrification)
-                        warriorsInZone[i].GetComponent<Warrior>().SlowlingCurse = true;
-                    else
-                        warriorsInZone[i].GetComponent<Warrior>().SlowlingCurse = true;
-                }
+                    warriorsInZone[i].GetComponent<Warrior>().SetCurse(index);
+                
             }
             
             yield return new WaitForSeconds(0.5f);

@@ -37,7 +37,7 @@ public class Cone : EntityBehaviour
     {
         if (hit.gameObject.CompareTag("Player"))
         {
-            GameController.instance.RemoveCurse();
+            GameController.instance.RemoveCurse(shaman.index);
             shaman.Die();
         }
     }

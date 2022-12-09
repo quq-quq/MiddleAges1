@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Player : EntityBehaviour
 {
     public static Player instance;
-
 
     [System.NonSerialized] public Vector3 movementVector = Vector3.zero;
     [System.NonSerialized] public Quaternion MovingAngle = Quaternion.identity;//поможет вычислить место война, учитывая поворот игрока
@@ -15,10 +15,9 @@ public class Player : EntityBehaviour
     public float DashReloadTime;
     private bool isDash;
 
-
-    private int stacsPetrification;
-    private int stacsClumsiness;
-
+    private Dictionary<int, int> Stacs = new();
+    private int allPetrificationStacs = 0;
+    private int allClumsinessStacs = 0;
 
     private Transform nearestEnemyTransform;
     private bool isAttack = false;
@@ -27,7 +26,7 @@ public class Player : EntityBehaviour
     private FixedUpdateMethods State;
     private void Awake()
     {
-        GameController.CapitansScripts.Add(this);
+        GameController.CapitansScript.Add(this);
         State = IdleState;
         instance = this;
     }
@@ -41,7 +40,7 @@ public class Player : EntityBehaviour
     {
         base.Update();
 
-        if (Input.GetKeyDown(KeyCode.E) && !isDash && State != IdleState)
+        if (Input.GetKeyDown(KeyCode.E) && !isDash && State == WasdState)
         {
             State = DashState;
             StartCoroutine(ToDash());
@@ -81,20 +80,17 @@ public class Player : EntityBehaviour
     IEnumerator ToDash()
     {
         //начали dash
-        yield return new WaitForSeconds(DashDistance / DashSpeed);//
+        yield return new WaitForSeconds(DashDistance / DashSpeed);
         State = WasdState;
         yield return new WaitForSeconds(DashReloadTime);
         isDash = false;
-    }
-    public void SetCurse(int stacs)
-    {
-        speedTarget = (1 - stacs / 120f) * speedDefault;
     }
 
     public void ActivatePlayer()
     {
         State = WasdState;
         CameraMoving.target = myTransform;
+        GameController.instance.VignetteIntensity = (float)(allPetrificationStacs + allClumsinessStacs) / Shaman.S_stacs[(int)CurseType.Petrification] / 4f;
         StopCoroutine(FindGoal());
     }
     public void DeactivatePlayer()
@@ -111,7 +107,7 @@ public class Player : EntityBehaviour
             minDistToEnemy = float.MaxValue;
             yield return new WaitForSeconds(0.5f);
 
-            foreach (var enemy in GameController.EnemiesScript)//ищем ближайший дом
+            foreach (var enemy in GameController.EnemiesScript)
             {
                 dist = Vector3.Distance(myTransform.position, enemy.transform.position);
                 if (dist < minDistToEnemy)
@@ -124,22 +120,45 @@ public class Player : EntityBehaviour
         }
     }
 
-    public int SetCurse(CurseType curseType)
+    public int SetCurse(int shamanIdx)
     {
-        if (curseType == CurseType.Petrification){
-            speedTarget = (1f - ++stacsPetrification / (Shaman.S_stacs[(int)curseType] * 3f))*speedDefault;
-            return stacsPetrification;
-        }
-        if (curseType == CurseType.Clumsiness)
+        if (!Stacs.ContainsKey(shamanIdx)) Stacs.Add(shamanIdx, 0);
+        Stacs[shamanIdx] += 1;
+
+
+        print( (State == WasdState) + " " +  ( (float)(allPetrificationStacs + allClumsinessStacs) / Shaman.S_stacs[(int)CurseType.Petrification] / 4f) );
+        if (State == WasdState)
+            GameController.instance.VignetteIntensity = (float)(allPetrificationStacs + allClumsinessStacs) / Shaman.S_stacs[(int)CurseType.Petrification] / 4f;
+
+        switch (GameController.ShamansScript[shamanIdx].curseType)
         {
-            damageCurrent = (1f - ++stacsClumsiness / (Shaman.S_stacs[(int)curseType] * 3f)) * speedDefault;
-            return stacsClumsiness;
+            case CurseType.Petrification:
+                speedTarget = (1f - allPetrificationStacs / (Shaman.S_stacs[(int)CurseType.Petrification] * 3f)) * speedDefault;
+                return Stacs[shamanIdx];
+
+            case CurseType.Clumsiness:
+                damageCurrent = (1f - allClumsinessStacs / (Shaman.S_stacs[(int)CurseType.Clumsiness] * 3f)) * speedDefault;
+                return Stacs[shamanIdx];
         }
         return 0;
     }
 
-    public void ChangeSpeed()
+    public void RemoveCurse(int shamanIdx)
     {
-        speedTarget = speedDefault;
+        if (Stacs.ContainsKey(shamanIdx))
+        {
+            switch (GameController.ShamansScript[shamanIdx].curseType)
+            {
+                case CurseType.Petrification:
+                    allPetrificationStacs -= Stacs[shamanIdx];
+                    speedTarget = speedDefault;
+                    break;
+                case CurseType.Clumsiness:
+                    allClumsinessStacs -= Stacs[shamanIdx];
+                    damageCurrent = speedDefault;
+                    break;
+            }
+            Stacs.Remove(shamanIdx);
+        }
     }
 }

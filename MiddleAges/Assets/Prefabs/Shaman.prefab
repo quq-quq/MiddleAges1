@@ -80,8 +80,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b296a6fcba320e45a44f53e4b9ceabd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myTransform: {fileID: 0}
-  targetSpeed: 8
+  hp: 0
+  speedDefault: 12
   shaman: {fileID: 3466059361609302989}
 --- !u!33 &8296455139210035780
 MeshFilter:
@@ -198,14 +198,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dd244592072e24469b2393cb60d5ee0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myTransform: {fileID: 0}
-  targetSpeed: 12
-  distStopGoingToPlace: 10
-  curseRadius: 25
-  teleportRadius: 5
-  teleportReloadTime: 3
-  Slowling: 0.5
-  movementVector: {x: 0, y: 0, z: 0}
+  hp: 0
+  speedDefault: 12
+  index: 0
+  curseType: 1
   cone: {fileID: 4996630603187997119}
 --- !u!143 &6745744535215060185
 CharacterController:

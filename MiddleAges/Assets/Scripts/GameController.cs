@@ -13,13 +13,15 @@ public class GameController : MonoBehaviour
     [SerializeField] private int lenStep;
 
     public static Vector3[,] WarriorPositions;
+
     public static List<Warrior> WarriorsScript = new ();
     public static List<EntityBehaviour> EnemiesScript = new();
-    public static List<Player> CapitansScripts = new();
-    public static List<House> HousesScripts = new();
+    public static List<Shaman> ShamansScript = new();
+    public static List<Player> CapitansScript = new();
+    public static List<House> HousesScript = new();
 
-    public float VignetteIntensity = 0;
-    private Vignette vignette;
+    [NonSerialized] public float VignetteIntensity = 0;
+    private Vignette Vignette;
 
     private void Awake()
     {
@@ -28,13 +30,18 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         WarriorPositions = new Vector3[WarriorsTeams.Length, WarriorsTeams[0].childCount];
-        CalculateWarriorsPos(0);
-        CalculateWarriorsPos(1);
-        vignette = transform.GetComponentInChildren<PostProcessVolume>().profile.GetSetting<Vignette>();
+        for(int i = 0; i < WarriorsTeams.Length; ++i)
+            CalculateWarriorsPos(i);
+
+        for (int i = 0; i < ShamansScript.Count; ++i) 
+            ShamansScript[i].index = i;
+
+        Vignette = transform.GetChild(0).GetComponent<PostProcessVolume>().profile.GetSetting<Vignette>();
+
         Player.instance.DeactivatePlayer();
-        Player.instance = CapitansScripts[0];
+        Player.instance = CapitansScript[0];
         Player.instance.ActivatePlayer();
-        CameraMoving.target = CapitansScripts[0].transform;
+        CameraMoving.target = CapitansScript[0].transform;
     }
     private void CalculateWarriorsPos(int capitanIdx)
     {
@@ -78,28 +85,27 @@ public class GameController : MonoBehaviour
     }
     private void Update()
     {
-        vignette.intensity.Override(Mathf.Lerp(vignette.intensity, VignetteIntensity, Time.deltaTime*2));
+        Vignette.intensity.Override(Mathf.Lerp(Vignette.intensity, VignetteIntensity, Time.deltaTime * 2));
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Player.instance.DeactivatePlayer();
-            Player.instance = CapitansScripts[0];
+            Player.instance = CapitansScript[0];
             Player.instance.ActivatePlayer();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             Player.instance.DeactivatePlayer();
-            Player.instance = CapitansScripts[1];
+            Player.instance = CapitansScript[1];
             Player.instance.ActivatePlayer();
         }
     }
 
-    public void RemoveCurse()
+    public void RemoveCurse(int shamanIndex)
     {
-        for (int i = 0; i < WarriorsScript.Count; i++)
-            WarriorsScript[i].SlowlingCurse = true;
-        for (int i = 0; i < CapitansScripts.Count; i++)
-            CapitansScripts[i].ChangeSpeed();
-        VignetteIntensity = 0;
+        for (int i = 0; i < WarriorsScript.Count; ++i)
+            WarriorsScript[i].RemoveCurse(shamanIndex);
+        for (int i = 0; i < CapitansScript.Count; ++i)
+            CapitansScript[i].RemoveCurse(shamanIndex);
     }
 
 }

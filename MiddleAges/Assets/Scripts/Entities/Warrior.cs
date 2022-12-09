@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Warrior : EntityBehaviour
@@ -18,7 +17,9 @@ public class Warrior : EntityBehaviour
     private Transform nearestEnemyTransform;
     private bool isAttack = false;
 
-    [System.NonSerialized] public bool SlowlingCurse = true;
+    private int idxClumsinessShaman = 0;
+    private int idxPetrificationShaman = 0;
+    private bool cursePetrification = false;
 
     private void Awake() => GameController.WarriorsScript.Add(this);
     protected override void Start()
@@ -35,7 +36,7 @@ public class Warrior : EntityBehaviour
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-        if (!SlowlingCurse)
+        if (!cursePetrification)
         {
             if (isAttack)
             {
@@ -45,10 +46,10 @@ public class Warrior : EntityBehaviour
             }
             else
             {
-                warriorPos = GameController.CapitansScripts[MyCapitanIndex].MovingAngle * GameController.WarriorPositions[MyCapitanIndex, index] + GameController.CapitansScripts[MyCapitanIndex].myTransform.position;
+                warriorPos = GameController.CapitansScript[MyCapitanIndex].MovingAngle * GameController.WarriorPositions[MyCapitanIndex, index] + GameController.CapitansScript[MyCapitanIndex].myTransform.position;
                 distToPlayer = Vector3.Distance(myTransform.position, warriorPos);
 
-                rotationVector = (Quaternion.Inverse(GameController.CapitansScripts[MyCapitanIndex].MovingAngle) * (myTransform.position - GameController.CapitansScripts[MyCapitanIndex].transform.position)).normalized;//положение война относительно направления движения игрока
+                rotationVector = (Quaternion.Inverse(GameController.CapitansScript[MyCapitanIndex].MovingAngle) * (myTransform.position - GameController.CapitansScript[MyCapitanIndex].transform.position)).normalized;//положение война относительно направления движения игрока
 
                 if (rotationVector.z >= angleToGoOutFromPlayer && distToPlayer < distToRunOutofPlaer)
                 {
@@ -85,14 +86,32 @@ public class Warrior : EntityBehaviour
                 {
                     minDistToEnemy = dist;
                     nearestEnemyTransform = enemy.transform;
-                    isAttack = Vector3.Distance(nearestEnemyTransform.position, GameController.CapitansScripts[MyCapitanIndex].transform.position) < distGoAttack;
+                    isAttack = Vector3.Distance(nearestEnemyTransform.position, GameController.CapitansScript[MyCapitanIndex].transform.position) < distGoAttack;
                 }
             }
         }
     }
 
-    private void SetClumsinessCurse()
+    public void SetCurse(int shamanIdx)
     {
-        damageCurrent = (1f - ++stacsClumsiness / (Shaman.S_stacs[(int)curseType] * 3f)) * speedDefault;
+        switch (GameController.ShamansScript[shamanIdx].curseType)
+        {
+            case CurseType.Petrification:
+                cursePetrification = true;
+                idxPetrificationShaman = shamanIdx;
+                break;
+            case CurseType.Clumsiness:
+                damageCurrent = 0;
+                idxClumsinessShaman = shamanIdx;
+                break;
+        }
+    }
+    public void RemoveCurse(int shamanIdx)
+    {
+        if (idxPetrificationShaman == shamanIdx)
+            cursePetrification = false;
+
+        if (idxClumsinessShaman == shamanIdx)
+            damageCurrent = damageDefault;
     }
 }
