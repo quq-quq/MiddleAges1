@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: 853daecde384f2d439ab17f2861e245a, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 445b60b07fd649442b2cc3f3ce5d8d08, type: 2}
   isGlobal: 1
   blendDistance: 0
   weight: 1
@@ -113,6 +113,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82ee66d0cf5c30646be77551ff6a3f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MagSprite: {fileID: 0}
-  allWarriorsParent: {fileID: 0}
+  StartCapitanIndex: 0
+  WarriorsTeams:
+  - {fileID: 0}
+  - {fileID: 0}
   lenStep: 3
+  VignetteIntensity: 0

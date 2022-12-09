@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EntityBehaviour : MonoBehaviour
@@ -25,10 +27,11 @@ public class EntityBehaviour : MonoBehaviour
         angleToLookAtCamera = (Mathf.Rad2Deg * Mathf.Atan2(x, z) + 360) % 360;
         myTransform.eulerAngles = new Vector3(0, angleToLookAtCamera + 180, 0); //смотрим спиной на камеру
 
-        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime*2f);//плавно меняем скорость
+        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime);//плавно меняем скорость
 
-        controller.Move(Vector3.down * 20 * Time.deltaTime);//гравитация
     }
-
-    public void SetDefaultSpeed() => targetSpeed = currentSpeed;
+    protected virtual void FixedUpdate()
+    {
+        controller.Move(Vector3.down * 10f * Time.deltaTime);//гравитация
+    }
 }

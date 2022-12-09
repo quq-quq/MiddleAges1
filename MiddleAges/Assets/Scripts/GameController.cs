@@ -7,16 +7,19 @@ public class GameController : MonoBehaviour
 {
     public static GameController instance;
 
-    [SerializeField] private Transform allWarriorsParent;
+    public int StartCapitanIndex = 0;
+
+    [SerializeField] private Transform[] WarriorsTeams;
     [SerializeField] private int lenStep;
 
-    [NonSerialized] public Vector3[] WarriorPositions;
-    [NonSerialized] public List<EntityBehaviour> WarriorsScript = new List<EntityBehaviour>();
-    [NonSerialized] public List<EntityBehaviour> EnemiesScript = new List<EntityBehaviour>();
-    [NonSerialized] public List<House> HousesScripts = new List<House>();
+    public static Vector3[,] WarriorPositions;
+    public static List<Warrior> WarriorsScript = new ();
+    public static List<EntityBehaviour> EnemiesScript = new();
+    public static List<Player> CapitansScripts = new();
+    public static List<House> HousesScripts = new();
 
-    [NonSerialized] public Vignette Vignette;
-    [NonSerialized] public float VignetteIntensity;
+    public float VignetteIntensity = 0;
+    private Vignette vignette;
 
     private void Awake()
     {
@@ -24,19 +27,24 @@ public class GameController : MonoBehaviour
     }
     private void Start()
     {
-        CalculateWarriorsPos();
-        Vignette = transform.GetComponentInChildren<PostProcessVolume>().profile.GetSetting<Vignette>();
+        WarriorPositions = new Vector3[WarriorsTeams.Length, WarriorsTeams[0].childCount];
+        CalculateWarriorsPos(0);
+        CalculateWarriorsPos(1);
+        vignette = transform.GetComponentInChildren<PostProcessVolume>().profile.GetSetting<Vignette>();
+        Player.instance.DeactivatePlayer();
+        Player.instance = CapitansScripts[0];
+        Player.instance.ActivatePlayer();
+        CameraMoving.target = CapitansScripts[0].transform;
     }
-    private void CalculateWarriorsPos()
+    private void CalculateWarriorsPos(int capitanIdx)
     {
-        WarriorPositions = new Vector3[allWarriorsParent.childCount];
 
         Vector3 warPos;
         int stepx, stepz, lim;//lim is (max length of warriors's line)/2
 
-        if (allWarriorsParent.childCount > 24)
+        if (WarriorsTeams[capitanIdx].childCount > 24)
             lim = 4;//max is 48 warriors
-        else if (allWarriorsParent.childCount > 8)
+        else if (WarriorsTeams[capitanIdx].childCount > 8)
             lim = 2;
         else
             lim = 1;
@@ -44,13 +52,13 @@ public class GameController : MonoBehaviour
         stepx = -lim * lenStep;
         stepz = -lim * lenStep;
 
-        for (int i = 0; i < allWarriorsParent.childCount; i++)
+        for (int i = 0; i < WarriorsTeams[capitanIdx].childCount; i++)
         {
             warPos = new Vector3(stepx, 0, stepz);
             if (warPos != Vector3.zero)
             {
-                WarriorPositions[i] = warPos;
-                allWarriorsParent.GetChild(i).GetComponent<Warrior>().index = i;
+                WarriorPositions[capitanIdx, i] = warPos;
+                WarriorsTeams[capitanIdx].GetChild(i).GetComponent<Warrior>().index = i;
             }
 
 
@@ -68,22 +76,29 @@ public class GameController : MonoBehaviour
             //this is alright
         }
     }
+    private void Update()
+    {
+        vignette.intensity.Override(Mathf.Lerp(vignette.intensity, VignetteIntensity, Time.deltaTime*2));
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Player.instance.DeactivatePlayer();
+            Player.instance = CapitansScripts[0];
+            Player.instance.ActivatePlayer();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Player.instance.DeactivatePlayer();
+            Player.instance = CapitansScripts[1];
+            Player.instance.ActivatePlayer();
+        }
+    }
 
-    public void OneEntityDie(EntityBehaviour entity)
-    {
-        WarriorsScript.Remove(entity);
-        entity.gameObject.SetActive(false);
-        CalculateWarriorsPos();
-    }
-    private void FixedUpdate()
-    {
-        Vignette.intensity.Override(Mathf.Lerp(Vignette.intensity, VignetteIntensity, Time.fixedDeltaTime*2));
-    }
     public void RemoveCurse()
     {
-        Player.instance.SetDefaultSpeed();
         for (int i = 0; i < WarriorsScript.Count; i++)
-            WarriorsScript[i].SetDefaultSpeed();
+            WarriorsScript[i].isNotPetrified = true;
+        for (int i = 0; i < CapitansScripts.Count; i++)
+            CapitansScripts[i].ChangeSpeed();
         VignetteIntensity = 0;
     }
 
