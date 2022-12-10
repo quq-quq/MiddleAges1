@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class House : EntityBehaviour
 {
-    void Awake()
+    void Start()
     {
         hpCurrent = hpDefault;
         GameController.HousesScript.Add(this);

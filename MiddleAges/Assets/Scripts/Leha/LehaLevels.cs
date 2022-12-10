@@ -20,7 +20,7 @@ public class LehaLevels : MonoBehaviour
 	void ClickButton()
     {
         if(CheckFloor())
-		    Debug.Log ("You have clicked the button!" + btn.name);
+		    Debug.Log ("You have clicked the button! " + btn.name);
 	}
     public bool CheckFloor()
     {
