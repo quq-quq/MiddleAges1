@@ -2096,7 +2096,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Cross
       value: 
-      objectReference: {fileID: 521438909}
+      objectReference: {fileID: 521438907}
     - target: {fileID: 1232199232815539036, guid: 0a1150c8d75db17469b6d973a5d7e166,
         type: 3}
       propertyPath: SpeedImg
@@ -2869,8 +2869,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1556509937}
   - {fileID: 1439467231}
+  - {fileID: 1556509937}
   - {fileID: 2097962379}
   - {fileID: 1163183426}
   m_Father: {fileID: 0}
@@ -3178,7 +3178,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Cross
       value: 
-      objectReference: {fileID: 744904712}
+      objectReference: {fileID: 744904710}
     - target: {fileID: 1232199232815539036, guid: 55e36ed266eb609498374a4ec95d2a17,
         type: 3}
       propertyPath: SpeedImg
@@ -7518,7 +7518,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 612620130}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -8397,7 +8397,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 612620130}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -10627,6 +10627,16 @@ PrefabInstance:
     - target: {fileID: 5924744663576502275, guid: 7d7532e0a33ff0848a073943d443f062,
         type: 3}
       propertyPath: text
+      value: 
+      objectReference: {fileID: 1556509938}
+    - target: {fileID: 5924744663576502275, guid: 7d7532e0a33ff0848a073943d443f062,
+        type: 3}
+      propertyPath: Dieimg
+      value: 
+      objectReference: {fileID: 1439467232}
+    - target: {fileID: 5924744663576502275, guid: 7d7532e0a33ff0848a073943d443f062,
+        type: 3}
+      propertyPath: DieText
       value: 
       objectReference: {fileID: 1556509938}
     - target: {fileID: 5924744663576502275, guid: 7d7532e0a33ff0848a073943d443f062,

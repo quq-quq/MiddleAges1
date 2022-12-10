@@ -27,7 +27,7 @@ public class Player : EntityBehaviour
     [SerializeField] private Scrollbar HealthScrol;
     [SerializeField] private Image SpeedImg;
     [SerializeField] private Scrollbar SpeedScrol;
-    [SerializeField] private Image Cross;
+    [SerializeField] private GameObject Cross;
 
     private delegate void FixedUpdateMethods();
     private FixedUpdateMethods State;
@@ -64,7 +64,7 @@ public class Player : EntityBehaviour
             transform.localScale = new Vector3(startScale, transform.localScale.y, transform.localScale.z);
 
         HealthScrol.value = HealthImg.fillAmount = Mathf.Lerp(HealthScrol.value, (float)hpCurrent / hpDefault, Time.deltaTime);
-        SpeedScrol.value = SpeedImg.fillAmount = Mathf.Lerp(SpeedScrol.value, speedCurrent / speedDefault, Time.deltaTime);
+        if(hpCurrent != 0) SpeedScrol.value = SpeedImg.fillAmount = Mathf.Lerp(SpeedScrol.value, speedCurrent / speedDefault, Time.deltaTime);
 
     }
     private void FixedUpdate()
@@ -194,15 +194,14 @@ public class Player : EntityBehaviour
     }
     public override void Die()
     {
-        speedCurrent = 0;
-        HealthScrol.value = HealthImg.fillAmount = 0;
-        SpeedScrol.value = SpeedImg.fillAmount = 0;
-        Cross.enabled = true;
+        speedCurrent = hpCurrent = 0;
+        SpeedScrol.value = HealthScrol.value = HealthImg.fillAmount = SpeedImg.fillAmount = 0;
+        Cross.SetActive(true);
         GameController.PlayersScript.Remove(this);
         GameController.instance.PlayerDie();
         StopAllCoroutines();
         myTransform.GetComponent<SpriteRenderer>().enabled = false;
-        myTransform.GetComponentInChildren<SpriteRenderer>().enabled = false;
+        myTransform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
         Destroy(gameObject, courotineTime + 0.1f);
     }
 }
