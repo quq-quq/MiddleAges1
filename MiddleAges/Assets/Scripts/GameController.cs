@@ -117,8 +117,6 @@ public class GameController : MonoBehaviour
         Camera.main.backgroundColor = Color.Lerp(Camera.main.backgroundColor, new Color(0, 0, 0, 1), Time.deltaTime);
         DieText.color = Color.Lerp(DieText.color, Color.red, Time.deltaTime);
         Dieimg.color = Color.Lerp(Dieimg.color, Color.black, Time.deltaTime);
-
-
     }
 
     public void RemoveCurse(int shamanIndex)
