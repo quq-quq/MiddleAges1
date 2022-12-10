@@ -22,53 +22,59 @@ public class Warrior : EntityBehaviour
     private bool cursePetrification = false;
 
     private void Awake() => GameController.WarriorsScript.Add(this);
-    protected override void Start()
+    private void Start()
     {
-        base.Start();
+        BaseStart();
         StartCoroutine(FindGoal());
     }
-    protected override void Update() => base.Update();
+    private void Update() => BaseUpdate();
 
-
-    private Vector3 movementVector, warriorPos;
+    private Vector3 warriorPos;
     private Vector3 rotationVector;
     private float distToPlayer;
-    protected override void FixedUpdate()
+    private void FixedUpdate()
     {
-        base.FixedUpdate();
         if (!cursePetrification)
         {
             if (isAttack)
             {
-                movementVector = (nearestEnemyTransform.position - myTransform.position).normalized;
-                movementVector.y = 0;
-                controller.Move(movementVector * speedCurrent * Time.fixedDeltaTime);
+                if (Vector3.Distance(nearestEnemyTransform.position, myTransform.position) < weapon.radiusAttack)
+                {
+                    movementVector = Vector3.zero;
+                    weapon.Attack();
+                }
+                else
+                    movementVector = (nearestEnemyTransform.position - myTransform.position).normalized;
             }
             else
             {
-                warriorPos = GameController.CapitansScript[MyCapitanIndex].MovingAngle * GameController.WarriorPositions[MyCapitanIndex, index] + GameController.CapitansScript[MyCapitanIndex].myTransform.position;
-                distToPlayer = Vector3.Distance(myTransform.position, warriorPos);
+                warriorPos = GameController.PlayersScript[MyCapitanIndex].MovingAngle *
+                    GameController.WarriorPositions[MyCapitanIndex][index] + GameController.PlayersScript[MyCapitanIndex].myTransform.position;
 
-                rotationVector = (Quaternion.Inverse(GameController.CapitansScript[MyCapitanIndex].MovingAngle) * (myTransform.position - GameController.CapitansScript[MyCapitanIndex].transform.position)).normalized;//положение война относительно направления движения игрока
+                distToPlayer = Vector3.Distance(myTransform.position, warriorPos);
+                rotationVector = (Quaternion.Inverse(GameController.PlayersScript[MyCapitanIndex].MovingAngle) *
+                    (myTransform.position - GameController.PlayersScript[MyCapitanIndex].transform.position)).normalized;//положение война относительно направления движения игрока
 
                 if (rotationVector.z >= angleToGoOutFromPlayer && distToPlayer < distToRunOutofPlaer)
                 {
                     movementVector = Vector3.Lerp(movementVector, myTransform.rotation * Vector3.right + Player.instance.movementVector, Time.fixedDeltaTime);
-
                     if (rotationVector.x >= 0) movementVector.x *= -1;
-
-                    movementVector.y = 0;
-                    controller.Move(movementVector * speedCurrent * Time.deltaTime);
-
                 }
                 else if (distToPlayer >= distStopGoingToPlace)//бежим к своему месту если мы слишком далеко от него
-                {
                     movementVector = (warriorPos - myTransform.position).normalized;
-                    movementVector.y = 0;
-                    controller.Move(movementVector * speedCurrent * Time.deltaTime);
-                }
+                else
+                    movementVector = Vector3.zero;
             }
         }
+
+        anim.SetBool("IsRunning", movementVector * speedCurrent != Vector3.zero);
+        BaseFixedUpdate();
+
+        if (myTransform.InverseTransformDirection(movementVector).x < -0.1f)
+            transform.localScale = new Vector3(-startScale, transform.localScale.y, transform.localScale.z);
+        else if (myTransform.InverseTransformDirection(movementVector).x > 0.1f)
+            transform.localScale = new Vector3(startScale, transform.localScale.y, transform.localScale.z);
+
     }
 
     private IEnumerator FindGoal()
@@ -79,6 +85,7 @@ public class Warrior : EntityBehaviour
             minDistToEnemy = float.MaxValue;
             yield return new WaitForSeconds(0.5f);
 
+            if (GameController.EnemiesScript.Count == 0) isAttack = false;
             foreach (var enemy in GameController.EnemiesScript)//ищем ближайший дом
             {
                 dist = Vector3.Distance(myTransform.position, enemy.transform.position);
@@ -86,7 +93,8 @@ public class Warrior : EntityBehaviour
                 {
                     minDistToEnemy = dist;
                     nearestEnemyTransform = enemy.transform;
-                    isAttack = Vector3.Distance(nearestEnemyTransform.position, GameController.CapitansScript[MyCapitanIndex].transform.position) < distGoAttack;
+                    weapon.AttackTransform = nearestEnemyTransform;
+                    isAttack = MyCapitanIndex >= GameController.PlayersScript.Count || Vector3.Distance(nearestEnemyTransform.position, GameController.PlayersScript[MyCapitanIndex].transform.position) < distGoAttack;
                 }
             }
         }
@@ -97,21 +105,42 @@ public class Warrior : EntityBehaviour
         switch (GameController.ShamansScript[shamanIdx].curseType)
         {
             case CurseType.Petrification:
-                cursePetrification = true;
+
                 idxPetrificationShaman = shamanIdx;
+                speedTarget = 0f;
+                cursePetrification = true;
+
+                anim.speed = 0f;
+                gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
+                transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
                 break;
             case CurseType.Clumsiness:
-                damageCurrent = 0;
                 idxClumsinessShaman = shamanIdx;
+                weapon.damage = 0;
                 break;
         }
     }
     public void RemoveCurse(int shamanIdx)
     {
         if (idxPetrificationShaman == shamanIdx)
+        {
             cursePetrification = false;
+            speedTarget = speedDefault;
+            anim.speed = 1f;
+            gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        }
 
-        if (idxClumsinessShaman == shamanIdx)
-            damageCurrent = damageDefault;
+        if (idxClumsinessShaman == shamanIdx) 
+            weapon.damage = weapon.damageDefault;
+    }
+
+    public override void Die()
+    {
+        GameController.WarriorsScript.Remove(this);
+        GameController.instance.CalculateWarriorsPos(MyCapitanIndex);
+        StopAllCoroutines();
+        weapon.GetComponent<SpriteRenderer>().enabled = false;
+        myTransform.GetComponent<SpriteRenderer>().enabled = false;
+        Destroy(gameObject, courotineTime+0.1f);
     }
 }

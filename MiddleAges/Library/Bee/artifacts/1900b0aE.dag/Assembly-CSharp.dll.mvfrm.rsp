@@ -1,3 +1,16 @@
+Library\Bee\artifacts\mvdfrm\Unity.2D.Animation.Editor.ref.dll_A13BD6459BB26E0B.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.2D.Animation.Runtime.ref.dll_6747672A37E369F0.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.2D.Common.Editor.ref.dll_BD59A5CBF9D52B22.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.2D.Common.Runtime.ref.dll_77798F371487C3E9.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.2D.IK.Editor.ref.dll_F60355C05B38283B.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.2D.IK.Runtime.ref.dll_16F22BA31A1D34C0.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.2D.Sprite.Editor.ref.dll_DDBAA27A82CE9E28.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Burst.Editor.ref.dll_E2F92DAB6C167CC9.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Burst.ref.dll_F30DFA20C0DD1968.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.InternalAPIEditorBridge.001.ref.dll_C275F416F58A86FE.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.InternalAPIEngineBridge.001.ref.dll_B4F0ACC15A996E43.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Mathematics.Editor.ref.dll_9A20CFD48BC11F43.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Mathematics.ref.dll_E8EFDB1B8D5C174E.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.PlasticSCM.Editor.ref.dll_257AEB342BE77856.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.Postprocessing.Editor.ref.dll_1C9CD17610FFA3F0.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.Postprocessing.Runtime.ref.dll_3152B6A9836FBF3B.mvfrm
@@ -95,3 +108,8 @@ Library\Bee\artifacts\mvdfrm\UnityEngine.VirtualTexturingModule.dll_E01A58A4E774
 Library\Bee\artifacts\mvdfrm\UnityEngine.VRModule.dll_88438EC61A9111B7.mvfrm
 Library\Bee\artifacts\mvdfrm\UnityEngine.WindModule.dll_CD0F863FC285AFB3.mvfrm
 Library\Bee\artifacts\mvdfrm\UnityEngine.XRModule.dll_BB0251CAA3CB5F15.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Burst.Cecil.dll_8D451A09C86F0232.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Burst.Cecil.Mdb.dll_F347459E49E041EF.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Burst.Cecil.Pdb.dll_0A99BE0DC8954372.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Burst.Cecil.Rocks.dll_BF20307DEC2A85D2.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Burst.Unsafe.dll_B012885AE40C12C1.mvfrm

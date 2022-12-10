@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 1184740678399856460}
   - component: {fileID: 4103246476714722189}
   - component: {fileID: 1697688426517111755}
-  - component: {fileID: 3546669071819130386}
   - component: {fileID: 1888897699627555510}
-  m_Layer: 0
+  - component: {fileID: 3546669071819130386}
+  m_Layer: 7
   m_Name: Small House
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,6 +89,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1888897699627555510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2252951027628121667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0aaf68a016fafb4897b62cdc7622a40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 0
+  speedDefault: 12
 --- !u!64 &3546669071819130386
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -103,18 +117,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 3613488240995653424, guid: 3578c3dd44cd39a47ab36a39530a54ff, type: 3}
---- !u!114 &1888897699627555510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2252951027628121667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0aaf68a016fafb4897b62cdc7622a40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5176759596338701981
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,7 +128,7 @@ GameObject:
   - component: {fileID: 2352163505998972173}
   - component: {fileID: 2307628729860684026}
   - component: {fileID: 327632308533918180}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Steam
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -7,63 +7,79 @@ public class Shaman : EntityBehaviour
 
     //0 элемент — количество S стаков для проклятья окаменения
     //1 элемент — количество S стаков для проклятья неуклюжести(снижение урона) 
-    public static int[] S_stacs = { 10, 10 };
-    [System.NonSerialized] public int index = 0;
+    public static int[] S_stacs = { 20, 20 };
+    //[System.NonSerialized] 
+    public int index = 0;
 
-    public readonly float curseRadius = 15f;                             //радиус проклятья
-    public CurseType curseType = CurseType.Petrification;       //тип проклятья
-    [SerializeField] private const float teleportRadius = 5f;         //радиус на котором мы тпшимся от игрока
-    [SerializeField] private const float teleportReloadTime = 3f;     //"перезарядка" телепорта
+    public float curseRadius = 15f;                          //радиус проклятья
+    public CurseType curseType = CurseType.Petrification;             //тип проклятья
+    [SerializeField] private float teleportRadius = 5f;         //радиус на котором мы тпшимся от игрока
+    [SerializeField] private float teleportReloadTime = 3f;     //"перезарядка" телепорта
 
 
     private Transform playerTransform;
     private bool isPlayerInCureZone = false;
     [SerializeField] private GameObject cone;
 
-
-    [System.NonSerialized] public Vector3 movementVector = Vector3.zero;
     private Vector3 randomMovementVector = Vector3.zero;
 
     private delegate void FixedUpdateMethods();
-    private FixedUpdateMethods fixedUpdate;
+    private FixedUpdateMethods State;
 
-    private void Awake() => GameController.ShamansScript.Add(this);
-    protected override void Start()
+    private void Awake()
     {
-        playerTransform = GameController.CapitansScript[0].transform;
-        base.Start();
-        fixedUpdate = GoToEnemy;
+        index = GameController.ShamansScript.Count;
+        GameController.ShamansScript.Add(this);
+    }
+    private void Start()
+    {
+        BaseStart();
+        playerTransform = GameController.PlayersScript[0].transform;
+        State = GoToEnemyState;
         StartCoroutine(SettingCurse());
         StartCoroutine(Teleporting());
         StartCoroutine(FindNearestEnemy());
         StartCoroutine(RandomMoving());
     }
-
-    protected override void Update() { base.Update(); }
-
-    protected override void FixedUpdate()
+    private void Update() => BaseUpdate();
+    private void FixedUpdate()
     {
-        base.FixedUpdate();
-        fixedUpdate();
+        State(); 
+        BaseFixedUpdate();
+
+        if ((movementVector.z > 0 && movementVector.x > 0) || (movementVector.z > 0 && movementVector.x < 0))
+            transform.localScale = new Vector3(-startScale, transform.localScale.y, transform.localScale.z);
+        else
+            transform.localScale = new Vector3(startScale, transform.localScale.y, transform.localScale.z);
     }
 
-    private void PlayerInCurseZone()
+    private void PlayerInCurseZoneState()
     {
-        if (Vector3.Distance(playerTransform.position, myTransform.position) >= curseRadius - 2)
+        // Если игрок убежал от нас, мы бежим за ним, иначе рандомно бегаем рядом
+        if (Vector3.Distance(playerTransform.position, myTransform.position) >= curseRadius)
             movementVector = (playerTransform.position - myTransform.position).normalized;
         else
             movementVector = Vector3.Lerp(movementVector, randomMovementVector, Time.fixedDeltaTime);
-
-        movementVector.y = 0;
-        controller.Move(movementVector * speedCurrent * Time.deltaTime);
     }
+    private void GoToEnemyState()
+    {
+        // бежим за ближайшим врагом
+        if (Vector3.Distance(myTransform.position, NearestEnemyTransform.position) > distStopGoingToPlace)
+            movementVector = (NearestEnemyTransform.position - myTransform.position).normalized;
+    }
+    private void DieState()
+    {
+        myTransform.GetChild(0).transform.position += Vector3.down*Time.fixedDeltaTime*5;
+    }
+
+
     private IEnumerator RandomMoving()
     {
         yield return new WaitUntil(() => isPlayerInCureZone);
         while (true)
         {
             randomMovementVector = Random.insideUnitSphere.normalized;
-            yield return new WaitForSeconds(Random.Range(1f, 5f));
+            yield return new WaitForSeconds(Random.Range(1f, 5f));  
         }
     }
 
@@ -71,12 +87,11 @@ public class Shaman : EntityBehaviour
     private IEnumerator FindNearestEnemy()
     {
         float dist, minDist = float.MaxValue;
-        NearestEnemyTransform = Player.instance.transform;//чтобы было за кем бежать первое время, иначе ошибка вылазит
         while (!isPlayerInCureZone)
         {
-            yield return new WaitForSeconds(1);
-
-            foreach(var enemy in GameController.EnemiesScript)
+            NearestEnemyTransform = Player.instance.transform;
+            yield return new WaitForSeconds(courotineTime);
+            foreach (var enemy in GameController.EnemiesScript)
             {
                 dist = Vector3.Distance(myTransform.position, enemy.myTransform.position);
                 if (dist < minDist)
@@ -87,21 +102,15 @@ public class Shaman : EntityBehaviour
             }
         }
     }
-    private void GoToEnemy()
-    {
-        if (Vector3.Distance(myTransform.position, NearestEnemyTransform.position) > distStopGoingToPlace)
-        {
-            movementVector = (NearestEnemyTransform.position - myTransform.position).normalized;
-            movementVector.y = 0;
-            controller.Move(movementVector * speedCurrent * Time.deltaTime);
-        }
-    }
+
 
     private IEnumerator SettingCurse()
     {
         int stacs;
         while (true)
         {
+            yield return new WaitForSeconds(courotineTime);
+
             Collider[] warriorsInZone = Physics.OverlapSphere(myTransform.position, curseRadius, 8); //все кто попал в окружность на слое войнов
             for (int i = 0; i < warriorsInZone.Length; ++i)
             {
@@ -111,18 +120,20 @@ public class Shaman : EntityBehaviour
                     {
                         playerTransform = warriorsInZone[i].transform;
                         isPlayerInCureZone = true;
-                        fixedUpdate = PlayerInCurseZone;
+                        State = PlayerInCurseZoneState;
                         cone.SetActive(true);
                     }
                     stacs = warriorsInZone[i].GetComponent<Player>().SetCurse(index);
 
                     if (stacs == S_stacs[(int)curseType])//при достижении S стаков
                     {
-                        myTransform.GetComponent<SpriteRenderer>().sprite = null;
                         cone.GetComponent<MeshRenderer>().enabled = false;
-                    }
-                    else if (stacs == S_stacs[(int)curseType] * 2) //при достижении 2 S стаков
+                        myTransform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+                        myTransform.GetComponent<SpriteRenderer>().enabled = false;
+                    } 
+                    else if (stacs == S_stacs[(int)curseType] * 2)//при достижении 2 S стаков
                     {
+                        GameController.instance.VignetteIntensity = 0;
                     }
 
                 }
@@ -130,11 +141,8 @@ public class Shaman : EntityBehaviour
                     warriorsInZone[i].GetComponent<Warrior>().SetCurse(index);
                 
             }
-            
-            yield return new WaitForSeconds(0.5f);
         }
     }
-
     private IEnumerator Teleporting()
     {
         while (true)
@@ -162,15 +170,18 @@ public class Shaman : EntityBehaviour
             Teleport();
         }
     }
-    private void DieFixedUpdate()
+    public override void Die()
     {
-        myTransform.GetChild(0).transform.position += Vector3.down*Time.fixedDeltaTime*5;
-    }
-    public void Die()
-    {
+        GameController.instance.RemoveCurse(index);
+        GameController.ShamansScript.Remove(this);
+
         StopAllCoroutines();
-        fixedUpdate = DieFixedUpdate;
-        myTransform.GetComponent<SpriteRenderer>().sprite = null;
+        movementVector = Vector3.zero;
+        State = DieState;
+
+        myTransform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+        myTransform.GetComponent<SpriteRenderer>().enabled = false;
+
         Destroy(cone);
         Destroy(myTransform.parent.gameObject, 5f);
     }

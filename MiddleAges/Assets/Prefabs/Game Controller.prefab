@@ -101,6 +101,16 @@ MonoBehaviour:
   treeInGrassShance: 0.001
   treeCircleWide: 100
   treeSpacing: 7
+  enemiesObj:
+  - {fileID: 8269456464607238783, guid: e8bc4bd58149a6a4192c74fa5b9553be, type: 3}
+  - {fileID: 8269456464607238783, guid: e8bc4bd58149a6a4192c74fa5b9553be, type: 3}
+  - {fileID: 8269456464607238783, guid: e8bc4bd58149a6a4192c74fa5b9553be, type: 3}
+  - {fileID: 8269456464607238783, guid: e8bc4bd58149a6a4192c74fa5b9553be, type: 3}
+  - {fileID: 8269456464607238783, guid: e8bc4bd58149a6a4192c74fa5b9553be, type: 3}
+  - {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015, type: 3}
+  - {fileID: 4365413369635650555, guid: c0fae654d8d92b24dbf08dda5b9c8169, type: 3}
+  countAllEnemiesSpawn: 50
+  intervalSpawn: 60
 --- !u!114 &5924744663576502275
 MonoBehaviour:
   m_ObjectHideFlags: 0

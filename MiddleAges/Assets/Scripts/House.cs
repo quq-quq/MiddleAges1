@@ -1,10 +1,16 @@
 using UnityEngine;
 
-public class House : MonoBehaviour
+public class House : EntityBehaviour
 {
-    void Start()
+    void Awake()
     {
+        hpCurrent = hpDefault;
         GameController.HousesScript.Add(this);
     }
-
+    public override void Die()
+    {
+        GameController.HousesScript.Remove(this);
+        gameObject.SetActive(false);
+        Destroy(gameObject, courotineTime + 0.1f);
+    }
 }

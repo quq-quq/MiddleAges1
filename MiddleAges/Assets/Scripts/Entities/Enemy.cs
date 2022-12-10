@@ -3,28 +3,39 @@ using UnityEngine;
 
 public class Enemy : EntityBehaviour
 {
-    private delegate void FixedUpdateMethods();
-    private FixedUpdateMethods fixedUpdate;
 
-    private Vector3 movementVector;
+    private delegate void FixedUpdateMethods();
+    private FixedUpdateMethods State;
 
     private void Awake() => GameController.EnemiesScript.Add(this);
-    protected override void Start()
+    void Start()
     {
-        base.Start();
-        fixedUpdate = GoToPlayerTeam;
+        BaseStart();
+        State = GoToPlayerTeamState;
         StartCoroutine(FindGoal());
     }
+    private void Update() => BaseUpdate();
 
-
-    protected override void Update() { base.Update(); }
-    protected override void FixedUpdate()
+    void FixedUpdate()
     {
-        base.FixedUpdate();
-        fixedUpdate();
-        controller.Move(movementVector * speedCurrent * Time.deltaTime);
-    }
+        State();
+        BaseFixedUpdate();
 
+        if (CameraMoving.CamTransform.rotation.y > -90 && CameraMoving.CamTransform.rotation.y < 90)
+        {
+            if ((movementVector.z > 0 && movementVector.x > 0) || (movementVector.z > 0 && movementVector.x < 0))
+                transform.localScale = new Vector3(-startScale, transform.localScale.y, transform.localScale.z);
+            else
+                transform.localScale = new Vector3(startScale, transform.localScale.y, transform.localScale.z);
+        }
+        else
+        {
+            if ((movementVector.z > 0 && movementVector.x > 0) || (movementVector.z > 0 && movementVector.x < 0))
+                transform.localScale = new Vector3(startScale, transform.localScale.y, transform.localScale.z);
+            else
+                transform.localScale = new Vector3(-startScale, transform.localScale.y, transform.localScale.z);
+        }
+    }
 
     private Transform nearestHouseTransform;
     private Transform nearestWarriorTransform;
@@ -37,7 +48,7 @@ public class Enemy : EntityBehaviour
             minDistToHouse = float.MaxValue;
             nearestPlayer = float.MaxValue;
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(courotineTime);
 
             foreach (var house in GameController.HousesScript)//ищем ближайший дом
             {
@@ -48,21 +59,31 @@ public class Enemy : EntityBehaviour
                     nearestHouseTransform = house.transform;
                 }
             }
-            foreach (var player in GameController.CapitansScript)
+            foreach (var player in GameController.PlayersScript)
                 nearestPlayer = Mathf.Min(nearestPlayer, Vector3.Distance(myTransform.position, player.myTransform.position));
-            
+
             if (nearestPlayer < minDistToHouse)//если игрок ближе чем ближайший дом то идем к ближайшему войну
-                fixedUpdate = GoToPlayerTeam;
+            {
+                State = GoToPlayerTeamState;
+            }
+            else if (minDistToHouse != float.MaxValue)
+            {
+                State = GoToHomeState;
+                weapon.AttackTransform = nearestHouseTransform;
+            }
             else
-                fixedUpdate = GoToHome;
+            {
+                State = null;
+                weapon.AttackTransform = null;
+            }
         }
     }
     private float minDistToWarrior, dist;
-    private void GoToPlayerTeam()
+    private void GoToPlayerTeamState()
     {
         minDistToWarrior = float.MaxValue;
         nearestWarriorTransform = Player.instance.myTransform;
-        foreach (var Player in GameController.CapitansScript)
+        foreach (var Player in GameController.PlayersScript)
         {
             dist = Vector3.Distance(myTransform.position, Player.myTransform.position);
             if (dist < minDistToWarrior)
@@ -80,9 +101,33 @@ public class Enemy : EntityBehaviour
                 nearestWarriorTransform = warrior.myTransform;
             }
         }
-        
-        movementVector = (nearestWarriorTransform.position - myTransform.position).normalized;
-    }
-    private void GoToHome() => movementVector = (nearestHouseTransform.position - myTransform.position).normalized;
 
+        if (minDistToWarrior < weapon.radiusAttack)
+        {
+            movementVector = Vector3.zero;
+            weapon.AttackTransform = nearestWarriorTransform;
+            weapon.Attack();
+        }
+        else
+            movementVector = (nearestWarriorTransform.position - myTransform.position).normalized;
+    }
+    private void GoToHomeState()
+    {
+        if (Physics.OverlapSphere(myTransform.position, 1.5f, 1 << 7).Length > 0)
+        {
+            movementVector = Vector3.zero;
+            weapon.Attack();
+        }
+        else
+            movementVector = (nearestHouseTransform.position - myTransform.position).normalized;
+    }
+    public override void Die()
+    {
+        print("EnemyDie");
+        StopAllCoroutines();
+        GameController.EnemiesScript.Remove(this);
+        weapon.GetComponent<SpriteRenderer>().enabled = false;
+        myTransform.GetComponent<SpriteRenderer>().enabled = false;
+        Destroy(gameObject, courotineTime + 0.1f);
+    }
 }
