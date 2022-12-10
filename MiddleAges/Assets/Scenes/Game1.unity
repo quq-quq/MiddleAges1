@@ -8520,16 +8520,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5924744663576502275, guid: 7d7532e0a33ff0848a073943d443f062,
         type: 3}
-      propertyPath: img
-      value: 
-      objectReference: {fileID: 1439467232}
-    - target: {fileID: 5924744663576502275, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: text
-      value: 
-      objectReference: {fileID: 1556509938}
-    - target: {fileID: 5924744663576502275, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
       propertyPath: Dieimg
       value: 
       objectReference: {fileID: 1439467232}
@@ -8553,81 +8543,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Controller
       objectReference: {fileID: 0}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: intervalSpawn
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: countAllEnemiesSpawn
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: enemiesObj.Array.size
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: enemiesObj.Array.data[6]
-      value: 
-      objectReference: {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015,
-        type: 3}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: enemiesObj.Array.data[7]
-      value: 
-      objectReference: {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015,
-        type: 3}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: enemiesObj.Array.data[8]
-      value: 
-      objectReference: {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015,
-        type: 3}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: enemiesObj.Array.data[9]
-      value: 
-      objectReference: {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015,
-        type: 3}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: enemiesObj.Array.data[10]
-      value: 
-      objectReference: {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015,
-        type: 3}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: enemiesObj.Array.data[11]
-      value: 
-      objectReference: {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015,
-        type: 3}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: enemiesObj.Array.data[12]
-      value: 
-      objectReference: {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015,
-        type: 3}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: enemiesObj.Array.data[13]
-      value: 
-      objectReference: {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015,
-        type: 3}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: enemiesObj.Array.data[14]
-      value: 
-      objectReference: {fileID: 4365413369635650555, guid: 76b0ce9cca3e18b4ab21db3dfc0538bb,
-        type: 3}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: enemiesObj.Array.data[15]
-      value: 
-      objectReference: {fileID: 4365413369635650555, guid: c0fae654d8d92b24dbf08dda5b9c8169,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d7532e0a33ff0848a073943d443f062, type: 3}
 --- !u!1001 &6262639102191443979
@@ -8641,11 +8556,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Main Camera
-      objectReference: {fileID: 0}
-    - target: {fileID: 6262639102080748926, guid: 3dda17603e037344689f0dcae78a1288,
-        type: 3}
-      propertyPath: target
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6262639102080748927, guid: 3dda17603e037344689f0dcae78a1288,
         type: 3}

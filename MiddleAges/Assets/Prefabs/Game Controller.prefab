@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 5924744663576502274}
   - component: {fileID: 5924744663576502285}
   - component: {fileID: 5924744663576502275}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Game Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,9 +108,18 @@ MonoBehaviour:
   - {fileID: 8269456464607238783, guid: e8bc4bd58149a6a4192c74fa5b9553be, type: 3}
   - {fileID: 8269456464607238783, guid: e8bc4bd58149a6a4192c74fa5b9553be, type: 3}
   - {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015, type: 3}
+  - {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015, type: 3}
+  - {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015, type: 3}
+  - {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015, type: 3}
+  - {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015, type: 3}
+  - {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015, type: 3}
+  - {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015, type: 3}
+  - {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015, type: 3}
+  - {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015, type: 3}
+  - {fileID: 4365413369635650555, guid: 76b0ce9cca3e18b4ab21db3dfc0538bb, type: 3}
   - {fileID: 4365413369635650555, guid: c0fae654d8d92b24dbf08dda5b9c8169, type: 3}
-  countAllEnemiesSpawn: 50
-  intervalSpawn: 60
+  countAllEnemiesSpawn: 2
+  intervalSpawn: 1
 --- !u!114 &5924744663576502275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,6 +133,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartCapitanIndex: 0
+  DieText: {fileID: 0}
+  Dieimg: {fileID: 0}
   WarriorsTeams:
   - {fileID: 0}
   - {fileID: 0}
