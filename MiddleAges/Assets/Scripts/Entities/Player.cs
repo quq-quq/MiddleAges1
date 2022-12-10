@@ -91,7 +91,7 @@ public class Player : EntityBehaviour
         State = WasdState;
         CameraMoving.target = myTransform;
         GameController.instance.VignetteIntensity =
-            Mathf.Clamp((allPetrificationStacs + allClumsinessStacs) / (float)(Shaman.S_stacs[1] + Shaman.S_stacs[0]), 0, 0.5f);
+            Mathf.Lerp(0, 0.75f, (allPetrificationStacs + allClumsinessStacs) / (float)(Shaman.S_stacs[1] + Shaman.S_stacs[0]));
         StopCoroutine(FindGoal());
     }
     public void DeactivatePlayer()
@@ -129,7 +129,7 @@ public class Player : EntityBehaviour
 
         if (State == WasdState)
             GameController.instance.VignetteIntensity =
-                Mathf.Clamp((allPetrificationStacs + allClumsinessStacs) / (float)(Shaman.S_stacs[1] + Shaman.S_stacs[0]), 0, 0.5f);
+                Mathf.Lerp(0, 0.75f, (allPetrificationStacs + allClumsinessStacs) / (float)(Shaman.S_stacs[1] + Shaman.S_stacs[0]));
 
         switch (GameController.ShamansScript[shamanIdx].curseType)
         {
