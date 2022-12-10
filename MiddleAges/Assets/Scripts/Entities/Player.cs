@@ -90,7 +90,8 @@ public class Player : EntityBehaviour
     {
         State = WasdState;
         CameraMoving.target = myTransform;
-        GameController.instance.VignetteIntensity = (float)(allPetrificationStacs + allClumsinessStacs) / Shaman.S_stacs[(int)CurseType.Petrification] / 4f;
+        GameController.instance.VignetteIntensity =
+            Mathf.Clamp((allPetrificationStacs + allClumsinessStacs) / (float)(Shaman.S_stacs[1] + Shaman.S_stacs[0]), 0, 0.5f);
         StopCoroutine(FindGoal());
     }
     public void DeactivatePlayer()
@@ -126,18 +127,20 @@ public class Player : EntityBehaviour
         Stacs[shamanIdx] += 1;
 
 
-        print( (State == WasdState) + " " +  ( (float)(allPetrificationStacs + allClumsinessStacs) / Shaman.S_stacs[(int)CurseType.Petrification] / 4f) );
         if (State == WasdState)
-            GameController.instance.VignetteIntensity = (float)(allPetrificationStacs + allClumsinessStacs) / Shaman.S_stacs[(int)CurseType.Petrification] / 4f;
+            GameController.instance.VignetteIntensity =
+                Mathf.Clamp((allPetrificationStacs + allClumsinessStacs) / (float)(Shaman.S_stacs[1] + Shaman.S_stacs[0]), 0, 0.5f);
 
         switch (GameController.ShamansScript[shamanIdx].curseType)
         {
             case CurseType.Petrification:
-                speedTarget = (1f - allPetrificationStacs / (Shaman.S_stacs[(int)CurseType.Petrification] * 3f)) * speedDefault;
+                allPetrificationStacs += 1;
+                speedTarget = Mathf.Clamp(1f - allPetrificationStacs / (Shaman.S_stacs[(int)CurseType.Petrification] * 3f), 0, 1) * speedDefault;
                 return Stacs[shamanIdx];
 
             case CurseType.Clumsiness:
-                damageCurrent = (1f - allClumsinessStacs / (Shaman.S_stacs[(int)CurseType.Clumsiness] * 3f)) * speedDefault;
+                allClumsinessStacs += 1;
+                damageCurrent = Mathf.Clamp(1f - allClumsinessStacs / (Shaman.S_stacs[(int)CurseType.Clumsiness] * 3f), 0, 1) * speedDefault;
                 return Stacs[shamanIdx];
         }
         return 0;
