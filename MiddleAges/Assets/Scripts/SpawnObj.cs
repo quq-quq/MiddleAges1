@@ -32,21 +32,20 @@ public class SpawnObj : MonoBehaviour
     {
         for (int i = 0; i < countAllEnemiesSpawn; i++)
         {
-            SpawnEnemy();
-            yield return new WaitForSeconds(intervalSpawn);
-        }
-    }
-    void SpawnEnemy()
-    {
-        Vector3 spawnPos = Vector3.zero;
-        spawnPos.y = 5;
-        foreach (var enemy in enemiesObj)
-        {
+            yield return new WaitForSeconds(5);
             Vector2 randCircle = Random.insideUnitCircle.normalized;
-            spawnPos.x = randCircle.x * (grassSpawnRadius + grassCircleWide) + Random.Range(1, 5f);
-            spawnPos.z = randCircle.y * (grassSpawnRadius + grassCircleWide) + Random.Range(1, 5f);
-
-            Instantiate(enemy, spawnPos, transform.rotation);
+            Vector3 SpawnPoint = Vector3.zero;
+            SpawnPoint.x = randCircle.x * (grassSpawnRadius + grassCircleWide + 10) + Random.Range(1, 5f);
+            SpawnPoint.z = randCircle.y * (grassSpawnRadius + grassCircleWide + 10) + Random.Range(1, 5f);
+            foreach (var enemy in enemiesObj)
+            {
+                Vector3 spawnPos = new Vector3(SpawnPoint.x + Random.Range(0, 10f), 5, SpawnPoint.z + Random.Range(0, 10f));
+                Instantiate(enemy, spawnPos, transform.rotation);
+            }
+            if (i % 2 == 0)
+                yield return new WaitForSeconds(5); 
+            else
+                yield return new WaitUntil(() => (GameController.EnemiesScript.Count == 0));
         }
     }
 

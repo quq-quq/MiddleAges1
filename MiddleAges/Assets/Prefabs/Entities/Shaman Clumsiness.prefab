@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b296a6fcba320e45a44f53e4b9ceabd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
+  hpDefault: 0
   speedDefault: 12
   shaman: {fileID: 3466059361609302989}
 --- !u!23 &5884572361031962499
@@ -213,8 +213,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dd244592072e24469b2393cb60d5ee0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 1000
-  speedDefault: 10
+  hpDefault: 0
+  speedDefault: 8
   index: 0
   curseRadius: 25
   curseType: 1

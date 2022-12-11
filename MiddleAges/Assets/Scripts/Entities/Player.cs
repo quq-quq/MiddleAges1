@@ -163,12 +163,13 @@ public class Player : EntityBehaviour
         {
             case CurseType.Petrification:
                 allPetrificationStacs += 1;
-                speedTarget = (int)(Mathf.Clamp(1f - allPetrificationStacs / (Shaman.S_stacs[(int)CurseType.Petrification] * 3f), 0, 1) * speedDefault);
+                speedTarget = (int)(Mathf.Clamp(1f - allPetrificationStacs / (Shaman.S_stacs[(int)CurseType.Petrification]*2f), 0, 1) * speedDefault);
                 return Stacs[shamanIdx];
 
             case CurseType.Clumsiness:
                 allClumsinessStacs += 1;
-                weapon.damage = (int)(Mathf.Clamp(1f - allClumsinessStacs / (Shaman.S_stacs[(int)CurseType.Clumsiness] * 3f), 0, 1) * speedDefault);
+                transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
+                weapon.damage = (int)(Mathf.Clamp(1f - allClumsinessStacs / (Shaman.S_stacs[(int)CurseType.Clumsiness]*2f), 0, 1) * speedDefault);
                 return Stacs[shamanIdx];
         }
         return 0;
@@ -185,6 +186,7 @@ public class Player : EntityBehaviour
                     speedTarget = speedDefault;
                     break;
                 case CurseType.Clumsiness:
+                    transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = Color.white;
                     allClumsinessStacs -= Stacs[shamanIdx];
                     weapon.damage = weapon.damageDefault;
                     break;
@@ -197,7 +199,7 @@ public class Player : EntityBehaviour
         speedCurrent = hpCurrent = 0;
         SpeedScrol.value = HealthScrol.value = HealthImg.fillAmount = SpeedImg.fillAmount = 0;
         Cross.SetActive(true);
-        GameController.PlayersScript.Remove(this);
+        GameController.PlayersScript[index] = null;
         GameController.instance.PlayerDie();
         StopAllCoroutines();
         myTransform.GetComponent<SpriteRenderer>().enabled = false;

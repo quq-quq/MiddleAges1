@@ -97,9 +97,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ba4e876a22b1047864c0665f4b0051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBtwAttack: 1.1
+  timeBtwAttack: 1.5
   radiusAttack: 5
-  damageDefault: 5
+  damageDefault: 7
 --- !u!1 &8269456464607238783
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06a66e14b37930348a121749315c367a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 5
+  hpDefault: 15
   speedDefault: 12
   MyCapitanIndex: 0
 --- !u!212 &4877684396890236369

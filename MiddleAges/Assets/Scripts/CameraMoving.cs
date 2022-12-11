@@ -40,6 +40,6 @@ public class CameraMoving : MonoBehaviour
         {
 			CamTransform.localEulerAngles = new Vector3(zAngleToLookAtPlayer, transform.localEulerAngles.y + Input.GetAxis("Mouse X") * RotateSensitivity, 0);
 		}
-		CamTransform.position = transform.localRotation * offset + target.position;
+		CamTransform.position = Vector3.Lerp(CamTransform.position, target.position + transform.localRotation * offset, 0.5f);
 	}
 }

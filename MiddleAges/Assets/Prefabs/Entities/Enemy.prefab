@@ -97,9 +97,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ba4e876a22b1047864c0665f4b0051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBtwAttack: 1.1
-  radiusAttack: 3
-  damageDefault: 1
+  timeBtwAttack: 1
+  radiusAttack: 5
+  damageDefault: 5
 --- !u!1 &8269456464607238783
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,8 +166,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c68ef8b26c934a14ab86db40446cce15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 5
-  speedDefault: 12
+  hpDefault: 5
+  speedDefault: 14
 --- !u!212 &4877684396890236369
 SpriteRenderer:
   m_ObjectHideFlags: 0

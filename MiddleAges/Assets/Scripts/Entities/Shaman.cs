@@ -69,7 +69,7 @@ public class Shaman : EntityBehaviour
     }
     private void DieState()
     {
-        myTransform.GetChild(0).transform.position += Vector3.down*Time.fixedDeltaTime*5;
+        myTransform.GetChild(1).transform.position += Vector3.down*Time.fixedDeltaTime*10;
     }
 
 
@@ -173,7 +173,7 @@ public class Shaman : EntityBehaviour
     public override void Die()
     {
         GameController.instance.RemoveCurse(index);
-        GameController.ShamansScript.Remove(this);
+        GameController.ShamansScript[index] = null;
 
         StopAllCoroutines();
         movementVector = Vector3.zero;

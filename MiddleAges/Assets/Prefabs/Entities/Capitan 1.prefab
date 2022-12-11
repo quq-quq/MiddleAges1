@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab4c71b95022cad43978ba165612a987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpDefault: 20
-  speedDefault: 16
+  hpDefault: 60
+  speedDefault: 12
   DashSpeed: 5
   DashDistance: 1
   DashReloadTime: 3
@@ -248,4 +248,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBtwAttack: 1
   radiusAttack: 5
-  damageDefault: 5
+  damageDefault: 7

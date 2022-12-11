@@ -37,6 +37,7 @@ public class GameController : MonoBehaviour
     }
     private void Start()
     {
+        Cursor.visible = false;
         WarriorPositions = new List<Vector3>[WarriorsTeams.Length];
         for(int i = 0; i < WarriorsTeams.Length; ++i)
             CalculateWarriorsPos(i);

@@ -4,7 +4,7 @@ using UnityEngine;
 public class Warrior : EntityBehaviour
 {
 
-    private static float distGoAttack = 15f;//как далеко может уйти воин от своего командира преследуя врага
+    private static float distGoAttack = 20f;//как далеко может уйти воин от своего командира преследуя врага
     private static float distStopGoingToPlace = 1f;//воин перестанет бежать к своему месту как только расстояние до него станет равным distStopGoingToPlace
 
     //Если дистанция до игрока меньше чем distToRunOutofPlaer и мы попадаем в угол обзора (angleToGoOutFromPlayer - косинус этого угла) то мы убегаем от игрока
@@ -94,7 +94,8 @@ public class Warrior : EntityBehaviour
                     minDistToEnemy = dist;
                     nearestEnemyTransform = enemy.transform;
                     weapon.AttackTransform = nearestEnemyTransform;
-                    isAttack = MyCapitanIndex >= GameController.PlayersScript.Count || Vector3.Distance(nearestEnemyTransform.position, GameController.PlayersScript[MyCapitanIndex].transform.position) < distGoAttack;
+                    isAttack = (GameController.PlayersScript[MyCapitanIndex] == null && Vector3.Distance(nearestEnemyTransform.position, myTransform.position) < 10f) || 
+                        Vector3.Distance(nearestEnemyTransform.position, GameController.PlayersScript[MyCapitanIndex].transform.position) < distGoAttack;
                 }
             }
         }

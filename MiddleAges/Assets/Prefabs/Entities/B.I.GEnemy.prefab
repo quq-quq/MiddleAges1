@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c68ef8b26c934a14ab86db40446cce15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 15
+  hpDefault: 15
   speedDefault: 12
 --- !u!95 &3715915186973650901
 Animator:
@@ -237,6 +237,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ba4e876a22b1047864c0665f4b0051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBtwAttack: 3
+  timeBtwAttack: 5
   radiusAttack: 5
   damageDefault: 10
