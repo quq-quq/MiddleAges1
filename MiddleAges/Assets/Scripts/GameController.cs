@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
@@ -99,6 +100,11 @@ public class GameController : MonoBehaviour
     {
         update();
         Vignette.intensity.Override(Mathf.Lerp(Vignette.intensity, VignetteIntensity, Time.deltaTime * 2));
+        if (Input.GetKeyDown(KeyCode.O))
+            Win();
+        if (Input.GetKeyDown(KeyCode.P))
+            Defeat();
+        
     }
     private void DefaulUpdate()
     {
@@ -145,9 +151,7 @@ public class GameController : MonoBehaviour
 
         if (isAllPlayersDie)
         {
-            text = DieText;
-            StartCoroutine(DieTimer(false));
-            update = EndGameUpdate;
+            Defeat();
         }
     }
 
@@ -161,9 +165,7 @@ public class GameController : MonoBehaviour
                     isAllDie = false;
             if (isAllDie)
             {
-                text = WinText;
-                StartCoroutine(DieTimer(true));
-                update = EndGameUpdate;
+                Win();
             }
         }
     }
@@ -171,15 +173,23 @@ public class GameController : MonoBehaviour
     private IEnumerator DieTimer(bool win)
     {
         yield return new WaitForSeconds(5f);
-        if (win) Win();
-        else Defeat();
+        if (win)
+            PlayerPrefs.SetInt("isWin", 1);
+        else
+            PlayerPrefs.SetInt("isWin", 0);
+            SceneManager.LoadScene("Menu");
+
     }
     private void Defeat()
     {
-
+        text = DieText;
+        StartCoroutine(DieTimer(false));
+        update = EndGameUpdate;
     }
     private void Win()
     {
-
+        text = WinText;
+        StartCoroutine(DieTimer(true));
+        update = EndGameUpdate;
     }
 }

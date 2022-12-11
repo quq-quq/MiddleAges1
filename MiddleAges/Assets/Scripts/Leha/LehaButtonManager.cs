@@ -8,21 +8,32 @@ using UnityEngine.SceneManagement;
 public class LehaButtonManager : MonoBehaviour
 {
     [SerializeField] public int currentFloor;
-    
     LehaSaveManager saveManager;
     Button[] buttons;
+    int isWin = 0;
     void Start()
     {
+        Cursor.visible = true;
         saveManager = GetComponent<LehaSaveManager>();
-        currentFloor = saveManager.GetLastFloor();
+        isWin = PlayerPrefs.GetInt("isWin");
+
+        if(isWin == 0)//defeat
+        {
+            int lastChP = saveManager.GetLastCheckPoint();
+            currentFloor = lastChP == 0 ? lastChP : lastChP - 1;
+        }
+        if(isWin == 1)//win
+        {
+            currentFloor = saveManager.GetLastCurrentFloor();
+            Debug.Log("win " + currentFloor);
+            Debug.Log(PlayerPrefs.GetInt("lastCurrentFloor"));
+        }
+
         buttons = GetComponentsInChildren<Button>();
-        // foreach (Button btn in GetComponentsInChildren<Button>())
-        // {
-            
-        // }
         foreach (var btn in buttons)
         {
-            btn.onClick.AddListener(FloorUp); 
+            btn.onClick.AddListener(FloorUp);
+            
         }
         UpdateButtons();
         
@@ -30,6 +41,7 @@ public class LehaButtonManager : MonoBehaviour
     void FloorUp() //повышение этажа при нажатии кнопки
     {
         currentFloor++;
+        Debug.Log("FloorUp " + currentFloor);
         saveManager.SaveFloor(currentFloor);
         UpdateButtons();
     }
@@ -42,6 +54,7 @@ public class LehaButtonManager : MonoBehaviour
             //Debug.Log("HMM");
         }
     }
+
 
     public void ReloadScene()//просто для теста, потом можно удалить
     {

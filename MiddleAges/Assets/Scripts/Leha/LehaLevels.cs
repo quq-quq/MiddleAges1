@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LehaLevels : MonoBehaviour
 {
     [SerializeField] int floor;// "этаж" уровня, можно выбрать только один уровень на одном этаже
     //[SerializeField] int level;
+    [SerializeField] private string sceneName;
+
     Button btn;
     LehaButtonManager btnManager;
 
@@ -21,6 +24,8 @@ public class LehaLevels : MonoBehaviour
     {
         if(CheckFloor())
 		    Debug.Log ("You have clicked the button! " + btn.name);
+            LoadLevel();
+            
 	}
     public bool CheckFloor()
     {
@@ -40,4 +45,9 @@ public class LehaLevels : MonoBehaviour
         btn.interactable = val;
     }
     
+
+    private void LoadLevel()
+    {
+        SceneManager.LoadScene(sceneName);
+    }
 }

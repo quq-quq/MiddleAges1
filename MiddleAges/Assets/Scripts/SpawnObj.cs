@@ -32,7 +32,6 @@ public class SpawnObj : MonoBehaviour
     {
         for (int i = 0; i < countAllEnemiesSpawn; i++)
         {
-            yield return new WaitForSeconds(5);
             Vector2 randCircle = Random.insideUnitCircle.normalized;
             Vector3 SpawnPoint = Vector3.zero;
             SpawnPoint.x = randCircle.x * (grassSpawnRadius + grassCircleWide + 10) + Random.Range(1, 5f);
@@ -40,12 +39,10 @@ public class SpawnObj : MonoBehaviour
             foreach (var enemy in enemiesObj)
             {
                 Vector3 spawnPos = new Vector3(SpawnPoint.x + Random.Range(0, 10f), 5, SpawnPoint.z + Random.Range(0, 10f));
-                Instantiate(enemy, spawnPos, transform.rotation);
+                    Instantiate(enemy, spawnPos, transform.rotation);
+                yield return new WaitForSeconds(1);
             }
-            if (i % 2 == 0)
-                yield return new WaitForSeconds(1); 
-            else
-                yield return new WaitUntil(() => (GameController.EnemiesScript.Count == 0));
+            yield return new WaitUntil(() => (GameController.EnemiesScript.Count <= 4));
         }
     }
 

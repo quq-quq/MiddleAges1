@@ -263,8 +263,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06a66e14b37930348a121749315c367a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpDefault: 10
-  speedDefault: 16
+  hpDefault: 40
+  speedDefault: 15
   MyCapitanIndex: 1
 --- !u!212 &4877684396890236369
 SpriteRenderer:

@@ -194,9 +194,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Reload Level
-
-'
+  m_Text: 'Reload Level '
 --- !u!222 &24620309
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -259,6 +257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floor: 2
+  sceneName: 
 --- !u!114 &188124741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,6 +474,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floor: 1
+  sceneName: Game2
 --- !u!114 &270392756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -691,6 +691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floor: 0
+  sceneName: Game1
 --- !u!114 &386238371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -800,7 +801,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8ef81676b23d34982a5f46daaeee9a0b, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 8d92cdbd303619c469642d6c85e33f93, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1039,6 +1040,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floor: 3
+  sceneName: 
 --- !u!114 &490878438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1337,6 +1339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floor: 3
+  sceneName: 
 --- !u!114 &595772238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1810,9 +1813,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Reload buttons
-
-'
+  m_Text: 'Reload buttons '
 --- !u!222 &827336196
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1875,6 +1876,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floor: 1
+  sceneName: Game2
 --- !u!114 &903632160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1975,7 +1977,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1126998843
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2145,6 +2147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floor: 3
+  sceneName: 
 --- !u!114 &1180756126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2325,7 +2328,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1222215961
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2459,7 +2462,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1277117039
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2725,8 +2728,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eb68e1763842da0fa0d150142b3a7ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  savedFloors: 0000000002000000
-  lastFloor: 0
+  checkPoints: 00000000
+  lastCheckPoint: 0
+  lastCurrentFloor: 0
 --- !u!1 &2039901813
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,41 +4,55 @@ using UnityEngine;
 
 public class LehaSaveManager : MonoBehaviour
 {
-    [SerializeField] int[] savedFloors;
-    [SerializeField] int lastFloor;
+    [SerializeField] int[] checkPoints;
+    [SerializeField] int lastCheckPoint;
+    [SerializeField] int lastCurrentFloor;
 
     void Awake()
     {
-        lastFloor = PlayerPrefs.GetInt("lastFloor");
+        lastCheckPoint = PlayerPrefs.GetInt("lastCheckPoint");
+        lastCurrentFloor = PlayerPrefs.GetInt("lastCurrentFloor");
     }
-    // void Start()
-    // {
-    //     lastFloor = PlayerPrefs.GetInt("lastFloor");
-    // }
 
-    public void SaveIntFloor()
+    private void SaveCheckPoint()
     {
-        PlayerPrefs.SetInt("lastFloor", lastFloor);
+        PlayerPrefs.SetInt("lastCheckPoint", lastCheckPoint);
     }
-    public int GetLastFloor()
+    private void SaveLastCurrentFloor()
     {
-        return lastFloor;
+        Debug.Log("Set" + lastCurrentFloor);
+        // LehaSaveStatic.lastCurrentFloor = lastCurrentFloor;
+        PlayerPrefs.SetInt("lastCurrentFloor", lastCurrentFloor);
+    }
+    public int GetLastCheckPoint()
+    {
+        return lastCheckPoint;
+    }
+    public int GetLastCurrentFloor()
+    {
+        Debug.Log("Get " + lastCurrentFloor);
+        return lastCurrentFloor;
     }
     public void SaveFloor(int currentFloor)
     {
-        foreach (int savedFloor in savedFloors)
+        foreach (int checkPoint in checkPoints)
         {
-            if(savedFloor == currentFloor && lastFloor < currentFloor)
+            if(checkPoint == currentFloor && lastCheckPoint < currentFloor)
             {
-                lastFloor = currentFloor;
-                SaveIntFloor();
+                lastCheckPoint = currentFloor;
+                SaveCheckPoint();
             }
+            lastCurrentFloor = currentFloor;
+            SaveLastCurrentFloor();
         }
     }
     public void ClearSaves()
     {
-        lastFloor = 0;
-        SaveIntFloor();
+        lastCheckPoint = 0;
+        SaveCheckPoint();
+        lastCurrentFloor = 0;
+        SaveLastCurrentFloor();
+        PlayerPrefs.SetInt("isWin", 0);
     }
     
 }
