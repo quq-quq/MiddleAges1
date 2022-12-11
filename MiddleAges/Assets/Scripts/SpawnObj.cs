@@ -43,7 +43,7 @@ public class SpawnObj : MonoBehaviour
                 Instantiate(enemy, spawnPos, transform.rotation);
             }
             if (i % 2 == 0)
-                yield return new WaitForSeconds(5); 
+                yield return new WaitForSeconds(1); 
             else
                 yield return new WaitUntil(() => (GameController.EnemiesScript.Count == 0));
         }

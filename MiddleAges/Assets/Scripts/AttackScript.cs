@@ -10,6 +10,7 @@ public class AttackScript : MonoBehaviour
     [System.NonSerialized] public int damage;
 
     [System.NonSerialized] public Transform AttackTransform;
+    private AudioSource hitAudio;
 
     private Animator anim;
     private bool isAttacking;
@@ -18,6 +19,7 @@ public class AttackScript : MonoBehaviour
     {
         damage = damageDefault;
         anim = gameObject.GetComponentInParent<Animator>();
+        hitAudio = gameObject.GetComponent<AudioSource>();
     }
     public void Attack()
     {
@@ -35,7 +37,11 @@ public class AttackScript : MonoBehaviour
     }
     public void PutDamage()
     {
-        if(AttackTransform != null)
+        hitAudio.Play();
+        if (AttackTransform != null)
+        {
             AttackTransform.GetComponent<EntityBehaviour>().SetDamage(damage);
+        }
     }
+
 }
