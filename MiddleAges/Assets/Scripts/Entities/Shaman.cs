@@ -174,6 +174,7 @@ public class Shaman : EntityBehaviour
     {
         GameController.instance.RemoveCurse(index);
         GameController.ShamansScript[index] = null;
+        GameController.instance.CheckWin();
 
         StopAllCoroutines();
         movementVector = Vector3.zero;

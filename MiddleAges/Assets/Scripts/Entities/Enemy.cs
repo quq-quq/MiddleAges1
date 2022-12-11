@@ -85,11 +85,14 @@ public class Enemy : EntityBehaviour
         nearestWarriorTransform = Player.instance.myTransform;
         foreach (var Player in GameController.PlayersScript)
         {
-            dist = Vector3.Distance(myTransform.position, Player.myTransform.position);
-            if (dist < minDistToWarrior)
+            if (Player != null)
             {
-                minDistToWarrior = dist;
-                nearestWarriorTransform = Player.myTransform;
+                dist = Vector3.Distance(myTransform.position, Player.myTransform.position);
+                if (dist < minDistToWarrior)
+                {
+                    minDistToWarrior = dist;
+                    nearestWarriorTransform = Player.myTransform;
+                }
             }
         }
         foreach (var warrior in GameController.WarriorsScript)
@@ -126,6 +129,7 @@ public class Enemy : EntityBehaviour
         print("EnemyDie");
         StopAllCoroutines();
         GameController.EnemiesScript.Remove(this);
+        GameController.instance.CheckWin();
         weapon.GetComponent<SpriteRenderer>().enabled = false;
         myTransform.GetComponent<SpriteRenderer>().enabled = false;
         Destroy(gameObject, courotineTime + 0.1f);

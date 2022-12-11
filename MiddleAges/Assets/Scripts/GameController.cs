@@ -12,7 +12,9 @@ public class GameController : MonoBehaviour
     public int StartCapitanIndex = 0;
 
     [SerializeField] private Text DieText;
-    [SerializeField] private Image Dieimg;
+    [SerializeField] private Text WinText;
+    private Text text;
+    [SerializeField] private Image blackImg;
 
     [SerializeField] private Transform[] WarriorsTeams;
     [SerializeField] private int lenStep;
@@ -113,11 +115,11 @@ public class GameController : MonoBehaviour
             Player.instance.ActivatePlayer();
         }
     }
-    private void AllPlayersDieUpdate()
+    private void EndGameUpdate()
     {
         Camera.main.backgroundColor = Color.Lerp(Camera.main.backgroundColor, new Color(0, 0, 0, 1), Time.deltaTime);
-        DieText.color = Color.Lerp(DieText.color, Color.red, Time.deltaTime);
-        Dieimg.color = Color.Lerp(Dieimg.color, Color.black, Time.deltaTime);
+        text.color = Color.Lerp(text.color, Color.red, Time.deltaTime);
+        blackImg.color = Color.Lerp(blackImg.color, Color.black, Time.deltaTime);
     }
 
     public void RemoveCurse(int shamanIndex)
@@ -143,13 +145,41 @@ public class GameController : MonoBehaviour
 
         if (isAllPlayersDie)
         {
-            StartCoroutine(DieTimer());
-            update = AllPlayersDieUpdate;
+            text = DieText;
+            StartCoroutine(DieTimer(false));
+            update = EndGameUpdate;
         }
     }
-    private IEnumerator DieTimer()
+
+    public void CheckWin()
     {
-        yield return new WaitForSeconds(5f);
+        if(EnemiesScript.Count == 0)
+        {
+            bool isAllDie = true;
+            foreach (var shaman in ShamansScript)
+                if (shaman != null)
+                    isAllDie = false;
+            if (isAllDie)
+            {
+                text = WinText;
+                StartCoroutine(DieTimer(true));
+                update = EndGameUpdate;
+            }
+        }
     }
 
+    private IEnumerator DieTimer(bool win)
+    {
+        yield return new WaitForSeconds(5f);
+        if (win) Win();
+        else Defeat();
+    }
+    private void Defeat()
+    {
+
+    }
+    private void Win()
+    {
+
+    }
 }
