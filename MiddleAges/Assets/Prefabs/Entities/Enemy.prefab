@@ -206,8 +206,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8269456464607238778}
-  - component: {fileID: 8269456464607238780}
   - component: {fileID: -4972121033241606281}
+  - component: {fileID: 8269456464607238780}
   - component: {fileID: 4877684396890236369}
   - component: {fileID: 5784716402031160631}
   m_Layer: 8
@@ -233,6 +233,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-4972121033241606281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8269456464607238783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c68ef8b26c934a14ab86db40446cce15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpDefault: 15
+  speedDefault: 16
 --- !u!143 &8269456464607238780
 CharacterController:
   m_ObjectHideFlags: 0
@@ -251,20 +265,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-4972121033241606281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8269456464607238783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c68ef8b26c934a14ab86db40446cce15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpDefault: 15
-  speedDefault: 14
 --- !u!212 &4877684396890236369
 SpriteRenderer:
   m_ObjectHideFlags: 0

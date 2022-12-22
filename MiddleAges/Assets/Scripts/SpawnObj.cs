@@ -30,7 +30,7 @@ public class SpawnObj : MonoBehaviour
 
     IEnumerator Spawner()
     {
-        for (int i = 0; i < countAllEnemiesSpawn; i++)
+        for (int i = 0; i < countAllEnemiesSpawn+1; i++)
         {
             Vector2 randCircle = Random.insideUnitCircle.normalized;
             Vector3 SpawnPoint = Vector3.zero;
@@ -42,7 +42,7 @@ public class SpawnObj : MonoBehaviour
                     Instantiate(enemy, spawnPos, transform.rotation);
                 yield return new WaitForSeconds(1);
             }
-            yield return new WaitUntil(() => (GameController.EnemiesScript.Count <= 4));
+            yield return new WaitUntil(() => (GameController.EnemyScripts.Count <= 2));
         }
     }
 

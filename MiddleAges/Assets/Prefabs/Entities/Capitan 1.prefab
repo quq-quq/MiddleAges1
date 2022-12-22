@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1232199232815539032}
-  - component: {fileID: 1232199232815539035}
   - component: {fileID: 1232199232815539036}
   - component: {fileID: 1232199232815539037}
+  - component: {fileID: 1232199232815539035}
   - component: {fileID: 498277632509749286}
   m_Layer: 3
   m_Name: Capitan 1
@@ -36,6 +36,47 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1232199232815539036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232199232815539028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab4c71b95022cad43978ba165612a987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpDefault: 100
+  speedDefault: 13
+  DashSpeed: 5
+  DashDistance: 1
+  DashReloadTime: 3
+  index: 0
+  HealthImg: {fileID: 0}
+  HealthScrol: {fileID: 0}
+  SpeedImg: {fileID: 0}
+  SpeedScrol: {fileID: 0}
+  Cross: {fileID: 0}
+--- !u!143 &1232199232815539037
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232199232815539028}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 3.8
+  m_Radius: 0.77
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!212 &1232199232815539035
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -88,47 +129,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1232199232815539036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1232199232815539028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab4c71b95022cad43978ba165612a987, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpDefault: 100
-  speedDefault: 10
-  DashSpeed: 5
-  DashDistance: 1
-  DashReloadTime: 3
-  index: 0
-  HealthImg: {fileID: 0}
-  HealthScrol: {fileID: 0}
-  SpeedImg: {fileID: 0}
-  SpeedScrol: {fileID: 0}
-  Cross: {fileID: 0}
---- !u!143 &1232199232815539037
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1232199232815539028}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 3.8
-  m_Radius: 0.77
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &498277632509749286
 Animator:
   serializedVersion: 4

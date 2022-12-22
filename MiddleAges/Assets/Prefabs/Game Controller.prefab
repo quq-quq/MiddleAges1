@@ -110,7 +110,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1627767218036668683
 Transform:
   m_ObjectHideFlags: 0
@@ -205,7 +205,10 @@ MonoBehaviour:
   - {fileID: 8269456464607238783, guid: e8bc4bd58149a6a4192c74fa5b9553be, type: 3}
   - {fileID: 8269456464607238783, guid: e8bc4bd58149a6a4192c74fa5b9553be, type: 3}
   - {fileID: 8269456464607238783, guid: e8bc4bd58149a6a4192c74fa5b9553be, type: 3}
-  countAllEnemiesSpawn: 0
+  - {fileID: 8269456464607238783, guid: e8bc4bd58149a6a4192c74fa5b9553be, type: 3}
+  - {fileID: 8269456464607238783, guid: e8bc4bd58149a6a4192c74fa5b9553be, type: 3}
+  - {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015, type: 3}
+  countAllEnemiesSpawn: 2
   intervalSpawn: 60
 --- !u!114 &5924744663576502275
 MonoBehaviour:
@@ -219,14 +222,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82ee66d0cf5c30646be77551ff6a3f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartCapitanIndex: 0
   DieText: {fileID: 0}
   WinText: {fileID: 0}
   blackImg: {fileID: 0}
-  WarriorsTeams:
-  - {fileID: 0}
-  - {fileID: 0}
   lenStep: 3
+  WarriorTeams:
+  - {fileID: 0}
+  - {fileID: 0}
+  PlayerScripts:
+  - {fileID: 0}
+  - {fileID: 0}
+  StartCapitanIndex: 0
 --- !u!82 &341252169
 AudioSource:
   m_ObjectHideFlags: 0
@@ -237,7 +243,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8ef81676b23d34982a5f46daaeee9a0b, type: 3}
+  m_audioClip: {fileID: 8300000, guid: af1d83d99dd1124d7a29218473eca1a3, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 0.5

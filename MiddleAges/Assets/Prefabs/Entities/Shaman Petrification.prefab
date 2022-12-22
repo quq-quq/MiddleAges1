@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpDefault: 0
-  speedDefault: 8
+  speedDefault: 10
   index: 0
   curseRadius: 15
   curseType: 0

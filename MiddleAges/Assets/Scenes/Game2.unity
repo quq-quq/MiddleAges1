@@ -415,6 +415,26 @@ PrefabInstance:
       objectReference: {fileID: 300341127}
     - target: {fileID: 5924744663576502275, guid: 7d7532e0a33ff0848a073943d443f062,
         type: 3}
+      propertyPath: WarriorTeams.Array.data[0]
+      value: 
+      objectReference: {fileID: 61842341}
+    - target: {fileID: 5924744663576502275, guid: 7d7532e0a33ff0848a073943d443f062,
+        type: 3}
+      propertyPath: WarriorTeams.Array.data[1]
+      value: 
+      objectReference: {fileID: 454547759}
+    - target: {fileID: 5924744663576502275, guid: 7d7532e0a33ff0848a073943d443f062,
+        type: 3}
+      propertyPath: PlayerScripts.Array.data[0]
+      value: 
+      objectReference: {fileID: 1603742136}
+    - target: {fileID: 5924744663576502275, guid: 7d7532e0a33ff0848a073943d443f062,
+        type: 3}
+      propertyPath: PlayerScripts.Array.data[1]
+      value: 
+      objectReference: {fileID: 1641922844}
+    - target: {fileID: 5924744663576502275, guid: 7d7532e0a33ff0848a073943d443f062,
+        type: 3}
       propertyPath: WarriorsTeams.Array.data[0]
       value: 
       objectReference: {fileID: 61842341}
@@ -610,6 +630,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1525012117}
     m_Modifications:
+    - target: {fileID: -6709919071434843032, guid: 82f296d8f8381604e8def46c34cdf279,
+        type: 3}
+      propertyPath: hpDefault
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 2851681612859152541, guid: 82f296d8f8381604e8def46c34cdf279,
         type: 3}
       propertyPath: m_Name
@@ -829,6 +854,11 @@ PrefabInstance:
       propertyPath: HealthImg
       value: 
       objectReference: {fileID: 300341118}
+    - target: {fileID: 1232199232815539036, guid: 0a1150c8d75db17469b6d973a5d7e166,
+        type: 3}
+      propertyPath: hpDefault
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 1232199232815539036, guid: 0a1150c8d75db17469b6d973a5d7e166,
         type: 3}
       propertyPath: SpeedScrol
@@ -4211,6 +4241,11 @@ PrefabInstance:
       objectReference: {fileID: 300341123}
     - target: {fileID: 1232199232815539036, guid: 55e36ed266eb609498374a4ec95d2a17,
         type: 3}
+      propertyPath: hpDefault
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232199232815539036, guid: 55e36ed266eb609498374a4ec95d2a17,
+        type: 3}
       propertyPath: SpeedScrol
       value: 
       objectReference: {fileID: 300341122}
@@ -6910,6 +6945,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1525012117}
     m_Modifications:
+    - target: {fileID: -6709919071434843032, guid: 82f296d8f8381604e8def46c34cdf279,
+        type: 3}
+      propertyPath: hpDefault
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 2851681612859152541, guid: 82f296d8f8381604e8def46c34cdf279,
         type: 3}
       propertyPath: m_Name
@@ -8836,6 +8876,18 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6915116930832517723, guid: bc39aae3f192cd14fa923d9892b4e43a, type: 3}
+--- !u!114 &1603742136 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1232199232815539036, guid: 55e36ed266eb609498374a4ec95d2a17,
+    type: 3}
+  m_PrefabInstance: {fileID: 665880007}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab4c71b95022cad43978ba165612a987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1614771937 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8193574467947768082, guid: a57bcf341b5e2fd4ca09a003e85a8a11,
@@ -8917,6 +8969,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1987876094}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1641922844 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1232199232815539036, guid: 0a1150c8d75db17469b6d973a5d7e166,
+    type: 3}
+  m_PrefabInstance: {fileID: 174432992}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab4c71b95022cad43978ba165612a987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1644132525 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2929073731619850642, guid: 82f296d8f8381604e8def46c34cdf279,
@@ -9400,6 +9464,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1888897699627555510, guid: 64c98c44a64a21a448724029ceb12777,
+        type: 3}
+      propertyPath: hpDefault
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 2252951027628121667, guid: 64c98c44a64a21a448724029ceb12777,
         type: 3}

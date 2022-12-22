@@ -5,11 +5,11 @@ public class House : EntityBehaviour
     void Start()
     {
         hpCurrent = hpDefault;
-        GameController.HousesScript.Add(this);
+        GameController.HouseScripts.Add(this);
     }
     public override void Die()
     {
-        GameController.HousesScript.Remove(this);
+        GameController.HouseScripts.Remove(this);
         gameObject.SetActive(false);
         Destroy(gameObject, courotineTime + 0.1f);
     }

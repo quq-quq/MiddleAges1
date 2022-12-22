@@ -103,7 +103,7 @@ MonoBehaviour:
   RotateSensitivity: 3
   limit: 80
   zoomSensivity: 3
-  zoomMax: 40
+  zoomMax: 50
   zoomMin: 3
 --- !u!114 &8674457365054166324
 MonoBehaviour:

@@ -5,53 +5,62 @@ using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class GameController : MonoBehaviour
 {
     public static GameController instance;
 
-    public int StartCapitanIndex = 0;
 
     [SerializeField] private Text DieText;
     [SerializeField] private Text WinText;
     private Text text;
-    [SerializeField] private Image blackImg;
+    [SerializeField] private UnityEngine.UI.Image blackImg;
 
-    [SerializeField] private Transform[] WarriorsTeams;
     [SerializeField] private int lenStep;
 
+    [SerializeField] private Transform[] WarriorTeams;
     public static List<Vector3>[] WarriorPositions;
+    public static List<Warrior> WarriorScripts;
 
-    public static List<Warrior> WarriorsScript = new ();
-    public static List<EntityBehaviour> EnemiesScript = new();
-    public static List<Shaman> ShamansScript = new();
-    public static List<Player> PlayersScript = new ();
-    public static List<House> HousesScript = new();
+    public Player[] PlayerScripts;
+    public int StartCapitanIndex = 0;
+
+    public static List<EntityBehaviour> EnemyScripts;
+    public static List<Shaman> ShamanScripts;
+    public static List<House> HouseScripts;
 
     [NonSerialized] public float VignetteIntensity = 0;
-    private Vignette Vignette;
-
-    private delegate void UpdateMethods();
-    private UpdateMethods update;
+    [NonSerialized] public Vignette Vignette;
 
     private void Awake()
-    {
+    {//при перезапуске сцены статичные поля не перепичываются, поэтому инициализация сдесь
         instance = this;
+        WarriorScripts = new();
+        EnemyScripts = new();
+        ShamanScripts = new();
+        HouseScripts = new();
     }
     private void Start()
     {
-        Cursor.visible = false;
-        WarriorPositions = new List<Vector3>[WarriorsTeams.Length];
-        for(int i = 0; i < WarriorsTeams.Length; ++i)
+        if (WarriorTeams == null) Debug.LogError("Attach each parent of warriors as one element in List \"Warrior Teams\" in GameController");
+        if (PlayerScripts == null) Debug.LogError("Attach each Capitan/Player as one element in List \"Warrior Teams\" in GameController");
+
+        //Cursor.visible = false;
+        WarriorPositions = new List<Vector3>[WarriorTeams.Length];
+        for(int i = 0; i < WarriorTeams.Length; ++i)
             CalculateWarriorsPos(i);
 
-        update = DefaulUpdate;
         Vignette = transform.GetChild(0).GetComponent<PostProcessVolume>().profile.GetSetting<Vignette>();
+        if (Vignette == null) Debug.LogError("Can't find PostProcessVolume in child 0");
 
-        Player.instance.DeactivatePlayer();
-        Player.instance = PlayersScript[StartCapitanIndex];
+        if(Player.instance != null) 
+            Player.instance.DeactivatePlayer();
+        Player.instance = PlayerScripts[StartCapitanIndex];
         Player.instance.ActivatePlayer();
-        CameraMoving.target = PlayersScript[0].transform;
+        CameraMoving.target = Player.instance.transform;
+
+        if (Vignette == null) Debug.LogError("Can't find PostProcessVolume in child 0");
     }
 
 
@@ -61,9 +70,9 @@ public class GameController : MonoBehaviour
         Vector3 warPos;
         int stepx, stepz, lim;//lim is (max length of warriors's line)/2
 
-        if (WarriorsTeams[capitanIdx].childCount > 24)
+        if (WarriorTeams[capitanIdx].childCount > 24)
             lim = 4;//max is 48 warriors
-        else if (WarriorsTeams[capitanIdx].childCount > 8)
+        else if (WarriorTeams[capitanIdx].childCount > 8)
             lim = 2;
         else
             lim = 1;
@@ -71,13 +80,14 @@ public class GameController : MonoBehaviour
         stepx = -lim * lenStep;
         stepz = -lim * lenStep;
 
-        for (int i = 0; i < WarriorsTeams[capitanIdx].childCount; i++)
+        for (int i = 0; i < WarriorTeams[capitanIdx].childCount; i++)
         {
             warPos = new Vector3(stepx, 0, stepz);
             if (warPos != Vector3.zero)
             {
                 WarriorPositions[capitanIdx].Add(warPos);
-                WarriorsTeams[capitanIdx].GetChild(i).GetComponent<Warrior>().index = i;
+                WarriorTeams[capitanIdx].GetChild(i).GetComponent<Warrior>().index = i;
+                WarriorTeams[capitanIdx].GetChild(i).GetComponent<Warrior>().MyCapitanIndex = capitanIdx;
             }
 
 
@@ -98,50 +108,46 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        update();
         Vignette.intensity.Override(Mathf.Lerp(Vignette.intensity, VignetteIntensity, Time.deltaTime * 2));
+
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.O))
             Win();
-        if (Input.GetKeyDown(KeyCode.P))
+        else if (Input.GetKeyDown(KeyCode.P))
             Defeat();
-        
+#endif
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            ActivatePlayer(0);
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+            ActivatePlayer(1);
     }
-    private void DefaulUpdate()
+
+    private void ActivatePlayer(int playerIndex)
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1) && PlayersScript.Count > 0)
-        {
+        if (PlayerScripts[playerIndex] == null) return;
+
+        if (Player.instance != null)
             Player.instance.DeactivatePlayer();
-            Player.instance = PlayersScript[0];
-            Player.instance.ActivatePlayer();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2) && PlayersScript.Count > 1)
-        {
-            Player.instance.DeactivatePlayer();
-            Player.instance = PlayersScript[1];
-            Player.instance.ActivatePlayer();
-        }
-    }
-    private void EndGameUpdate()
-    {
-        Camera.main.backgroundColor = Color.Lerp(Camera.main.backgroundColor, new Color(0, 0, 0, 1), Time.deltaTime);
-        text.color = Color.Lerp(text.color, Color.red, Time.deltaTime);
-        blackImg.color = Color.Lerp(blackImg.color, Color.black, Time.deltaTime);
+        Player.instance = PlayerScripts[playerIndex];
+        Player.instance.ActivatePlayer();
     }
 
     public void RemoveCurse(int shamanIndex)
     {
-        for (int i = 0; i < WarriorsScript.Count; ++i)
-            WarriorsScript[i].RemoveCurse(shamanIndex);
+        foreach (var warrior in WarriorScripts)
+            warrior.RemoveCurse(shamanIndex);
 
-        for (int i = 0; i < PlayersScript.Count; ++i)
-            if (PlayersScript[i] != null)
-                PlayersScript[i].RemoveCurse(shamanIndex);
+        foreach (var player in PlayerScripts)
+            if (player != null)
+                player.RemoveCurse(shamanIndex);
     }
 
-    public void PlayerDie()
+    public void CheckDefeat()
     {
         bool isAllPlayersDie = true;
-        foreach (var player in PlayersScript)
+
+        foreach (var player in PlayerScripts)
             if (player != null)
             {
                 isAllPlayersDie = false;
@@ -150,46 +156,44 @@ public class GameController : MonoBehaviour
             }
 
         if (isAllPlayersDie)
-        {
             Defeat();
-        }
     }
 
     public void CheckWin()
     {
-        if(EnemiesScript.Count == 0)
+        if(EnemyScripts.Count == 0)
         {
             bool isAllDie = true;
-            foreach (var shaman in ShamansScript)
+            foreach (var shaman in ShamanScripts)
                 if (shaman != null)
                     isAllDie = false;
+
             if (isAllDie)
-            {
                 Win();
-            }
         }
     }
 
-    private IEnumerator DieTimer(bool win)
+    private IEnumerator EndGameThings()
     {
-        yield return new WaitForSeconds(5f);
-        if (win)
-            PlayerPrefs.SetInt("isWin", 1);
-        else
-            PlayerPrefs.SetInt("isWin", 0);
-            SceneManager.LoadScene("Menu");
-
+        while (blackImg.color != Color.black)
+        {
+            Camera.main.backgroundColor = Color.Lerp(Camera.main.backgroundColor, new Color(0, 0, 0, 1), Time.deltaTime);
+            text.color = Color.Lerp(text.color, Color.red, Time.deltaTime);
+            blackImg.color = Color.Lerp(blackImg.color, Color.black, Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+        }
+        SceneManager.LoadScene("Menu");
     }
     private void Defeat()
     {
         text = DieText;
-        StartCoroutine(DieTimer(false));
-        update = EndGameUpdate;
+        StartCoroutine(EndGameThings());
+        PlayerPrefs.SetInt("isWin", 0);
     }
     private void Win()
     {
         text = WinText;
-        StartCoroutine(DieTimer(true));
-        update = EndGameUpdate;
+        StartCoroutine(EndGameThings());
+        PlayerPrefs.SetInt("isWin", 1);
     }
 }

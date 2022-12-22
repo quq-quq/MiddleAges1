@@ -28,13 +28,20 @@ public class Shaman : EntityBehaviour
 
     private void Awake()
     {
-        index = GameController.ShamansScript.Count;
-        GameController.ShamansScript.Add(this);
     }
     private void Start()
     {
         BaseStart();
-        playerTransform = GameController.PlayersScript[0].transform;
+
+        index = GameController.ShamanScripts.Count;
+        GameController.ShamanScripts.Add(this);
+
+        foreach (var player in GameController.instance.PlayerScripts)
+            if (player != null)
+                playerTransform = player.transform;
+
+        if (playerTransform == null) this.enabled = false;
+
         State = GoToEnemyState;
         StartCoroutine(SettingCurse());
         StartCoroutine(Teleporting());
@@ -91,7 +98,9 @@ public class Shaman : EntityBehaviour
         {
             NearestEnemyTransform = Player.instance.transform;
             yield return new WaitForSeconds(courotineTime);
-            foreach (var enemy in GameController.EnemiesScript)
+
+            if (GameController.EnemyScripts.Count != 0)
+            foreach (var enemy in GameController.EnemyScripts)
             {
                 dist = Vector3.Distance(myTransform.position, enemy.myTransform.position);
                 if (dist < minDist)
@@ -173,7 +182,7 @@ public class Shaman : EntityBehaviour
     public override void Die()
     {
         GameController.instance.RemoveCurse(index);
-        GameController.ShamansScript[index] = null;
+        GameController.ShamanScripts[index] = null;
         GameController.instance.CheckWin();
 
         StopAllCoroutines();

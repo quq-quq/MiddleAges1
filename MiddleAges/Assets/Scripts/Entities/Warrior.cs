@@ -12,18 +12,19 @@ public class Warrior : EntityBehaviour
     private static float angleToGoOutFromPlayer = 0.5f;
 
     [System.NonSerialized] public int index;
-    public int MyCapitanIndex = 0;
+    [System.NonSerialized] public int MyCapitanIndex;
 
     private Transform nearestEnemyTransform;
     private bool isAttack = false;
 
-    private int idxClumsinessShaman = 0;
-    private int idxPetrificationShaman = 0;
+    private int idxClumsinessShaman = -1;
+    private int idxPetrificationShaman = -1;
     private bool cursePetrification = false;
+    private bool curseClumsines = false;
 
-    private void Awake() => GameController.WarriorsScript.Add(this);
     private void Start()
     {
+        GameController.WarriorScripts.Add(this);
         BaseStart();
         StartCoroutine(FindGoal());
     }
@@ -38,7 +39,7 @@ public class Warrior : EntityBehaviour
         {
             if (isAttack)
             {
-                if (Vector3.Distance(nearestEnemyTransform.position, myTransform.position) < weapon.radiusAttack)
+                if (nearestEnemyTransform != null && Vector3.Distance(nearestEnemyTransform.position, myTransform.position) < weapon.radiusAttack)
                 {
                     movementVector = Vector3.zero;
                     weapon.Attack();
@@ -48,12 +49,12 @@ public class Warrior : EntityBehaviour
             }
             else
             {
-                warriorPos = GameController.PlayersScript[MyCapitanIndex].MovingAngle *
-                    GameController.WarriorPositions[MyCapitanIndex][index] + GameController.PlayersScript[MyCapitanIndex].myTransform.position;
+                warriorPos = GameController.instance.PlayerScripts[MyCapitanIndex].MovingAngle *
+                    GameController.WarriorPositions[MyCapitanIndex][index] + GameController.instance.PlayerScripts[MyCapitanIndex].myTransform.position;
 
                 distToPlayer = Vector3.Distance(myTransform.position, warriorPos);
-                rotationVector = (Quaternion.Inverse(GameController.PlayersScript[MyCapitanIndex].MovingAngle) *
-                    (myTransform.position - GameController.PlayersScript[MyCapitanIndex].transform.position)).normalized;//положение война относительно направления движения игрока
+                rotationVector = (Quaternion.Inverse(GameController.instance.PlayerScripts[MyCapitanIndex].MovingAngle) *
+                    (myTransform.position - GameController.instance.PlayerScripts[MyCapitanIndex].transform.position)).normalized;//положение война относительно направления движения игрока
 
                 if (rotationVector.z >= angleToGoOutFromPlayer && distToPlayer < distToRunOutofPlaer)
                 {
@@ -85,38 +86,47 @@ public class Warrior : EntityBehaviour
             minDistToEnemy = float.MaxValue;
             yield return new WaitForSeconds(0.5f);
 
-            if (GameController.EnemiesScript.Count == 0) isAttack = false;
-            foreach (var enemy in GameController.EnemiesScript)//ищем ближайший дом
-            {
-                dist = Vector3.Distance(myTransform.position, enemy.transform.position);
-                if (dist < minDistToEnemy)
+            if (GameController.EnemyScripts.Count != 0)
+                foreach (var enemy in GameController.EnemyScripts)//ищем ближайший дом
                 {
-                    minDistToEnemy = dist;
-                    nearestEnemyTransform = enemy.transform;
-                    weapon.AttackTransform = nearestEnemyTransform;
-                    isAttack = (GameController.PlayersScript[MyCapitanIndex] == null && Vector3.Distance(nearestEnemyTransform.position, myTransform.position) < 10f) || 
-                        Vector3.Distance(nearestEnemyTransform.position, GameController.PlayersScript[MyCapitanIndex].transform.position) < distGoAttack;
+                    dist = Vector3.Distance(myTransform.position, enemy.transform.position);
+                    if (dist < minDistToEnemy)
+                    {
+                        minDistToEnemy = dist;
+                        nearestEnemyTransform = enemy.transform;
+                        weapon.AttackTransform = nearestEnemyTransform;
+                        if (GameController.instance.PlayerScripts[MyCapitanIndex] == null)
+                            isAttack = Vector3.Distance(nearestEnemyTransform.position, myTransform.position) < 10f;
+                        else
+                            isAttack = Vector3.Distance(nearestEnemyTransform.position, GameController.instance.PlayerScripts[MyCapitanIndex].transform.position) < distGoAttack;
+                    }
                 }
-            }
+            else
+                isAttack = false;
+            
         }
     }
 
     public void SetCurse(int shamanIdx)
     {
-        switch (GameController.ShamansScript[shamanIdx].curseType)
+        switch (GameController.ShamanScripts[shamanIdx].curseType)
         {
             case CurseType.Petrification:
+                if (idxPetrificationShaman == shamanIdx) break;
 
+                StartCoroutine(CurseEffect(Color.gray, true));
                 idxPetrificationShaman = shamanIdx;
-                speedTarget = 0f;
                 cursePetrification = true;
-
+                speedTarget = 0f;
                 anim.speed = 0f;
-                gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
-                transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
                 break;
+
             case CurseType.Clumsiness:
+                if (idxClumsinessShaman == shamanIdx) break;
+
                 idxClumsinessShaman = shamanIdx;
+                StartCoroutine(CurseEffect(Color.gray, false));
+                curseClumsines = true;
                 weapon.damage = 0;
                 break;
         }
@@ -125,19 +135,37 @@ public class Warrior : EntityBehaviour
     {
         if (idxPetrificationShaman == shamanIdx)
         {
+            StartCoroutine(CurseEffect(Color.white, true));
             cursePetrification = false;
             speedTarget = speedDefault;
             anim.speed = 1f;
-            gameObject.GetComponent<SpriteRenderer>().color = Color.white;
         }
-
-        if (idxClumsinessShaman == shamanIdx) 
+        else if (idxClumsinessShaman == shamanIdx)
+        {
             weapon.damage = weapon.damageDefault;
+            StartCoroutine(CurseEffect(Color.white, false));
+            curseClumsines = false;
+        }
     }
-
+    private IEnumerator CurseEffect(Color targetColor, bool isPetrificationCurse)
+    {
+        SpriteRenderer mySprite = gameObject.GetComponent<SpriteRenderer>();
+        SpriteRenderer gunSprite = transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
+        int counter = 0;
+        while (counter++ < 30)
+        {
+            gunSprite.color = Color.Lerp(mySprite.color, targetColor, 0.1f);
+            if (isPetrificationCurse)
+                mySprite.color = Color.Lerp(mySprite.color, targetColor, 0.1f);
+            yield return new WaitForSeconds(0.01f);
+        }
+        gunSprite.color = targetColor;
+        if (isPetrificationCurse)
+            mySprite.color = targetColor;
+    }
     public override void Die()
     {
-        GameController.WarriorsScript.Remove(this);
+        GameController.WarriorScripts.Remove(this);
         GameController.instance.CalculateWarriorsPos(MyCapitanIndex);
         StopAllCoroutines();
         weapon.GetComponent<SpriteRenderer>().enabled = false;

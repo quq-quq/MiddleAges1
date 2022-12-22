@@ -206,8 +206,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8269456464607238778}
-  - component: {fileID: 8269456464607238780}
   - component: {fileID: 8269456464607238782}
+  - component: {fileID: 8269456464607238780}
   - component: {fileID: 4877684396890236369}
   - component: {fileID: 1004389330077812588}
   m_Layer: 3
@@ -233,6 +233,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8269456464607238782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8269456464607238783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06a66e14b37930348a121749315c367a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpDefault: 40
+  speedDefault: 17
 --- !u!143 &8269456464607238780
 CharacterController:
   m_ObjectHideFlags: 0
@@ -251,21 +265,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: -0.09, z: 0}
---- !u!114 &8269456464607238782
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8269456464607238783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06a66e14b37930348a121749315c367a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpDefault: 40
-  speedDefault: 15
-  MyCapitanIndex: 1
 --- !u!212 &4877684396890236369
 SpriteRenderer:
   m_ObjectHideFlags: 0

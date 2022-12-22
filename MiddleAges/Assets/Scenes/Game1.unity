@@ -1797,6 +1797,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a4db7a114972834c8e4117be1d82ba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &448927599 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1232199232815539036, guid: 55e36ed266eb609498374a4ec95d2a17,
+    type: 3}
+  m_PrefabInstance: {fileID: 629283634}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab4c71b95022cad43978ba165612a987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &452217765
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5777,6 +5789,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 413688565}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1411405871 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1232199232815539036, guid: 0a1150c8d75db17469b6d973a5d7e166,
+    type: 3}
+  m_PrefabInstance: {fileID: 413688565}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab4c71b95022cad43978ba165612a987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1424333526 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2310300099650626337, guid: 1dde8205043c33243b1576d3ade7e2ad,
@@ -8618,15 +8642,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 341252169, guid: 7d7532e0a33ff0848a073943d443f062, type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: af1d83d99dd1124d7a29218473eca1a3, type: 3}
-    - target: {fileID: 5190915575046236265, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5924744663576502274, guid: 7d7532e0a33ff0848a073943d443f062,
         type: 3}
       propertyPath: m_RootOrder
@@ -8699,53 +8714,29 @@ PrefabInstance:
       objectReference: {fileID: 1439467232}
     - target: {fileID: 5924744663576502275, guid: 7d7532e0a33ff0848a073943d443f062,
         type: 3}
-      propertyPath: WarriorsTeams.Array.data[0]
+      propertyPath: WarriorTeams.Array.data[0]
       value: 
       objectReference: {fileID: 2141783702}
     - target: {fileID: 5924744663576502275, guid: 7d7532e0a33ff0848a073943d443f062,
         type: 3}
-      propertyPath: WarriorsTeams.Array.data[1]
+      propertyPath: WarriorTeams.Array.data[1]
       value: 
       objectReference: {fileID: 1244908242}
+    - target: {fileID: 5924744663576502275, guid: 7d7532e0a33ff0848a073943d443f062,
+        type: 3}
+      propertyPath: PlayerScripts.Array.data[0]
+      value: 
+      objectReference: {fileID: 448927599}
+    - target: {fileID: 5924744663576502275, guid: 7d7532e0a33ff0848a073943d443f062,
+        type: 3}
+      propertyPath: PlayerScripts.Array.data[1]
+      value: 
+      objectReference: {fileID: 1411405871}
     - target: {fileID: 5924744663576502284, guid: 7d7532e0a33ff0848a073943d443f062,
         type: 3}
       propertyPath: m_Name
       value: Game Controller
       objectReference: {fileID: 0}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: countAllEnemiesSpawn
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: enemiesObj.Array.size
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: enemiesObj.Array.data[6]
-      value: 
-      objectReference: {fileID: 8269456464607238783, guid: e8bc4bd58149a6a4192c74fa5b9553be,
-        type: 3}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: enemiesObj.Array.data[7]
-      value: 
-      objectReference: {fileID: 8269456464607238783, guid: e8bc4bd58149a6a4192c74fa5b9553be,
-        type: 3}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: enemiesObj.Array.data[8]
-      value: 
-      objectReference: {fileID: 8269456464607238783, guid: e8bc4bd58149a6a4192c74fa5b9553be,
-        type: 3}
-    - target: {fileID: 5924744663576502285, guid: 7d7532e0a33ff0848a073943d443f062,
-        type: 3}
-      propertyPath: enemiesObj.Array.data[9]
-      value: 
-      objectReference: {fileID: 6925508499965019117, guid: 3d834c40cd47e494883e027184d0a015,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d7532e0a33ff0848a073943d443f062, type: 3}
 --- !u!1001 &6262639102191443979
@@ -8759,16 +8750,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Main Camera
-      objectReference: {fileID: 0}
-    - target: {fileID: 6262639102080748926, guid: 3dda17603e037344689f0dcae78a1288,
-        type: 3}
-      propertyPath: zoomMax
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 6262639102080748926, guid: 3dda17603e037344689f0dcae78a1288,
-        type: 3}
-      propertyPath: zoomSensivity
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6262639102080748927, guid: 3dda17603e037344689f0dcae78a1288,
         type: 3}

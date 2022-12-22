@@ -7,7 +7,7 @@ public class Player : EntityBehaviour
 {
     public static Player instance;
 
-    [System.NonSerialized] public Quaternion MovingAngle = Quaternion.identity;//поможет вычислить место война, учитывая поворот игрока
+    [System.NonSerialized] public Quaternion MovingAngle = Quaternion.identity;//поможет вычислить место война
 
     public float DashSpeed;
     public float DashDistance;
@@ -33,17 +33,13 @@ public class Player : EntityBehaviour
     private FixedUpdateMethods State;
     private void Awake()
     {
-        if (index < GameController.PlayersScript.Count)
-            GameController.PlayersScript[index] = this;
-        while (index >= GameController.PlayersScript.Count)
-                GameController.PlayersScript.Add(this);
-        
         State = IdleState;
         instance = this;
     }
 
     private void Start()
     {
+        GameController.instance.PlayerScripts[index] = this;
         BaseStart();
         StartCoroutine(FindGoal());
     }
@@ -51,21 +47,16 @@ public class Player : EntityBehaviour
     {
         BaseUpdate();
         if (Input.GetKeyDown(KeyCode.E) && !isDash && State == WasdState)
-        {
-            State = DashState;
             StartCoroutine(ToDash());
-            anim.SetTrigger("IsDash");
-            isDash = true;
-        }
-
+           
+        
         if (myTransform.InverseTransformDirection(movementVector).x < -0.1f)
             transform.localScale = new Vector3(-startScale, transform.localScale.y, transform.localScale.z);
         else if (myTransform.InverseTransformDirection(movementVector).x > 0.1f)
             transform.localScale = new Vector3(startScale, transform.localScale.y, transform.localScale.z);
 
-        HealthScrol.value = HealthImg.fillAmount = Mathf.Lerp(HealthScrol.value, (float)hpCurrent / hpDefault, Time.deltaTime);
-        if(hpCurrent != 0) SpeedScrol.value = SpeedImg.fillAmount = Mathf.Lerp(SpeedScrol.value, speedCurrent / speedDefault, Time.deltaTime);
-
+        HealthScrol.value = HealthImg.fillAmount = Mathf.Lerp(HealthScrol.value, (float)hpCurrent / hpDefault, 1f - (float)hpCurrent / (float)hpDefault);
+        if(hpCurrent != 0) SpeedScrol.value = SpeedImg.fillAmount = Mathf.Lerp(SpeedScrol.value, speedCurrent/speedDefault, 1f - (float)hpCurrent / (float)hpDefault);
     }
     private void FixedUpdate()
     {
@@ -113,8 +104,8 @@ public class Player : EntityBehaviour
             minDistToEnemy = float.MaxValue;
             yield return new WaitForSeconds(courotineTime);
 
-            if (GameController.EnemiesScript.Count == 0) isAttack = false;
-            foreach (var enemy in GameController.EnemiesScript)
+            if (GameController.EnemyScripts.Count == 0) isAttack = false;
+            foreach (var enemy in GameController.EnemyScripts)
             {
                 dist = Vector3.Distance(myTransform.position, enemy.transform.position);
                 if (dist < minDistToEnemy)
@@ -141,7 +132,10 @@ public class Player : EntityBehaviour
     }
     IEnumerator ToDash()
     {
-        //начали dash
+        isDash = true;
+        State = DashState;
+        anim.SetTrigger("IsDash");
+
         yield return new WaitForSeconds(DashDistance / DashSpeed);
         State = WasdState;
         yield return new WaitForSeconds(DashReloadTime);
@@ -155,11 +149,19 @@ public class Player : EntityBehaviour
         Stacs[shamanIdx] += 1;
 
 
-        if (State == WasdState && Stacs[shamanIdx] < Shaman.S_stacs[(int)GameController.ShamansScript[shamanIdx].curseType]*2)
-            GameController.instance.VignetteIntensity =
-                Mathf.Lerp(0, 0.75f, (allPetrificationStacs + allClumsinessStacs) / (float)(Shaman.S_stacs[1] + Shaman.S_stacs[0]));
+        if (State == WasdState)
+        {
+            GameController.instance.Vignette.intensity.Override(1f);
+            if (Stacs[shamanIdx] < Shaman.S_stacs[(int)GameController.ShamanScripts[shamanIdx].curseType] * 2)
+                GameController.instance.VignetteIntensity =
+                    Mathf.Lerp(0, 0.75f, (allPetrificationStacs + allClumsinessStacs) / (float)(Shaman.S_stacs[1] + Shaman.S_stacs[0]));
+            else
+            {
+                GameController.instance.VignetteIntensity = 0;
+            }
+        }
 
-        switch (GameController.ShamansScript[shamanIdx].curseType)
+        switch (GameController.ShamanScripts[shamanIdx].curseType)
         {
             case CurseType.Petrification:
                 allPetrificationStacs += 1;
@@ -179,7 +181,7 @@ public class Player : EntityBehaviour
     {
         if (Stacs.ContainsKey(shamanIdx))
         {
-            switch (GameController.ShamansScript[shamanIdx].curseType)
+            switch (GameController.ShamanScripts[shamanIdx].curseType)
             {
                 case CurseType.Petrification:
                     allPetrificationStacs -= Stacs[shamanIdx];
@@ -199,8 +201,8 @@ public class Player : EntityBehaviour
         speedCurrent = hpCurrent = 0;
         SpeedScrol.value = HealthScrol.value = HealthImg.fillAmount = SpeedImg.fillAmount = 0;
         Cross.SetActive(true);
-        GameController.PlayersScript[index] = null;
-        GameController.instance.PlayerDie();
+        GameController.instance.PlayerScripts[index] = null;
+        GameController.instance.CheckDefeat();
         StopAllCoroutines();
         myTransform.GetComponent<SpriteRenderer>().enabled = false;
         myTransform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;

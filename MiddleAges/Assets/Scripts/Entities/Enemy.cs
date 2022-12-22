@@ -7,9 +7,9 @@ public class Enemy : EntityBehaviour
     private delegate void FixedUpdateMethods();
     private FixedUpdateMethods State;
 
-    private void Awake() => GameController.EnemiesScript.Add(this);
     void Start()
     {
+        GameController.EnemyScripts.Add(this);
         BaseStart();
         State = GoToPlayerTeamState;
         StartCoroutine(FindGoal());
@@ -50,7 +50,8 @@ public class Enemy : EntityBehaviour
 
             yield return new WaitForSeconds(courotineTime);
 
-            foreach (var house in GameController.HousesScript)//ищем ближайший дом
+            if(GameController.HouseScripts.Count != 0)
+            foreach (var house in GameController.HouseScripts)//ищем ближайший дом
             {
                 dist = Vector3.Distance(myTransform.position, house.transform.position);
                 if (dist < minDistToHouse)
@@ -59,7 +60,8 @@ public class Enemy : EntityBehaviour
                     nearestHouseTransform = house.transform;
                 }
             }
-            foreach (var player in GameController.PlayersScript)
+            foreach (var player in GameController.instance.PlayerScripts)
+                if (player != null)
                 nearestPlayer = Mathf.Min(nearestPlayer, Vector3.Distance(myTransform.position, player.myTransform.position));
 
             if (nearestPlayer < minDistToHouse)//если игрок ближе чем ближайший дом то идем к ближайшему войну
@@ -83,7 +85,7 @@ public class Enemy : EntityBehaviour
     {
         minDistToWarrior = float.MaxValue;
         nearestWarriorTransform = Player.instance.myTransform;
-        foreach (var Player in GameController.PlayersScript)
+        foreach (var Player in GameController.instance.PlayerScripts)
         {
             if (Player != null)
             {
@@ -95,7 +97,8 @@ public class Enemy : EntityBehaviour
                 }
             }
         }
-        foreach (var warrior in GameController.WarriorsScript)
+        if(GameController.WarriorScripts.Count != 0)
+        foreach (var warrior in GameController.WarriorScripts)
         {
             dist = Vector3.Distance(myTransform.position, warrior.myTransform.position);
             if (dist < minDistToWarrior)
@@ -128,7 +131,7 @@ public class Enemy : EntityBehaviour
     {
         print("EnemyDie");
         StopAllCoroutines();
-        GameController.EnemiesScript.Remove(this);
+        GameController.EnemyScripts.Remove(this);
         GameController.instance.CheckWin();
         weapon.GetComponent<SpriteRenderer>().enabled = false;
         myTransform.GetComponent<SpriteRenderer>().enabled = false;
